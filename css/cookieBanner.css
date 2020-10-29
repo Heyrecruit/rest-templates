@@ -1,0 +1,354 @@
+.cookie {
+  /* colors */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+.cookie .clearfix:after {
+  clear: both;
+  content: " ";
+  display: block;
+  height: 0;
+}
+.cookie .switch {
+  position: relative;
+  float: left;
+  display: inline-block;
+  width: 45px;
+  height: 24px;
+}
+.cookie .switch .slider {
+  border-radius: 14px;
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #aaa;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+.cookie .switch .slider:before {
+  border-radius: 50%;
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+.cookie .switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.cookie .switch input:checked + .slider {
+  background-color: #333;
+}
+.cookie .switch input:checked + .slider:before {
+  -webkit-transform: translateX(21px);
+  -ms-transform: translateX(21px);
+  transform: translateX(21px);
+}
+.cookie .switch input:focus + .slider {
+  box-shadow: 0 0 1px #333;
+}
+.cookie .button {
+  cursor: pointer;
+  display: inline-block;
+  padding: 5px 20px;
+  margin: 0 10px;
+  border: 1px solid #333;
+  background: transparent;
+  font-size: .9em;
+  transition: all 0.2s;
+  -webkit-transition: all 0.2s;
+}
+.cookie .button.white {
+  background: white;
+  color: #333;
+}
+.cookie .button.white:hover {
+  background: #333;
+  border: 1px solid white;
+  color: white;
+}
+.cookie .button.plain {
+  background: none;
+  border: 0;
+  text-decoration: underline;
+}
+.cookie .button.plain:hover {
+  background: none;
+  color: #000000;
+  transition: color 0.2s;
+  -webkit-transition: color 0.2s;
+}
+.cookie .button.color {
+  background: #333;
+  color: white;
+}
+.cookie .button.color:hover {
+  background: white;
+  color: #333;
+}
+.cookie .button:hover {
+  background: white;
+}
+.cookie .close {
+  display: block;
+  cursor: pointer;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+.cookie .container {
+  padding: 30px;
+}
+.cookie.hide {
+  display: none;
+}
+.cookie.backdrop {
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9998;
+}
+.cookie.closeable .cookieHinweisWrapper .close {
+  display: block;
+}
+.cookie.closeable .cookieModal .close {
+  display: block;
+}
+.cookie .cookieHinweisWrapper {
+  position: fixed;
+  z-index: 9999;
+  width: 25%;
+  bottom: 0;
+  left: 20px;
+  color: #1a1a1a;
+  background: white;
+  transform: translateY(100%);
+  transition: transform 1s ease-in-out;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  padding: 30px;
+}
+.cookie .cookieHinweisWrapper.view {
+  transform: translateY(-20px);
+}
+.cookie .cookieHinweisWrapper .close {
+  display: none;
+}
+.cookie .cookieHinweisWrapper h1,
+.cookie .cookieHinweisWrapper h2,
+.cookie .cookieHinweisWrapper h3 {
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+.cookie .cookieHinweisWrapper p {
+  font-size: .8em;
+  line-height: 1.2em;
+}
+.cookie .cookieHinweisWrapper .cookieSettingsWrapper {
+  display: none;
+}
+.cookie .cookieHinweisWrapper .cookieSettingsWrapper > div {
+  padding: 5px 15px 5px 15px;
+  display: inline-block;
+}
+.cookie .cookieHinweisWrapper .cookieSettingsWrapper > div:after {
+  clear: both;
+  content: " ";
+  display: block;
+  height: 0;
+}
+.cookie .cookieHinweisWrapper .cookieSettingsWrapper > div:first-of-type {
+  padding: 5px 10px 5px 0;
+}
+.cookie .cookieHinweisWrapper .cookieSettingsWrapper > div.disabled {
+  cursor: not-allowed;
+}
+.cookie .cookieHinweisWrapper .cookieSettingsWrapper > div.disabled span {
+  color: #ccc;
+}
+.cookie .cookieHinweisWrapper .cookieSettingsWrapper > div.disabled .switch {
+  cursor: not-allowed;
+  color: #ccc;
+}
+.cookie .cookieHinweisWrapper .cookieSettingsWrapper > div.disabled .switch input:checked + .slider {
+  background-color: #ccc;
+}
+.cookie .cookieHinweisWrapper .cookieSettingsWrapper > div.disabled .switch input:checked + .slider:before {
+  background-color: #ddd;
+}
+.cookie .cookieHinweisWrapper .cookieSettingsWrapper > div span {
+  float: left;
+  line-height: 1.5em;
+  font-size: .9em;
+  padding-left: 10px;
+}
+.cookie .cookieHinweisWrapper .cookieControls {
+  margin-top: 20px;
+  text-align: right;
+}
+.cookie .cookieHinweisWrapper .cookieControls .button {
+  border-radius: 34px;
+  -moz-border-radius: 34px;
+  -webkit-border-radius: 34px;
+  text-decoration: none;
+}
+.cookie .cookieHinweisWrapper .cookieControls .button.settings {
+  font-size: .8em;
+  text-decoration: underline;
+}
+.cookie .cookieModal {
+  z-index: 9999;
+  display: none;
+  color: black;
+  background: white;
+  width: 40%;
+  height: 70%;
+  position: fixed;
+  overflow-y: scroll;
+  left: 30%;
+  top: 15%;
+  padding: 30px;
+  /*h3{
+      font-family: 'Formata Medium';
+    }*/
+}
+.cookie .cookieModal h1,
+.cookie .cookieModal h2,
+.cookie .cookieModal h3 {
+  color: #333;
+}
+.cookie .cookieModal h1 {
+  margin-top: 0;
+}
+.cookie .cookieModal h1,
+.cookie .cookieModal h2 {
+  font-size: 1.5em;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+.cookie .cookieModal p {
+  font-size: .9em;
+  color: black;
+  margin-bottom: 1rem;
+}
+.cookie .cookieModal p:first-of-type a {
+  color: black;
+  display: block;
+}
+.cookie .cookieModal a {
+  cursor: pointer;
+  text-decoration: underline;
+}
+.cookie .cookieModal .close {
+  display: none;
+}
+.cookie .cookieModal .button {
+  border-radius: 34px;
+  -moz-border-radius: 34px;
+  -webkit-border-radius: 34px;
+  text-decoration: none;
+  margin: 10px 0 40px;
+}
+.cookie .cookieModal .descrption {
+  background: #f3f3f3;
+  margin-bottom: 40px;
+  padding: 20px;
+}
+.cookie .cookieModal .descrption .descrption {
+  padding: 20px 0;
+}
+.cookie .cookieModal .descrption .h3Container h3 {
+  display: inline-block;
+  margin: 0 0 .8rem 0;
+  font-weight: 400;
+}
+.cookie .cookieModal .descrption .h3Container div {
+  display: inline-block;
+  float: right;
+}
+.cookie .cookieModal .descrption .h3Container div:after {
+  clear: both;
+  content: " ";
+  display: block;
+  height: 0;
+}
+.cookie .cookieModal .descrption .h3Container div span.info {
+  font-size: .8em;
+  color: #333;
+}
+.cookie .cookieModal .descrption p {
+  font-size: .8em;
+}
+.cookie .cookieModal .descrption .infoTrigger {
+  cursor: pointer;
+  color: #333;
+  font-size: .8em;
+  text-decoration: underline;
+}
+.cookie .cookieModal .descrption .cookieTable table {
+  font-size: .8em;
+  padding: 0;
+  margin-top: 10px;
+  width: 100%;
+}
+.cookie .cookieModal .descrption .cookieTable table tr {
+  background: white;
+}
+.cookie .cookieModal .descrption .cookieTable table tr td {
+  padding: 4px;
+  border-bottom: 1px solid #f3f3f3;
+}
+.cookie .cookieModal .descrption .cookieTable table tr td:first-of-type {
+  font-weight: 600;
+  width: 30%;
+}
+.cookie .cookieModal .descrption .cookieTable table tr:last-of-type td {
+  border: 0;
+}
+.cookie .cookieModal .cookieTable {
+  display: none;
+}
+@media (max-width: 768px) {
+  .cookie .cookieHinweisWrapper {
+    padding: 15px;
+    margin: 0 20px;
+    width: auto;
+    left: 0;
+  }
+  .cookie .cookieHinweisWrapper .cookieControls .button.settings {
+    padding: 5px 0;
+  }
+  .cookie .button {
+    margin: 0;
+  }
+  .cookie .cookieControls a:first-of-type {
+    float: left;
+  }
+  .cookie .cookieModal {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    padding: 15px;
+  }
+}
+.scope-inside-iframe .cookieHinweisWrapper {
+  top: 40px !important;
+  bottom: auto !important;
+}
+/*# sourceMappingURL=cookieBanner.css.map */

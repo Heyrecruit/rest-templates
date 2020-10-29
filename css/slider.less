@@ -1,0 +1,183 @@
+@import "_vars";
+@import "_mixin";
+@import "_base";
+
+@key: #333;
+
+section {
+  &#scope-jobs-intro-section {
+    overflow: hidden;
+    margin-left: 0;
+    margin-right: 0;
+
+    #scope-jobs-intro-section-hl-wrap {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      z-index: 3;
+      width: 90%;
+      .translate(-50%, -50%);
+      text-align: center;
+      @media (min-width: 768px) {
+        width: 70%;
+      }
+
+      h1, h2, h3 {
+        display: block;
+        color: @light;
+      }
+
+      #scope-jobs-intro-section-hl-line {
+        width: 10%;
+        height: 2px;
+        display: block;
+        margin: 30px auto 30px auto;
+        background: @light;
+        @media (max-width: 767px) {
+          margin: 15px auto 15px auto;
+        }
+      }
+
+      #scope-jobs-intro-section-info {
+        margin: 15px 0 30px 0;
+
+        span, a, i {
+          color: @light;
+        }
+
+        span {
+          display: inline-block;
+          margin: 0 8px;
+        }
+      }
+
+      #scope-jobs-intro-section-btn {
+        .btn {
+          margin: 0 8px;
+          background-color: @primary;
+          color: @light;
+          padding: 8px 5px 9px 0;
+          min-width: 180px;
+          display: inline-block;
+          border-radius: 5px;
+          cursor: pointer;
+          text-decoration: none;
+
+          &.btn-light {
+            .transition(all, 0.3s);
+            background: @light;
+            color: @primary;
+
+            &:hover {
+              background: @primary;
+              color: @light;
+            }
+          }
+        }
+      }
+    }
+
+    #scope-jobs-intro-section-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+      background: @primary;
+      opacity: 0.5;
+    }
+
+    img {
+      position: relative;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1;
+      @media (max-width: 767px) {
+        width: 150%;
+        margin-left: -25%;
+      }
+    }
+  }
+}
+
+//slider
+.scope-img-wrap {
+  width: 100%;
+  display: block;
+  position: relative;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    display: none;
+
+    &.show {
+      display: block;
+    }
+  }
+
+  .slider {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+
+    img {
+      float: left;
+    }
+  }
+
+  .slider-control {
+    z-index: 2;
+    position: absolute;
+    top: 50%;
+    .translate(0, -50%);
+    color: @primary;
+    cursor: pointer;
+    font-size: 42px;
+    .transition(all, 0.3s);
+    @media (max-width: 767px) {
+      display: none;
+    }
+
+    &:hover {
+      color: @secondary;
+    }
+
+    &.right {
+      right: 30px;
+    }
+
+    &.left {
+      left: 30px;
+    }
+  }
+
+  .slider-dots {
+    z-index: 2;
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    .translate(-50%, 0);
+    @media (max-width: 767px) {
+      bottom: 15px;
+    }
+
+    li {
+      width: 12px;
+      height: 12px;
+      float: left;
+      margin: 0 3px;
+      border-radius: 50%;
+      background: @secondary;
+      cursor: pointer;
+      .transition(all, 0.3s);
+
+      &.active {
+        background: @key;
+      }
+    }
+  }
+}

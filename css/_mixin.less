@@ -1,0 +1,36 @@
+.transition(@element, @duration) {
+  transition: @element @duration;
+  -webkit-transition: @element @duration;
+}
+
+.animation(@animationName, @animationDuration, @animationEasing, @animationDelay, @animationRepeat) {
+  -moz-animation: @animationName @animationDuration @animationEasing;
+  -moz-animation-fill-mode: forwards;
+  -moz-animation-iteration-count: @animationRepeat;
+  -moz-animation-delay: @animationDelay;
+  -webkit-animation: @animationName @animationDuration @animationEasing;
+  -webkit-animation-fill-mode: forwards;
+  -webkit-animation-delay: @animationDelay;
+  -webkit-animation-iteration-count: @animationRepeat;
+  animation: @animationName @animationDuration @animationEasing;
+  animation-fill-mode: forwards;
+  animation-delay: @animationDelay;
+  animation-iteration-count: @animationRepeat;
+}
+
+.rotate(@rotateDeg) {
+  transform: rotate(@rotateDeg);
+  -webkit-transform: rotate(@rotateDeg);
+}
+
+.translate(@transX, @transY) {
+  -webkit-transform: translate(@transX, @transY);
+  -moz-transform: translate(@transX, @transY);
+  -ms-transform: translate(@transX, @transY);
+  -o-transform: translate(@transX, @transY);
+  transform: translate(@transX, @transY);
+}
+
+.shadow(@opacity) {
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, @opacity);
+}

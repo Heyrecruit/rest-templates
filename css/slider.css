@@ -1,0 +1,301 @@
+/* Font */
+@import "../../../vendor/twbs/bootstrap/dist/css/bootstrap-grid.css";
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Open Sans Light'), local('OpenSans-Light'), url(https://fonts.gstatic.com/s/opensans/v17/mem5YaGs126MiZpBA-UN_r8OUuhs.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Open Sans Regular'), local('OpenSans-Regular'), url(https://fonts.gstatic.com/s/opensans/v17/mem8YaGs126MiZpBA-UFVZ0e.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 600;
+  src: local('Open Sans SemiBold'), local('OpenSans-SemiBold'), url(https://fonts.gstatic.com/s/opensans/v17/mem5YaGs126MiZpBA-UNirkOUuhs.ttf) format('truetype');
+}
+/* Color */
+/* Brands */
+/* Grid */
+/* Config */
+/* Config colors */
+/* Breakpoints */
+/*	resets	*/
+html,
+body,
+div,
+span,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+address,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+q,
+samp,
+small,
+strong,
+sub,
+sup,
+var,
+b,
+i,
+hr,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+figure,
+figcaption,
+menu,
+footer,
+header,
+nav,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  list-style: none;
+}
+article,
+aside,
+canvas,
+figure,
+figure img,
+figcaption,
+footer,
+header,
+nav,
+section,
+audio,
+video,
+img {
+  display: block;
+}
+a img {
+  border: 0;
+}
+a {
+  text-decoration: none;
+}
+section#scope-jobs-intro-section {
+  overflow: hidden;
+  margin-left: 0;
+  margin-right: 0;
+}
+section#scope-jobs-intro-section #scope-jobs-intro-section-hl-wrap {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 3;
+  width: 90%;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+@media (min-width: 768px) {
+  section#scope-jobs-intro-section #scope-jobs-intro-section-hl-wrap {
+    width: 70%;
+  }
+}
+section#scope-jobs-intro-section #scope-jobs-intro-section-hl-wrap h1,
+section#scope-jobs-intro-section #scope-jobs-intro-section-hl-wrap h2,
+section#scope-jobs-intro-section #scope-jobs-intro-section-hl-wrap h3 {
+  display: block;
+  color: #fff;
+}
+section#scope-jobs-intro-section #scope-jobs-intro-section-hl-wrap #scope-jobs-intro-section-hl-line {
+  width: 10%;
+  height: 2px;
+  display: block;
+  margin: 30px auto 30px auto;
+  background: #fff;
+}
+@media (max-width: 767px) {
+  section#scope-jobs-intro-section #scope-jobs-intro-section-hl-wrap #scope-jobs-intro-section-hl-line {
+    margin: 15px auto 15px auto;
+  }
+}
+section#scope-jobs-intro-section #scope-jobs-intro-section-hl-wrap #scope-jobs-intro-section-info {
+  margin: 15px 0 30px 0;
+}
+section#scope-jobs-intro-section #scope-jobs-intro-section-hl-wrap #scope-jobs-intro-section-info span,
+section#scope-jobs-intro-section #scope-jobs-intro-section-hl-wrap #scope-jobs-intro-section-info a,
+section#scope-jobs-intro-section #scope-jobs-intro-section-hl-wrap #scope-jobs-intro-section-info i {
+  color: #fff;
+}
+section#scope-jobs-intro-section #scope-jobs-intro-section-hl-wrap #scope-jobs-intro-section-info span {
+  display: inline-block;
+  margin: 0 8px;
+}
+section#scope-jobs-intro-section #scope-jobs-intro-section-hl-wrap #scope-jobs-intro-section-btn .btn {
+  margin: 0 8px;
+  background-color: #20A8D8;
+  color: #fff;
+  padding: 8px 5px 9px 0;
+  min-width: 180px;
+  display: inline-block;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+}
+section#scope-jobs-intro-section #scope-jobs-intro-section-hl-wrap #scope-jobs-intro-section-btn .btn.btn-light {
+  transition: all 0.3s;
+  -webkit-transition: all 0.3s;
+  background: #fff;
+  color: #20A8D8;
+}
+section#scope-jobs-intro-section #scope-jobs-intro-section-hl-wrap #scope-jobs-intro-section-btn .btn.btn-light:hover {
+  background: #20A8D8;
+  color: #fff;
+}
+section#scope-jobs-intro-section #scope-jobs-intro-section-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  background: #20A8D8;
+  opacity: 0.5;
+}
+section#scope-jobs-intro-section img {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1;
+}
+@media (max-width: 767px) {
+  section#scope-jobs-intro-section img {
+    width: 150%;
+    margin-left: -25%;
+  }
+}
+.scope-img-wrap {
+  width: 100%;
+  display: block;
+  position: relative;
+  overflow: hidden;
+}
+.scope-img-wrap img {
+  width: 100%;
+  display: none;
+}
+.scope-img-wrap img.show {
+  display: block;
+}
+.scope-img-wrap .slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+.scope-img-wrap .slider img {
+  float: left;
+}
+.scope-img-wrap .slider-control {
+  z-index: 2;
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translate(0, -50%);
+  -moz-transform: translate(0, -50%);
+  -ms-transform: translate(0, -50%);
+  -o-transform: translate(0, -50%);
+  transform: translate(0, -50%);
+  color: #20A8D8;
+  cursor: pointer;
+  font-size: 42px;
+  transition: all 0.3s;
+  -webkit-transition: all 0.3s;
+}
+@media (max-width: 767px) {
+  .scope-img-wrap .slider-control {
+    display: none;
+  }
+}
+.scope-img-wrap .slider-control:hover {
+  color: #EFF3F8;
+}
+.scope-img-wrap .slider-control.right {
+  right: 30px;
+}
+.scope-img-wrap .slider-control.left {
+  left: 30px;
+}
+.scope-img-wrap .slider-dots {
+  z-index: 2;
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  -webkit-transform: translate(-50%, 0);
+  -moz-transform: translate(-50%, 0);
+  -ms-transform: translate(-50%, 0);
+  -o-transform: translate(-50%, 0);
+  transform: translate(-50%, 0);
+}
+@media (max-width: 767px) {
+  .scope-img-wrap .slider-dots {
+    bottom: 15px;
+  }
+}
+.scope-img-wrap .slider-dots li {
+  width: 12px;
+  height: 12px;
+  float: left;
+  margin: 0 3px;
+  border-radius: 50%;
+  background: #EFF3F8;
+  cursor: pointer;
+  transition: all 0.3s;
+  -webkit-transition: all 0.3s;
+}
+.scope-img-wrap .slider-dots li.active {
+  background: #333;
+}
+/*# sourceMappingURL=slider.css.map */

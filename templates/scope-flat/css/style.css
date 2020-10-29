@@ -1,0 +1,1335 @@
+/* Font */
+@import "../../../vendor/twbs/bootstrap/dist/css/bootstrap-grid.css";
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Open Sans Light'), local('OpenSans-Light'), url(https://fonts.gstatic.com/s/opensans/v17/mem5YaGs126MiZpBA-UN_r8OUuhs.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Open Sans Regular'), local('OpenSans-Regular'), url(https://fonts.gstatic.com/s/opensans/v17/mem8YaGs126MiZpBA-UFVZ0e.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 600;
+  src: local('Open Sans SemiBold'), local('OpenSans-SemiBold'), url(https://fonts.gstatic.com/s/opensans/v17/mem5YaGs126MiZpBA-UNirkOUuhs.ttf) format('truetype');
+}
+/* Color */
+/* Brands */
+/* Grid */
+/* Config */
+/* Config colors */
+/* Breakpoints */
+/*	resets	*/
+html,
+body,
+div,
+span,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+address,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+q,
+samp,
+small,
+strong,
+sub,
+sup,
+var,
+b,
+i,
+hr,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+figure,
+figcaption,
+menu,
+footer,
+header,
+nav,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  list-style: none;
+}
+article,
+aside,
+canvas,
+figure,
+figure img,
+figcaption,
+footer,
+header,
+nav,
+section,
+audio,
+video,
+img {
+  display: block;
+}
+a img {
+  border: 0;
+}
+a {
+  text-decoration: none;
+}
+.white-color {
+  color: white !important;
+}
+.white-color-hover:hover {
+  color: white !important;
+}
+.white-bg {
+  background: white !important;
+}
+.white-bg-hover:hover {
+  background: white !important;
+}
+p,
+a,
+span,
+ul,
+ol,
+li,
+table,
+tr,
+td,
+input,
+textarea,
+button,
+label,
+select,
+strong {
+  font-family: "Open Sans";
+  font-size: 16px;
+  line-height: 32px;
+  font-weight: 400;
+}
+@media (max-width: 767px) {
+  p,
+  a,
+  span,
+  ul,
+  ol,
+  li,
+  table,
+  tr,
+  td,
+  input,
+  textarea,
+  button,
+  label,
+  select,
+  strong {
+    font-size: 14px;
+    line-height: 22px;
+  }
+}
+a {
+  cursor: pointer;
+}
+strong,
+.strong {
+  font-weight: 600;
+}
+h1,
+h2,
+h3,
+h4 {
+  font-family: "Open Sans";
+  font-weight: 600;
+}
+.uppercase {
+  text-transform: uppercase;
+}
+img {
+  max-width: 100%;
+}
+h1 {
+  font-size: 38px;
+  line-height: 42px;
+}
+@media (max-width: 991px) {
+  h1 {
+    font-size: 22px;
+    line-height: 30px;
+  }
+}
+@media (max-width: 767px) {
+  h1 {
+    font-size: 20px;
+    line-height: 24px;
+  }
+}
+h2 {
+  font-size: 28px;
+  line-height: 36px;
+}
+@media (max-width: 991px) {
+  h2 {
+    font-size: 18px;
+    line-height: 20px;
+  }
+}
+.btn {
+  background-color: #20A8D8;
+  color: #fff;
+  padding: 8px 5px 9px 0;
+  min-width: 180px;
+  display: inline-block;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s;
+  -webkit-transition: all 0.3s;
+}
+.btn.btn-light {
+  transition: all 0.3s;
+  -webkit-transition: all 0.3s;
+  background: #fff;
+  color: #20A8D8;
+}
+.btn.btn-light:hover {
+  background: #20A8D8;
+  color: #fff;
+}
+body {
+  color: #4d4d4d;
+}
+body header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100px;
+  width: 100%;
+  z-index: 2;
+  background: #fff;
+}
+@media (max-width: 1023px) {
+  body header {
+    height: 60px;
+  }
+}
+body header #logo {
+  position: absolute;
+  top: 50%;
+  left: 30px;
+  -webkit-transform: translate(0, -50%);
+  -moz-transform: translate(0, -50%);
+  -ms-transform: translate(0, -50%);
+  -o-transform: translate(0, -50%);
+  transform: translate(0, -50%);
+  max-height: 60px;
+  max-width: 230px;
+}
+@media (max-width: 1023px) {
+  body header #logo {
+    max-height: 35px;
+  }
+}
+@media (max-width: 767px) {
+  body header #logo {
+    left: 15px;
+  }
+}
+body header nav #mobile-nav-trigger {
+  position: absolute;
+  top: 50%;
+  right: 60px;
+  -webkit-transform: translate(0, -50%);
+  -moz-transform: translate(0, -50%);
+  -ms-transform: translate(0, -50%);
+  -o-transform: translate(0, -50%);
+  transform: translate(0, -50%);
+  z-index: 2;
+  cursor: pointer;
+  display: none;
+}
+@media (max-width: 1023px) {
+  body header nav #mobile-nav-trigger {
+    display: block;
+  }
+}
+body header nav #lang {
+  position: absolute;
+  top: 50%;
+  right: 30px;
+  -webkit-transform: translate(0, -50%);
+  -moz-transform: translate(0, -50%);
+  -ms-transform: translate(0, -50%);
+  -o-transform: translate(0, -50%);
+  transform: translate(0, -50%);
+  z-index: 2;
+}
+body header nav #lang:hover {
+  cursor: pointer;
+}
+body header nav #lang:hover i {
+  color: #20A8D8;
+}
+body header nav #lang.active i {
+  color: #20A8D8;
+}
+body header nav #lang.active ul {
+  display: block;
+}
+body header nav #lang ul {
+  position: absolute;
+  top: 40px;
+  right: -10px;
+  background: #4d4d4d;
+  padding: 7px 0;
+  display: none;
+}
+body header nav #lang ul:after {
+  width: 10px;
+  height: 10px;
+  background: #4d4d4d;
+  position: absolute;
+  top: -5px;
+  right: 12px;
+  content: "";
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+}
+body header nav #lang ul > li a {
+  cursor: pointer;
+  color: #fff;
+  display: block;
+  padding: 3px 10px;
+}
+body header nav #lang ul > li a:hover,
+body header nav #lang ul > li a.active {
+  background: #20A8D8;
+}
+body header nav #nav {
+  position: absolute;
+  top: 50%;
+  right: 60px;
+  -webkit-transform: translate(0, -50%);
+  -moz-transform: translate(0, -50%);
+  -ms-transform: translate(0, -50%);
+  -o-transform: translate(0, -50%);
+  transform: translate(0, -50%);
+  z-index: 2;
+  height: 43px;
+}
+@media (max-width: 1023px) {
+  body header nav #nav {
+    height: 0px;
+    overflow: hidden;
+    top: 60px;
+    right: 0;
+    width: 100%;
+    transition: height 0.3s;
+    -webkit-transform: translate(0, 0);
+    -moz-transform: translate(0, 0);
+    -ms-transform: translate(0, 0);
+    -o-transform: translate(0, 0);
+    transform: translate(0, 0);
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.3);
+  }
+}
+body header nav #nav > li {
+  float: left;
+  position: relative;
+  margin-right: 20px;
+  padding-top: 3px;
+}
+@media (max-width: 1023px) {
+  body header nav #nav > li {
+    float: none;
+    width: 100%;
+    margin-right: 0;
+    padding: 10px 30px;
+    background: #fff;
+  }
+}
+body header nav #nav > li.border-left {
+  border-left: 1px solid #4d4d4d;
+  padding-left: 15px;
+}
+@media (max-width: 1023px) {
+  body header nav #nav > li.border-left {
+    border-left: 0px solid white;
+    padding-left: 30px;
+  }
+}
+body header nav #nav > li:last-of-type {
+  margin-right: 0;
+}
+body header nav #nav > li > i {
+  font-size: 18px;
+}
+body header nav #nav > li > a,
+body header nav #nav > li > i {
+  color: #4d4d4d;
+  cursor: pointer;
+  transition: color 0.3s;
+  -webkit-transition: color 0.3s;
+}
+body header nav #nav > li > a:hover,
+body header nav #nav > li > i:hover {
+  color: #20A8D8;
+}
+body header nav #nav > li > a.btn,
+body header nav #nav > li > i.btn {
+  margin-top: -10px;
+  text-align: center;
+  color: #fff;
+  background: #20A8D8;
+  border: 1px solid #20A8D8;
+  transition: all 0.3s;
+  -webkit-transition: all 0.3s;
+}
+@media (max-width: 1023px) {
+  body header nav #nav > li > a.btn,
+  body header nav #nav > li > i.btn {
+    margin-top: 0;
+  }
+}
+body header nav #nav > li > a.btn:hover,
+body header nav #nav > li > i.btn:hover {
+  color: #20A8D8;
+  background: #fff;
+  border-color: #20A8D8;
+}
+body header nav #nav > li > a.btn i,
+body header nav #nav > li > i.btn i {
+  margin-right: 5px;
+}
+body section {
+  position: relative;
+  z-index: 1;
+}
+body section.fluid {
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+body section#scope-jobs-intro-section {
+  margin-top: 100px;
+  overflow: hidden;
+}
+@media (max-width: 1023px) {
+  body section#scope-jobs-intro-section {
+    margin-top: 60px;
+  }
+}
+body section#scope-jobs-intro-section #scope-jobs-intro-section-hl-wrap {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 3;
+  width: 90%;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+@media (min-width: 768px) {
+  body section#scope-jobs-intro-section #scope-jobs-intro-section-hl-wrap {
+    width: 70%;
+  }
+}
+body section#scope-jobs-intro-section #scope-jobs-intro-section-hl-wrap h1,
+body section#scope-jobs-intro-section #scope-jobs-intro-section-hl-wrap h2,
+body section#scope-jobs-intro-section #scope-jobs-intro-section-hl-wrap h3 {
+  display: block;
+  color: #fff !important;
+}
+body section#scope-jobs-intro-section #scope-jobs-intro-section-hl-wrap #scope-jobs-intro-section-hl-line {
+  width: 10%;
+  height: 2px;
+  display: block;
+  margin: 30px auto 30px auto;
+  background: #fff;
+}
+@media (max-width: 767px) {
+  body section#scope-jobs-intro-section #scope-jobs-intro-section-hl-wrap #scope-jobs-intro-section-hl-line {
+    margin: 15px auto 15px auto;
+  }
+}
+body section#scope-jobs-intro-section #scope-jobs-intro-section-hl-wrap #scope-jobs-intro-section-info {
+  margin: 15px 0 30px 0;
+}
+body section#scope-jobs-intro-section #scope-jobs-intro-section-hl-wrap #scope-jobs-intro-section-info span,
+body section#scope-jobs-intro-section #scope-jobs-intro-section-hl-wrap #scope-jobs-intro-section-info a,
+body section#scope-jobs-intro-section #scope-jobs-intro-section-hl-wrap #scope-jobs-intro-section-info i {
+  color: #fff;
+}
+body section#scope-jobs-intro-section #scope-jobs-intro-section-hl-wrap #scope-jobs-intro-section-info span {
+  display: inline-block;
+  margin: 0 8px;
+}
+body section#scope-jobs-intro-section #scope-jobs-intro-section-hl-wrap #scope-jobs-intro-section-btn .btn {
+  margin: 0 8px;
+  transition: all 0.3s;
+  -webkit-transition: all 0.3s;
+}
+body section#scope-jobs-intro-section #scope-jobs-intro-section-hl-wrap #scope-jobs-intro-section-btn .btn:hover {
+  background: #fff;
+  color: #20A8D8;
+}
+body section#scope-jobs-intro-section #scope-jobs-intro-section-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  background: rgba(128, 128, 128, 0.3);
+  opacity: 1;
+}
+body section#scope-jobs-intro-section .scope-img-wrap #header-overlay {
+  background: rgba(128, 128, 128, 0.3);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+body section#scope-jobs-intro-section img {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1;
+}
+@media (max-width: 767px) {
+  body section#scope-jobs-intro-section img {
+    width: unset !important;
+    object-fit: cover;
+    height: 400px !important;
+    margin-left: 0;
+  }
+}
+body section#scope-jobs-table-intro-section h2 {
+  color: #20A8D8;
+}
+body section#scope-jobs-map-section #map {
+  height: 360px;
+  width: 100%;
+}
+@media (max-width: 768px) {
+  body section#scope-jobs-map-section #map {
+    height: 320px;
+  }
+}
+body section#scope-jobs-list-section {
+  margin-bottom: 50px;
+}
+body section#scope-jobs-list-section #scope-jobs-list-section-filter {
+  margin-bottom: 15px;
+}
+body section#scope-jobs-list-section #scope-jobs-list-section-filter .col-12 {
+  padding: 0 30px;
+}
+body section#scope-jobs-list-section #scope-jobs-list-section-filter label {
+  text-transform: uppercase;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 5px;
+}
+body section#scope-jobs-list-section #scope-jobs-list-section-filter input,
+body section#scope-jobs-list-section #scope-jobs-list-section-filter select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #EFF3F8;
+  outline: 0 !important;
+  height: 46px;
+  box-sizing: border-box;
+  margin-bottom: 15px;
+}
+body section#scope-jobs-list-section #scope-jobs-table-desktop-wrap {
+  width: 100%;
+  display: block;
+}
+@media (max-width: 991px) {
+  body section#scope-jobs-list-section #scope-jobs-table-desktop-wrap {
+    display: none;
+  }
+}
+body section#scope-jobs-list-section #scope-jobs-table-desktop-wrap #scope-jobs-table-desktop {
+  width: 100%;
+  border-collapse: collapse;
+  border: 0;
+}
+body section#scope-jobs-list-section #scope-jobs-table-desktop-wrap #scope-jobs-table-desktop thead tr th {
+  text-transform: uppercase;
+  font-weight: 600;
+  padding: 0 15px 10px 15px;
+  text-align: left;
+}
+body section#scope-jobs-list-section #scope-jobs-table-desktop-wrap #scope-jobs-table-desktop thead tr th:last-of-type {
+  display: none;
+}
+body section#scope-jobs-list-section #scope-jobs-table-desktop-wrap #scope-jobs-table-desktop tbody tr:nth-child(odd) {
+  background-color: #fff;
+}
+body section#scope-jobs-list-section #scope-jobs-table-desktop-wrap #scope-jobs-table-desktop tbody tr:nth-child(even) {
+  background: #EFF3F8;
+}
+body section#scope-jobs-list-section #scope-jobs-table-desktop-wrap #scope-jobs-table-desktop tbody tr td {
+  padding: 12px 15px;
+  white-space: nowrap;
+}
+body section#scope-jobs-list-section #scope-jobs-table-desktop-wrap #scope-jobs-table-desktop tbody tr td:nth-of-type(2) > div,
+body section#scope-jobs-list-section #scope-jobs-table-desktop-wrap #scope-jobs-table-desktop tbody tr td:nth-of-type(3) > div {
+  width: 160px;
+  white-space: nowrap;
+}
+body section#scope-jobs-list-section #scope-jobs-table-desktop-wrap #scope-jobs-table-desktop tbody tr td:nth-of-type(2) > div > i,
+body section#scope-jobs-list-section #scope-jobs-table-desktop-wrap #scope-jobs-table-desktop tbody tr td:nth-of-type(3) > div > i {
+  width: 17px;
+  display: inline-block;
+  float: left;
+}
+body section#scope-jobs-list-section #scope-jobs-table-desktop-wrap #scope-jobs-table-desktop tbody tr td:nth-of-type(2) > div > span,
+body section#scope-jobs-list-section #scope-jobs-table-desktop-wrap #scope-jobs-table-desktop tbody tr td:nth-of-type(3) > div > span {
+  float: left;
+  display: inline-block;
+  width: 134px;
+  word-break: keep-all;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+body section#scope-jobs-list-section #scope-jobs-table-desktop-wrap #scope-jobs-table-desktop tbody tr td:nth-of-type(4) {
+  width: 50px;
+  text-align: center;
+}
+body section#scope-jobs-list-section #scope-jobs-table-desktop-wrap #scope-jobs-table-desktop tbody tr td i {
+  color: #20A8D8;
+  margin: 5px 8px 0 0;
+  display: inline-block;
+  float: left;
+}
+body section#scope-jobs-list-section #scope-jobs-table-desktop-wrap #scope-jobs-table-desktop tbody tr td a {
+  color: #20A8D8;
+  transition: color 0.3s;
+  -webkit-transition: color 0.3s;
+}
+body section#scope-jobs-list-section #scope-jobs-table-desktop-wrap #scope-jobs-table-desktop tbody tr td a i {
+  color: #20A8D8;
+}
+body section#scope-jobs-list-section #scope-jobs-table-desktop-wrap #scope-jobs-table-desktop tbody tr td a:hover {
+  color: #4d4d4d;
+}
+body section#scope-jobs-list-section #scope-jobs-table-desktop-wrap #scope-jobs-table-desktop tbody tr td a:hover i {
+  color: #4d4d4d;
+}
+body section#scope-jobs-list-section #scope-jobs-table-mobile-wrap {
+  width: 100%;
+  display: none;
+}
+@media (max-width: 991px) {
+  body section#scope-jobs-list-section #scope-jobs-table-mobile-wrap {
+    display: block;
+  }
+}
+body section#scope-jobs-list-section #scope-jobs-table-mobile-wrap .scope-jobs-table-mobile {
+  width: 100%;
+  border-spacing: 0;
+  table-layout: fixed;
+  background: #EFF3F8;
+  margin-bottom: 15px;
+}
+body section#scope-jobs-list-section #scope-jobs-table-mobile-wrap .scope-jobs-table-mobile tr td {
+  padding: 10px 20px 0 20px;
+}
+body section#scope-jobs-list-section #scope-jobs-table-mobile-wrap .scope-jobs-table-mobile tr td.scope-jobs-table-mobile-angle {
+  width: 20px;
+}
+body section#scope-jobs-list-section #scope-jobs-table-mobile-wrap .scope-jobs-table-mobile tr td.scope-jobs-table-mobile-angle i {
+  float: right;
+  margin-right: 0;
+}
+body section#scope-jobs-list-section #scope-jobs-table-mobile-wrap .scope-jobs-table-mobile tr:last-of-type td {
+  padding: 10px 20px 10px 20px;
+}
+body section#scope-jobs-list-section #scope-jobs-table-mobile-wrap .scope-jobs-table-mobile span {
+  float: left;
+  display: inline-block;
+  width: 160px;
+  word-break: keep-all;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+body section#scope-jobs-list-section #scope-jobs-table-mobile-wrap .scope-jobs-table-mobile i {
+  color: #20A8D8;
+  margin: 5px 8px 0 0;
+  display: inline-block;
+  float: left;
+  width: 15px;
+  text-align: center;
+}
+body section#scope-jobs-list-section #scope-jobs-table-mobile-wrap .scope-jobs-table-mobile a {
+  color: #20A8D8;
+  transition: color 0.3s;
+  -webkit-transition: color 0.3s;
+}
+body section#scope-jobs-list-section #scope-jobs-table-mobile-wrap .scope-jobs-table-mobile a i {
+  color: #20A8D8;
+}
+body section#scope-jobs-list-section #scope-jobs-table-mobile-wrap .scope-jobs-table-mobile a:hover {
+  color: #4d4d4d;
+}
+body section#scope-jobs-list-section #scope-jobs-table-mobile-wrap .scope-jobs-table-mobile a:hover i {
+  color: #4d4d4d;
+}
+body section#scope-job-about-section h2 {
+  font-weight: 400;
+  color: #20A8D8;
+}
+body section#scope-job-about-section #scope-job-about-section-social i,
+body section#scope-job-about-section #scope-job-about-section-social a {
+  color: #20A8D8;
+  display: inline-block;
+  margin-bottom: 5px;
+}
+body section#scope-job-about-section #scope-job-about-section-social i {
+  margin-right: 8px;
+  width: 20px;
+  text-align: center;
+}
+body section#scope-job-about-section #scope-job-about-section-social a:hover {
+  color: #4d4d4d;
+}
+body section#scope-job-about-section #scope-job-about-section-facts strong,
+body section#scope-job-about-section #scope-job-about-section-facts span {
+  display: block;
+}
+body section.scope-jobs-list-section {
+  padding: 70px 0;
+}
+body section.scope-jobs-list-section:nth-of-type(odd) {
+  background: #EFF3F8;
+}
+body section.scope-jobs-list-section h2 {
+  font-weight: 400;
+  color: #20A8D8;
+}
+body section.scope-jobs-list-section ul {
+  overflow: hidden;
+}
+body section.scope-jobs-list-section .output > p,
+body section.scope-jobs-list-section .output > ul,
+body section.scope-jobs-list-section .output > ol {
+  margin-bottom: 1rem;
+}
+body section.scope-jobs-list-section .output li a,
+body section.scope-jobs-list-section .output p a {
+  color: #20A8D8;
+}
+body section.scope-jobs-list-section .output > ul,
+body section.scope-jobs-list-section .output > ol {
+  list-style: outside;
+}
+@media (min-width: 1023px) {
+  body section.scope-jobs-list-section .output > ul,
+  body section.scope-jobs-list-section .output > ol {
+    width: 80%;
+  }
+}
+body section.scope-jobs-list-section .output > ul > li,
+body section.scope-jobs-list-section .output > ol > li {
+  width: calc(100% - 20px);
+  box-sizing: border-box;
+  padding-right: 40px;
+  margin-left: 20px;
+  margin-bottom: 10px;
+}
+body section.scope-jobs-list-section .output > ul > ul,
+body section.scope-jobs-list-section .output > ol > ul,
+body section.scope-jobs-list-section .output > ul ol,
+body section.scope-jobs-list-section .output > ol ol {
+  margin-bottom: 8px;
+  list-style: outside;
+}
+body section.scope-jobs-list-section .output > ul > ul > li,
+body section.scope-jobs-list-section .output > ol > ul > li,
+body section.scope-jobs-list-section .output > ul ol > li,
+body section.scope-jobs-list-section .output > ol ol > li {
+  width: calc(100% - 40px);
+  box-sizing: border-box;
+  margin-left: 40px;
+  margin-bottom: 10px;
+  position: relative;
+}
+body section.scope-jobs-list-section .output > ul > ul > li::before,
+body section.scope-jobs-list-section .output > ol > ul > li::before,
+body section.scope-jobs-list-section .output > ul ol > li::before,
+body section.scope-jobs-list-section .output > ol ol > li::before {
+  content: '';
+  border-radius: 50%;
+  width: 6px;
+  height: 6px;
+  background: transparent;
+  border: 1px solid #20A8D8;
+  position: absolute;
+  top: 14px;
+  left: -15px;
+}
+body section.scope-jobs-list-section .output > ul > ul > ul > li,
+body section.scope-jobs-list-section .output > ol > ul > ul > li,
+body section.scope-jobs-list-section .output > ul ol > ul > li,
+body section.scope-jobs-list-section .output > ol ol > ul > li {
+  list-style: none;
+}
+body section.scope-jobs-list-section .output > ul > ul > ul,
+body section.scope-jobs-list-section .output > ol > ul > ul,
+body section.scope-jobs-list-section .output > ul ol > ul,
+body section.scope-jobs-list-section .output > ol ol > ul,
+body section.scope-jobs-list-section .output > ul > ul ol,
+body section.scope-jobs-list-section .output > ol > ul ol,
+body section.scope-jobs-list-section .output > ul ol ol,
+body section.scope-jobs-list-section .output > ol ol ol {
+  margin-bottom: 8px;
+  list-style: outside;
+}
+body section.scope-jobs-list-section .output > ul > ul > ul > li,
+body section.scope-jobs-list-section .output > ol > ul > ul > li,
+body section.scope-jobs-list-section .output > ul ol > ul > li,
+body section.scope-jobs-list-section .output > ol ol > ul > li,
+body section.scope-jobs-list-section .output > ul > ul ol > li,
+body section.scope-jobs-list-section .output > ol > ul ol > li,
+body section.scope-jobs-list-section .output > ul ol ol > li,
+body section.scope-jobs-list-section .output > ol ol ol > li {
+  width: calc(100% - 60px);
+  list-style: disc outside;
+  box-sizing: border-box;
+  margin-left: 60px;
+  margin-bottom: 10px;
+  position: relative;
+}
+body section.scope-jobs-list-section .output > ul > ul > ul > li::before,
+body section.scope-jobs-list-section .output > ol > ul > ul > li::before,
+body section.scope-jobs-list-section .output > ul ol > ul > li::before,
+body section.scope-jobs-list-section .output > ol ol > ul > li::before,
+body section.scope-jobs-list-section .output > ul > ul ol > li::before,
+body section.scope-jobs-list-section .output > ol > ul ol > li::before,
+body section.scope-jobs-list-section .output > ul ol ol > li::before,
+body section.scope-jobs-list-section .output > ol ol ol > li::before {
+  content: '';
+  border-radius: 50%;
+  width: 6px;
+  height: 6px;
+  background: #20A8D8;
+  position: absolute;
+  top: 14px;
+  left: -15px;
+}
+body section.scope-jobs-list-section .output > ol > li {
+  list-style: outside decimal;
+}
+body section.scope-jobs-list-section .output > ul > li {
+  position: relative;
+  list-style: none;
+}
+body section.scope-jobs-list-section .output > ul > li::before {
+  content: '';
+  border-radius: 50%;
+  width: 6px;
+  height: 6px;
+  background: #20A8D8;
+  position: absolute;
+  top: 14px;
+  left: -15px;
+}
+body section#scope-job-form-block {
+  padding: 70px 0;
+}
+body section#scope-job-form-block h2 {
+  font-weight: 400;
+  color: #20A8D8;
+}
+body section#scope-job-form-block .error {
+  font-size: 14px;
+  line-height: 22px;
+  color: #fa5c7c;
+}
+body section#scope-job-form-block .applyOnXing {
+  background: #20A8D8;
+  color: #fff;
+  text-align: center;
+  margin-top: 85px;
+  display: block;
+  width: 100%;
+  transition: all 0.3s;
+  -webkit-transition: all 0.3s;
+}
+body section#scope-job-form-block .applyOnXing span,
+body section#scope-job-form-block .applyOnXing i {
+  color: #fff;
+}
+body section#scope-job-form-block .applyOnXing:hover {
+  background: #fff;
+}
+body section#scope-job-form-block .applyOnXing:hover span,
+body section#scope-job-form-block .applyOnXing:hover i {
+  color: #20A8D8;
+}
+body section#scope-job-form-block a {
+  color: #20A8D8;
+}
+body section#scope-job-form-block h3 {
+  font-size: 18px;
+  font-weight: 400;
+  margin-top: 40px;
+  color: #20A8D8;
+  margin-bottom: 10px;
+}
+@media (max-width: 991px) {
+  body section#scope-job-form-block h3 {
+    font-size: 16px;
+    line-height: 20px;
+  }
+}
+body section#scope-job-form-block .row {
+  margin-bottom: 10px;
+}
+body section#scope-job-form-block .formText,
+body section#scope-job-form-block .label {
+  font-family: "Open Sans";
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  margin-bottom: 5px;
+}
+body section#scope-job-form-block input:not([type="checkbox"]),
+body section#scope-job-form-block select {
+  width: 100%;
+  background: #EFF3F8;
+  border-radius: 5px;
+  box-sizing: border-box;
+  border: none;
+  outline: none;
+  padding: 5px 5px 5px 10px;
+  height: 50px;
+  color: gray;
+}
+body section#scope-job-form-block input[type="submit"] {
+  background: #20A8D8;
+  color: white;
+  float: right;
+}
+body section#scope-job-form-block .customCheckbox input[type="checkbox"] {
+  width: 20px;
+  padding: 0;
+  float: left;
+  margin: 5px 5px 0 0;
+}
+body section#scope-job-form-block .customCheckbox.checkbox-with-modal input[type="checkbox"] {
+  margin: 10px 5px 0 0;
+}
+body section#scope-job-form-block .customCheckbox .label {
+  width: calc(100% - 25px);
+  float: left;
+}
+body section#scope-job-form-block .dz-button {
+  padding: 30px;
+  background: none;
+  border: 1px solid #ddd;
+  float: right;
+  width: 100%;
+}
+footer {
+  background: #EFF3F8;
+  padding: 15px 0 5px 0 !important;
+}
+footer a {
+  color: #20A8D8;
+  transition: color 0.3s;
+  -webkit-transition: color 0.3s;
+}
+footer a:hover {
+  color: #4d4d4d;
+}
+footer .row .col-12 a {
+  display: inline-block;
+  margin-bottom: 10px;
+}
+footer .row .col-12:first-of-type a {
+  margin-right: 8px;
+}
+footer .row .col-12:last-of-type a {
+  float: right;
+}
+@media (max-width: 575px) {
+  footer .row .col-12:last-of-type a {
+    float: left;
+    margin-bottom: 15px;
+  }
+}
+.half-container {
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+@media (min-width: 576px) {
+  .half-container {
+    max-width: 540px;
+  }
+}
+@media (min-width: 768px) {
+  .half-container {
+    max-width: 720px;
+  }
+}
+@media (min-width: 992px) {
+  .half-container {
+    max-width: 960px;
+  }
+}
+@media (min-width: 1200px) {
+  .half-container {
+    width: 585px;
+    margin-left: 0;
+  }
+}
+.modal {
+  z-index: 999;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: none;
+}
+.modal .modal-dialog {
+  width: 760px;
+  height: 620px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  background: #fff;
+  padding: 0;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+@media (max-width: 767px) {
+  .modal .modal-dialog {
+    width: 100%;
+    height: 100%;
+    padding: 30px 15px;
+    border-radius: 0;
+  }
+}
+.modal .modal-dialog .modal-content {
+  overflow: auto;
+  height: 100%;
+  padding: 30px;
+}
+.modal .modal-dialog .modal-content .modal-header {
+  margin-bottom: 15px;
+}
+.modal .modal-dialog .modal-content .modal-title {
+  width: calc(100% - 30px);
+}
+.modal .modal-dialog .modal-content .close {
+  position: absolute;
+  top: 15px;
+  right: 30px;
+  font-size: 22px;
+  cursor: pointer;
+  color: #20A8D8;
+  background: #fff;
+}
+.modal .modal-dialog .modal-content .close:hover i {
+  color: #4d4d4d;
+}
+#social-bar {
+  position: fixed;
+  right: -5px;
+  top: 50%;
+  margin-top: -100px;
+  z-index: 999;
+  width: 70px;
+  height: 200px;
+}
+@media (max-width: 1120px) {
+  #social-bar {
+    display: none;
+  }
+}
+#social-bar div {
+  background-color: #20A8D8;
+}
+#social-bar a {
+  float: right;
+  display: block;
+  width: 71px;
+  height: 66px;
+  line-height: 66px;
+  font-size: 30px;
+  text-align: center;
+  background: #20A8D8;
+  color: #fff;
+  margin-bottom: 5px;
+  border: 0;
+  border-radius: 5px;
+  transition: all 0.3s;
+  -webkit-transition: all 0.3s;
+}
+#social-bar a:hover {
+  width: 86px;
+}
+#mobile-social-bar {
+  position: fixed;
+  z-index: 1000;
+  width: 41px;
+  max-height: 41px;
+  bottom: 10px;
+  right: 10px;
+  overflow: hidden;
+  text-align: center;
+  transition: all 0.3s;
+  -webkit-transition: all 0.3s;
+}
+@media (min-width: 1120px) {
+  #mobile-social-bar {
+    display: none;
+  }
+}
+#mobile-social-bar a {
+  display: block;
+  width: 41px;
+  height: 41px;
+  background-color: #20A8D8;
+  margin-bottom: 2px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+#mobile-social-bar a i {
+  color: white;
+  font-size: 20px;
+  margin-top: 10px;
+}
+#mobile-social-bar.active {
+  max-height: 258px;
+  bottom: 8px;
+}
+/*//slider
+.scope-img-wrap{
+  width: 100%;
+  display: block;
+  position: relative;
+  overflow: hidden;
+  img {
+    width: 100%;
+    display: none;
+
+    &.show {
+      display: block;
+    }
+  }
+  .slider{
+    position: absolute;
+    top:0;
+    left:0;
+    z-index: 1;
+    img{
+      float: left;
+    }
+  }
+  .slider-control{
+    z-index: 2;
+    position: absolute;
+    top:50%;
+    .translate(0, -50%);
+    color: @primary;
+    cursor: pointer;
+    font-size: 42px;
+    .transition(all, 0.3s);
+    @media (max-width: 767px) {
+      display: none;
+    }
+    &:hover{
+      color: @secondary;
+    }
+    &.right{
+      right: 30px;
+    }
+    &.left{
+      left: 30px;
+    }
+  }
+  .slider-dots{
+    z-index: 2;
+    position: absolute;
+    bottom: 30px;
+    left:50%;
+    .translate(-50%, 0);
+    @media (max-width: 767px) {
+      bottom: 15px;
+    }
+    li{
+      width: 12px;
+      height: 12px;
+      float: left;
+      margin: 0 3px;
+      border-radius: 50%;
+      background: @secondary;
+      .transition(all, 0.3s);
+      &.active{
+        background: @primary;
+      }
+    }
+  }
+}*/
+section#form {
+  padding: 70px 0;
+}
+section#form .applyOnXing {
+  background: #20A8D8;
+  text-align: center;
+  margin-top: 44px;
+  background-color: #20A8D8;
+  color: #fff;
+  padding: 8px 5px 9px 0;
+  min-width: 180px;
+  display: inline-block;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s;
+  -webkit-transition: all 0.3s;
+}
+section#form .applyOnXing.btn-light {
+  transition: all 0.3s;
+  -webkit-transition: all 0.3s;
+  background: #fff;
+  color: #20A8D8;
+}
+section#form .applyOnXing.btn-light:hover {
+  background: #20A8D8;
+  color: #fff;
+}
+section#form .applyOnXing span,
+section#form .applyOnXing i {
+  color: #fff;
+}
+section#form .formContainer a {
+  color: #20A8D8;
+}
+section#form .formContainer h3 {
+  font-size: 18px;
+  font-weight: 400;
+  text-transform: uppercase;
+  margin-top: 40px;
+  color: #20A8D8;
+  margin-bottom: 10px;
+}
+@media (max-width: 991px) {
+  section#form .formContainer h3 {
+    font-size: 16px;
+    line-height: 20px;
+  }
+}
+section#form .formContainer .row {
+  margin-bottom: 10px;
+}
+section#form .formText,
+section#form .label {
+  font-family: "Open Sans";
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  margin-bottom: 5px;
+}
+section#form input:not([type="checkbox"]),
+section#form select {
+  width: 100%;
+  background: #EFF3F8;
+  border-radius: 5px;
+  box-sizing: border-box;
+  border: none;
+  outline: none;
+  padding: 5px 5px 5px 10px;
+  height: 50px;
+}
+section#form .customCheckbox input[type="checkbox"] {
+  width: 20px;
+  padding: 0;
+  float: left;
+  margin: 5px 5px 0 0;
+}
+section#form .customCheckbox .label {
+  width: calc(100% - 25px);
+  float: left;
+}
+section#form .h2 {
+  font-family: "Open Sans";
+  font-weight: 400;
+  color: #20A8D8;
+  text-align: center;
+  display: block;
+  font-size: 24px;
+  line-height: 32px;
+}
+@media (max-width: 991px) {
+  section#form .h2 {
+    font-size: 18px;
+    line-height: 20px;
+  }
+}
+section#form:nth-of-type(odd) {
+  background: #EFF3F8;
+}
+/*# sourceMappingURL=style.css.map */

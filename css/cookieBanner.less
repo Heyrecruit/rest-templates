@@ -1,0 +1,471 @@
+//@import "../templates/qsl/css/cookieBanner";
+.cookie {
+  /* colors */
+  @key: #333;
+  @gray: #1a1a1a;
+  @lightgray: #eef0f7;
+  @border: #b2b2b2;
+  @bewerbung: #e6e6e6;
+  @grauUpdate: #6e6e6e;
+
+  // Variables
+  @backdropColor: black;
+  @transBackdrop: 50%;
+  @switchActive: @key;
+  // Cookie-Hinweisbox
+  @text: @gray;
+  @headline: @key;
+  @background: white;
+  @disabled: #ccc;
+  @disabledSliderCircle: #ddd;
+  @sliderBg: #aaa;
+  @sliderCircle: white;
+  @buttonAcceptBg: white;
+  @buttonAcceptText: @key;
+  // Cookie-Modal
+  @textModal: black;
+  @headlineModal: @key;
+  @backgroundModal: white;
+  @modalLink: @key;
+  @descBg: #f3f3f3;
+  @trBg: white;
+
+  // Mixings
+  .clearfix {
+    &:after {
+      clear: both;
+      content: " ";
+      display: block;
+      height: 0;
+    }
+  }
+
+  @std: 34px;
+  .borderradius (@radius) {
+    border-radius: @radius;
+    -moz-border-radius: @radius;
+    -webkit-border-radius: @radius;
+    text-decoration: none;
+  }
+
+  .switch {
+    position: relative;
+    float: left;
+    display: inline-block;
+    width: 45px;
+    height: 24px;
+
+    .slider {
+      border-radius: 14px;
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: @sliderBg;
+      -webkit-transition: .4s;
+      transition: .4s;
+
+      &:before {
+        border-radius: 50%;
+        position: absolute;
+        content: "";
+        height: 18px;
+        width: 18px;
+        left: 3px;
+        bottom: 3px;
+        background-color: @sliderCircle;
+        -webkit-transition: .4s;
+        transition: .4s;
+      }
+    }
+
+    input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    input:checked + .slider {
+      background-color: @switchActive;
+    }
+
+    input:checked + .slider:before {
+      -webkit-transform: translateX(21px);
+      -ms-transform: translateX(21px);
+      transform: translateX(21px);
+    }
+
+    input:focus + .slider {
+      box-shadow: 0 0 1px @switchActive;
+    }
+  }
+
+  .button {
+    cursor: pointer;
+    display: inline-block;
+    padding: 5px 20px;
+    margin: 0 10px;
+    border: 1px solid @buttonAcceptText;
+    background: transparent;
+    font-size: .9em;
+    .transition(all, .2s);
+
+    &.white {
+      background: white;
+      color: @buttonAcceptText;
+
+      &:hover {
+        background: @buttonAcceptText;
+        border: 1px solid @buttonAcceptBg;
+        color: @buttonAcceptBg;
+      }
+    }
+
+    &.plain {
+      background: none;
+      border: 0;
+      text-decoration: underline;
+
+      &:hover {
+        background: none;
+        color: darken(@text, 20%);
+        .transition(color, .2s);
+      }
+    }
+
+    &.color {
+      background: @buttonAcceptText;
+      color: @buttonAcceptBg;
+
+      &:hover {
+        background: @buttonAcceptBg;
+        color: @buttonAcceptText;
+      }
+    }
+
+    &:hover {
+      background: white;
+    }
+  }
+
+  .close {
+    display: block;
+    cursor: pointer;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+  }
+
+  .container {
+    padding: 30px;
+  }
+
+  .transition(@element, @duration) {
+    transition: @element @duration;
+    -webkit-transition: @element @duration;
+  }
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  //display: none;
+
+  &.hide {
+    display: none;
+  }
+
+  &.backdrop {
+    width: 100%;
+    height: 100%;
+    background: fade(@backdropColor, @transBackdrop);
+    z-index: 9998;
+  }
+
+  // falls nur erforderliche Cookies vorhanden sind - closeable setzen
+  &.closeable {
+    .cookieHinweisWrapper {
+      .close {
+        display: block;
+      }
+    }
+
+    .cookieModal {
+      .close {
+        display: block;
+      }
+    }
+  }
+
+  .cookieHinweisWrapper {
+    position: fixed;
+    z-index: 9999;
+    width: 25%;
+    bottom: 0;
+    left: 20px;
+    color: @text;
+    background: @background;
+    transform: translateY(100%);
+    transition: transform 1s ease-in-out;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+
+    &.view {
+      transform: translateY(-20px);
+    }
+
+    .close {
+      display: none;
+    }
+
+    .container;
+
+    h1, h2, h3 {
+      color: @headline;
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: .8em;
+      line-height: 1.2em;
+    }
+
+    .cookieSettingsWrapper {
+      display: none;
+
+      > div {
+        padding: 5px 15px 5px 15px;
+        display: inline-block;
+        .clearfix;
+
+        &:first-of-type {
+          padding: 5px 10px 5px 0;
+        }
+
+        &.disabled {
+          cursor: not-allowed;
+
+          span {
+            color: @disabled;
+          }
+
+          .switch {
+            cursor: not-allowed;
+            color: @disabled;
+
+            input:checked + .slider {
+              background-color: @disabled;
+            }
+
+            input:checked + .slider:before {
+              background-color: @disabledSliderCircle;
+            }
+          }
+        }
+
+        span {
+          float: left;
+          line-height: 1.5em;
+          font-size: .9em;
+          padding-left: 10px;
+        }
+      }
+    }
+
+    .cookieControls {
+      margin-top: 20px;
+      text-align: right;
+
+      .button {
+        .borderradius(@std);
+
+        &.settings {
+          font-size: .8em;
+          text-decoration: underline;
+        }
+
+        &.accept {
+        }
+      }
+    }
+  }
+
+  .cookieModal {
+    z-index: 9999;
+    display: none;
+    color: @textModal;
+    background: @backgroundModal;
+    width: 40%;
+    height: 70%;
+    position: fixed;
+    overflow-y: scroll;
+    left: 30%;
+    top: 15%;
+    .container;
+
+    h1, h2, h3 {
+      color: @headlineModal;
+    }
+    h1 {
+      margin-top: 0;
+    }
+    h1, h2 {
+      font-size: 1.5em;
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+    /*h3{
+      font-family: 'Formata Medium';
+    }*/
+
+    p {
+      font-size: .9em;
+      color: @textModal;
+      margin-bottom: 1rem;
+      &:first-of-type {
+        a {
+          color: @textModal;
+          display: block;
+        }
+      }
+    }
+
+    a {
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    .close {
+      display: none;
+    }
+
+    .button {
+      .borderradius(@std);
+      margin: 10px 0 40px;
+    }
+
+    .descrption {
+      background: @descBg;
+      margin-bottom: 40px;
+      padding: 20px;
+
+      .descrption {
+        padding: 20px 0;
+      }
+
+      .h3Container {
+        h3 {
+          display: inline-block;
+          margin: 0 0 .8rem 0;
+          font-weight: 400;
+        }
+
+        div {
+          display: inline-block;
+          float: right;
+          .clearfix;
+
+          span.info {
+            font-size: .8em;
+            color: @switchActive;
+          }
+        }
+      }
+
+      p {
+        font-size: .8em;
+      }
+
+      .infoTrigger {
+        cursor: pointer;
+        color: @modalLink;
+        font-size: .8em;
+        text-decoration: underline;
+      }
+
+      .cookieTable {
+        table {
+          font-size: .8em;
+          padding: 0;
+          margin-top: 10px;
+          width: 100%;
+          tr {
+            background: @trBg;
+
+            td {
+              padding: 4px;
+              border-bottom: 1px solid @descBg;
+
+              &:first-of-type {
+                font-weight: 600;
+                width: 30%;
+              }
+            }
+
+            &:last-of-type {
+              td {
+                border: 0;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .cookieTable {
+      display: none;
+    }
+  }
+
+  // Media Querys
+  @media (max-width: 1024px) {
+    .cookieModal {
+    }
+  }
+  @media (max-width: 768px) {
+    .cookieHinweisWrapper {
+      padding: 15px;
+      margin: 0 20px;
+      width: auto;
+      left: 0;
+
+      .cookieControls .button.settings {
+        padding: 5px 0;
+      }
+    }
+
+    .button {
+      margin: 0;
+    }
+
+    .cookieControls {
+      a:first-of-type {
+        float: left;
+      }
+    }
+
+    .cookieModal {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      padding: 15px;
+    }
+  }
+  @media (max-width: 544px) {
+  }
+
+
+}
+.scope-inside-iframe{
+  .cookieHinweisWrapper{
+    top: 40px !important;
+    bottom: auto !important;
+  }
+}

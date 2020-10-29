@@ -1,0 +1,1163 @@
+@import "_vars";
+@import "_mixin";
+@import "_base";
+
+
+.white-color {
+  color: white !important;
+}
+.white-color-hover:hover {
+  color: white !important;
+}
+.white-bg {
+  background: white !important;
+}
+.white-bg-hover:hover {
+  background: white !important;
+}
+
+p, a, span, ul, ol, li, table, tr, td, input, textarea, button, label, select, strong{
+  font-family: "Open Sans";
+  font-size: 16px;
+  line-height: 32px;
+  font-weight: 400;
+  @media (max-width: 767px) {
+    font-size: 14px;
+    line-height: 22px;
+  }
+}
+a{
+  cursor: pointer;
+}
+strong, .strong{
+  font-weight: 600;
+}
+h1, h2, h3, h4{
+  font-family: "Open Sans";
+  font-weight: 600;
+}
+.uppercase{
+  text-transform: uppercase;
+}
+img{
+  max-width: 100%;
+}
+
+h1 {
+  font-size: 38px;
+  line-height: 42px;
+  @media(max-width: 991px){
+    font-size: 22px;
+    line-height: 30px;
+  }
+  @media(max-width: 767px){
+    font-size: 20px;
+    line-height: 24px;
+  }
+}
+h2{
+  font-size: 28px;
+  line-height: 36px;
+  @media (max-width: 991px) {
+    font-size: 18px;
+    line-height: 20px;
+  }
+}
+
+.btn{
+  background-color: @primary;
+  color: @light;
+  padding: 8px 5px 9px 0;
+  min-width: 180px;
+  display: inline-block;
+  border-radius: 5px;
+  cursor: pointer;
+  .transition(all, 0.3s);
+
+  &.btn-light{
+    .transition(all, 0.3s);
+    background: @light;
+    color: @primary;
+    &:hover{
+      background: @primary;
+      color: @light;
+    }
+  }
+}
+
+
+body{
+  color: @dark;
+
+  header{
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100px;
+    width: 100%;
+    z-index: 2;
+    background: @light;
+    @media (max-width: 1023px) {
+      height: 60px;
+    }
+    #logo{
+      position: absolute;
+      top: 50%;
+      left: 30px;
+      .translate(0, -50%);
+      max-height: 60px;
+      max-width: 230px;
+      @media (max-width: 1023px) {
+        max-height: 35px;
+      }
+      @media (max-width: 767px) {
+        left: 15px;
+      }
+    }
+    nav{
+      #mobile-nav-trigger{
+        position: absolute;
+        top: 50%;
+        right: 60px;
+        .translate(0, -50%);
+        z-index: 2;
+        cursor: pointer;
+        display: none;
+        @media(max-width: 1023px){
+          display: block;
+        }
+      }
+      #lang{
+        position: absolute;
+        top: 50%;
+        right: 30px;
+        .translate(0, -50%);
+        z-index: 2;
+        &:hover{
+          cursor: pointer;
+          i {
+            color: @primary;
+          }
+        }
+        &.active {
+          i {
+            color: @primary;
+          }
+
+          ul {
+            display: block;
+          }
+        }
+
+        ul {
+          position: absolute;
+          top: 40px;
+          right: -10px;
+          background: @dark;
+          padding: 7px 0;
+          display: none;
+
+          &:after {
+            width: 10px;
+            height: 10px;
+            background: @dark;
+            position: absolute;
+            top: -5px;
+            right: 12px;
+            content: "";
+            .rotate(45deg);
+          }
+
+          > li {
+            a {
+              cursor: pointer;
+              color: @light;
+              display: block;
+              padding: 3px 10px;
+
+              &:hover, &.active {
+                background: @primary;
+              }
+            }
+          }
+        }
+      }
+      #nav {
+        position: absolute;
+        top: 50%;
+        right: 60px;
+        .translate(0, -50%);
+        z-index: 2;
+        height: 43px;
+
+        @media(max-width: 1023px){
+          height: 0px;
+          overflow: hidden;
+          top: 60px;
+          right: 0;
+          width: 100%;
+          transition: height 0.3s;
+
+          .translate(0,0);
+          box-shadow:0 10px 10px rgba(0,0,0,0.3);
+          &.active {
+            //height: 230px;
+          }
+        }
+
+        >li{
+          float: left;
+          position: relative;
+          margin-right: 20px;
+          padding-top: 3px;
+          @media (max-width: 1023px) {
+            float: none;
+            width: 100%;
+            margin-right: 0;
+            padding: 10px 30px;
+            background: @light;
+          }
+          &.border-left{
+            border-left: 1px solid @dark;
+            padding-left: 15px;
+            @media(max-width: 1023px){
+              border-left: 0px solid white;
+              padding-left: 30px;
+            }
+          }
+          &:last-of-type{
+            margin-right: 0;
+          }
+          >i{
+            font-size: 18px;
+          }
+
+          > a, > i{
+            color: @dark;
+            cursor: pointer;
+            .transition(color, 0.3s);
+            &:hover{
+              color: @primary;
+            }
+            &.btn{
+              margin-top: -10px;
+              text-align: center;
+              color: @light;
+              background: @primary;
+              border: 1px solid @primary;
+              .transition(all, 0.3s);
+              @media (max-width: 1023px) {
+                margin-top: 0;
+              }
+              &:hover{
+                color: @primary;
+                background: @white;
+                border-color: @primary;
+              }
+              i{
+                margin-right: 5px;
+              }
+            }
+          }
+        }
+      }
+
+
+    }
+
+  }
+  //Sections
+  section{
+    position: relative;
+    z-index: 1;
+    //margin-bottom: 30px;
+    //Jobs Intro
+    &.fluid{
+      width: 100%;
+      padding-right: 15px;
+      padding-left: 15px;
+      margin-right: auto;
+      margin-left: auto;
+    }
+    &#scope-jobs-intro-section{
+      margin-top: 100px;
+      overflow: hidden;
+      @media(max-width: 1023px){
+        margin-top: 60px;
+      }
+      #scope-jobs-intro-section-hl-wrap{
+        position: absolute;
+        top:50%;
+        left:50%;
+        z-index: 3;
+        width: 90%;
+        .translate(-50%, -50%);
+        text-align: center;
+        @media(min-width: 768px){
+          width: 70%;
+        }
+        h1, h2, h3{
+          display: block;
+          color: @light !important;
+        }
+
+        #scope-jobs-intro-section-hl-line{
+          width: 10%;
+          height: 2px;
+          display: block;
+          margin: 30px auto 30px auto;
+          background: @light;
+          @media (max-width: 767px) {
+            margin: 15px auto 15px auto;
+          }
+        }
+        #scope-jobs-intro-section-info{
+          margin:15px 0 30px 0;
+
+          span, a, i {
+            color: @light;
+          }
+          span{
+            display: inline-block;
+            margin: 0 8px;
+          }
+        }
+        #scope-jobs-intro-section-btn{
+          .btn{
+           margin: 0 8px;
+            .transition(all, 0.3s);
+            &:hover {
+              background: @light;
+              color: @primary;
+            }
+          }
+        }
+      }
+      #scope-jobs-intro-section-overlay{
+        position: absolute;
+        top:0;
+        left:0;
+        width: 100%;
+        height: 100%;
+        z-index: 2;
+        background: rgba(128, 128, 128, 0.3);
+        opacity: 1;
+      }
+
+      .scope-img-wrap {
+        #header-overlay {
+          background: rgba(128, 128, 128, 0.3);
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          z-index: 2;
+        }
+      }
+      img{
+        position: relative;
+        top:0;
+        left:0;
+        width: 100%;
+        z-index: 1;
+        @media (max-width: 767px) {
+          width: unset !important;
+          object-fit: cover;
+          height: 400px !important;
+          margin-left: 0;
+        }
+      }
+    }
+    //Table Intro
+    &#scope-jobs-table-intro-section{
+      h2 {
+        color: @primary;
+      }
+    }
+    //Table Intro
+    &#scope-jobs-map-section{
+      #map{
+        height: 360px;
+        width: 100%;
+        @media(max-width: 768px){
+          height: 320px;
+        }
+      }
+    }
+    //
+    &#scope-jobs-list-section{
+      margin-bottom: 50px;
+      #scope-jobs-list-section-filter{
+        margin-bottom: 15px;
+        .col-12 {
+          padding: 0 30px;
+        }
+        label {
+          text-transform: uppercase;
+          font-weight: 600;
+          display: block;
+          margin-bottom: 5px;
+        }
+        input, select{
+          width: 100%;
+          padding: 10px;
+          border: 1px solid @secondary;
+          outline: 0 !important;
+          height: 46px;
+          box-sizing: border-box;
+          margin-bottom: 15px;
+        }
+      }
+      // Table
+      #scope-jobs-table-desktop-wrap {
+        //overflow: auto;
+        width: 100%;
+        display: block;
+        @media (max-width: 991px) {
+          display: none;
+        }
+
+        #scope-jobs-table-desktop {
+          width: 100%;
+          border-collapse: collapse;
+          border: 0;
+          thead {
+            tr {
+              th {
+                text-transform: uppercase;
+                //font-size: 15px;
+                font-weight: 600;
+                padding: 0 15px 10px 15px;
+                text-align: left;
+
+                &:last-of-type {
+                  display: none;
+                }
+              }
+            }
+          }
+
+          tbody {
+            tr {
+              &:nth-child(odd) {
+                background-color: @light;
+              }
+
+              &:nth-child(even) {
+                background: @secondary;
+              }
+
+              td {
+                padding: 12px 15px;
+                white-space: nowrap;
+
+                &:nth-of-type(2), &:nth-of-type(3) {
+                  >div{
+                    width: 160px;
+                    white-space: nowrap;
+                    >i{
+                      width: 17px;
+                      display: inline-block;
+                      float: left;
+                    }
+                    > span {
+                      float: left;
+                      display: inline-block;
+                      width: 134px;
+                      word-break: keep-all;
+                      text-overflow: ellipsis;
+                      overflow: hidden;
+                    }
+                  }
+
+                }
+
+                &:nth-of-type(4) {
+                  width: 50px;
+                  text-align: center;
+                }
+
+                i {
+                  color: @primary;
+                  margin: 5px 8px 0 0;
+                  display: inline-block;
+                  float: left;
+                }
+
+                a {
+                  color: @primary;
+                  .transition(color, 0.3s);
+
+                  i {
+                    color: @primary;
+                  }
+
+                  &:hover {
+                    color: @dark;
+
+                    i {
+                      color: @dark;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      #scope-jobs-table-mobile-wrap {
+        width: 100%;
+        display: none;
+        @media (max-width: 991px) {
+          display: block;
+        }
+        .scope-jobs-table-mobile {
+          width: 100%;
+          border-spacing: 0;
+          table-layout: fixed;
+          background: @secondary;
+          margin-bottom: 15px;
+          tr {
+            td {
+              padding: 10px 20px 0 20px;
+              &.scope-jobs-table-mobile-angle {
+                width: 20px;
+                i {
+                  float: right;
+                  margin-right: 0;
+                }
+              }
+            }
+            &:last-of-type {
+              td {
+                padding: 10px 20px 10px 20px;
+              }
+            }
+          }
+
+          span {
+            float: left;
+            display: inline-block;
+            width: 160px;
+            word-break: keep-all;
+            text-overflow: ellipsis;
+            overflow: hidden;
+          }
+
+          i {
+            color: @primary;
+            margin: 5px 8px 0 0;
+            display: inline-block;
+            float: left;
+            width: 15px;
+            text-align: center;
+          }
+
+          a {
+            color: @primary;
+            .transition(color, 0.3s);
+
+            i {
+              color: @primary;
+            }
+
+            &:hover {
+              color: @dark;
+
+              i {
+                color: @dark;
+              }
+            }
+          }
+        }
+      }
+    }
+    &#scope-job-about-section{
+      h2{
+        font-weight: 400;
+        color: @primary;
+      }
+      #scope-job-about-section-social{
+        i, a{
+          color: @primary;
+          display: inline-block;
+          margin-bottom: 5px;
+        }
+        i{
+          margin-right: 8px;
+          width: 20px;
+          text-align: center;
+        }
+        a{
+          &:hover{
+            color: @dark;
+          }
+        }
+      }
+      #scope-job-about-section-facts{
+        strong, span{
+          display: block;
+        }
+      }
+    }
+    &.scope-jobs-list-section{
+      padding: 70px 0;
+      &:nth-of-type(odd){
+        background: @secondary;
+      }
+      h2 {
+        font-weight: 400;
+        color: @primary;
+      }
+      ul{
+        overflow: hidden;
+      }
+      .output{
+        >p, >ul, >ol{
+          margin-bottom: 1rem;
+        }
+        li, p{
+          a{
+            color: @primary;
+          }
+        }
+        >ul, >ol {
+          list-style: outside;
+          @media(min-width: 1023px){
+            width: 80%;
+          }
+
+          > li {
+            width: calc(~'100% - 20px');
+            box-sizing: border-box;
+            padding-right: 40px;
+            margin-left: 20px;
+            margin-bottom: 10px;
+          }
+
+          > ul, ol {
+            margin-bottom: 8px;
+            list-style: outside;
+
+            > li {
+              width: calc(~'100% - 40px');
+              box-sizing: border-box;
+              margin-left: 40px;
+              margin-bottom: 10px;
+              position: relative;
+
+              &::before {
+                content: '';
+                border-radius: 50%;
+                width: 6px;
+                height: 6px;
+                background: transparent;
+                border: 1px solid @primary;
+                position: absolute;
+                top: 14px;
+                left: -15px;
+              }
+            }
+            >ul{
+              >li{
+
+                list-style: none;
+              }
+            }
+
+            > ul, ol {
+              margin-bottom: 8px;
+              list-style: outside;
+
+              > li {
+                width: calc(~'100% - 60px');
+                list-style: disc outside;
+                box-sizing: border-box;
+                margin-left: 60px;
+                margin-bottom: 10px;
+                position: relative;
+
+                &::before {
+                  content: '';
+                  border-radius: 50%;
+                  width: 6px;
+                  height: 6px;
+                  background: @primary;
+                  position: absolute;
+                  top: 14px;
+                  left: -15px;
+                }
+              }
+            }
+          }
+        }
+        >ol{
+          >li{
+            list-style: outside decimal;
+          }
+        }
+        >ul{
+          >li{
+            position: relative;
+            list-style: none;
+            &::before {
+              content: '';
+              border-radius: 50%;
+              width: 6px;
+              height: 6px;
+              background: @primary;
+              position: absolute;
+              top: 14px;
+              left: -15px;
+            }
+          }
+        }
+      }
+    }
+    &#scope-job-form-block{
+      padding: 70px 0;
+      h2 {
+        font-weight: 400;
+        color: @primary;
+      }
+      .error{
+        font-size: 14px;
+        line-height: 22px;
+        color: @danger;
+      }
+
+      .applyOnXing {
+        background: @primary;
+        color: @light;
+        text-align: center;
+        margin-top: 85px;
+        display: block;
+        width: 100%;
+        .transition(all, 0.3s);
+
+        span, i {
+          color: @light;
+        }
+
+        &:hover{
+          background: @light;
+          span, i {
+            color: @primary;
+          }
+        }
+      }
+
+      a {
+        color: @primary;
+      }
+
+      h3 {
+        font-size: 18px;
+        font-weight: 400;
+        //text-transform: uppercase;
+        margin-top: 40px;
+        color: @primary;
+        margin-bottom: 10px;
+        @media (max-width: 991px) {
+          font-size: 16px;
+          line-height: 20px;
+        }
+      }
+
+      .row {
+        margin-bottom: 10px;
+      }
+
+
+      .formText, .label {
+        font-family: "Open Sans";
+        font-size: 14px;
+        line-height: 22px;
+        font-weight: 400;
+        margin-bottom: 5px;
+      }
+
+      input:not([type="checkbox"]), select {
+        width: 100%;
+        background: @secondary;
+        border-radius: 5px;
+        box-sizing: border-box;
+        border: none;
+        outline: none;
+        padding: 5px 5px 5px 10px;
+        height: 50px;
+        color: gray;
+      }
+      input[type="submit"]{
+        background: @primary;
+        color: white;
+        float: right;
+
+      }
+
+      .customCheckbox {
+        input[type="checkbox"] {
+          width: 20px;
+          padding: 0;
+          float: left;
+          margin: 5px 5px 0 0;
+        }
+
+        &.checkbox-with-modal  {
+          input[type="checkbox"] {
+            margin: 10px 5px 0 0;
+          }
+        }
+
+        .label {
+          width: calc(~'100% - 25px');
+          float: left;
+        }
+      }
+
+      .dz-button {
+        padding: 30px;
+        background: none;
+        border: 1px solid #ddd;
+        float: right;
+        width: 100%;
+      }
+    }
+  }
+}
+footer{
+  background: @secondary;
+  padding: 15px 0 5px 0 !important;
+  a{
+    color: @primary;
+    .transition(color, 0.3s);
+    &:hover{
+      color: @dark;
+    }
+  }
+  .row{
+    .col-12{
+      a{
+        display: inline-block;
+        margin-bottom: 10px;
+      }
+      &:first-of-type{
+        a {
+          margin-right: 8px;
+        }
+      }
+      &:last-of-type{
+        a{
+          float: right;
+          @media(max-width: 575px){
+            float: left;
+            margin-bottom: 15px;
+          }
+        }
+      }
+    }
+  }
+}
+//Half Cotainer
+.half-container {
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+  @media (min-width: 576px) {
+    max-width: 540px;
+  }
+
+  @media (min-width: 768px) {
+    max-width: 720px;
+  }
+
+  @media (min-width: 992px) {
+    max-width: 960px;
+  }
+  @media (min-width: 1200px) {
+    width: 585px;
+    margin-left: 0
+  }
+}
+//modal
+.modal{
+  z-index: 999;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: none;
+  .modal-dialog{
+    width: 760px;
+    height: 620px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    .translate(-50%, -50%);
+    background: @light;
+    padding: 0;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    @media(max-width: 767px){
+      width: 100%;
+      height: 100%;
+      padding:30px 15px;
+      border-radius: 0;
+    }
+    .modal-content{
+      overflow: auto;
+      height: 100%;
+      padding: 30px;
+      .modal-header{
+        margin-bottom: 15px;
+      }
+      .modal-title{
+        width: calc(~'100% - 30px');
+      }
+      .close{
+        position: absolute;
+        top:15px;
+        right: 30px;
+        font-size: 22px;
+        cursor: pointer;
+        color: @primary;
+        background: @light;
+        &:hover{
+          i{
+            color: @dark;
+          }
+        }
+      }
+    }
+  }
+}
+// Social
+#social-bar {
+  position: fixed;
+  right: -5px;
+  top: 50%;
+  margin-top: -100px;
+  z-index: 999;
+  width: 70px;
+  height: 200px;
+  @media (max-width: 1120px) {
+    display: none;
+  }
+  div {
+    background-color: @primary;
+  }
+  a {
+    float: right;
+    display: block;
+    width: 71px;
+    height: 66px;
+    line-height: 66px;
+    font-size: 30px;
+    text-align: center;
+    background: @primary;
+    color: @light;
+    margin-bottom: 5px;
+    border: 0;
+    border-radius: 5px;
+    transition: all 0.3s;
+    -webkit-transition: all 0.3s;
+    &:hover {
+      width: 86px
+    }
+  }
+}
+//mobile
+#mobile-social-bar {
+  position: fixed;
+  z-index: 1000;
+  width: 41px;
+  max-height: 41px;
+  bottom: 10px;
+  right: 10px;
+  overflow: hidden;
+  text-align: center;
+  transition: all 0.3s;
+  -webkit-transition: all 0.3s;
+  @media (min-width: 1120px) {
+    display: none
+  }
+  a {
+    display: block;
+    width: 41px;
+    height: 41px;
+    background-color: @primary;
+    margin-bottom: 2px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    i {
+      color: white;
+      font-size: 20px;
+      margin-top: 10px
+    }
+  }
+  &.active {
+    max-height: 258px;
+    bottom: 8px
+  }
+}
+
+/*//slider
+.scope-img-wrap{
+  width: 100%;
+  display: block;
+  position: relative;
+  overflow: hidden;
+  img {
+    width: 100%;
+    display: none;
+
+    &.show {
+      display: block;
+    }
+  }
+  .slider{
+    position: absolute;
+    top:0;
+    left:0;
+    z-index: 1;
+    img{
+      float: left;
+    }
+  }
+  .slider-control{
+    z-index: 2;
+    position: absolute;
+    top:50%;
+    .translate(0, -50%);
+    color: @primary;
+    cursor: pointer;
+    font-size: 42px;
+    .transition(all, 0.3s);
+    @media (max-width: 767px) {
+      display: none;
+    }
+    &:hover{
+      color: @secondary;
+    }
+    &.right{
+      right: 30px;
+    }
+    &.left{
+      left: 30px;
+    }
+  }
+  .slider-dots{
+    z-index: 2;
+    position: absolute;
+    bottom: 30px;
+    left:50%;
+    .translate(-50%, 0);
+    @media (max-width: 767px) {
+      bottom: 15px;
+    }
+    li{
+      width: 12px;
+      height: 12px;
+      float: left;
+      margin: 0 3px;
+      border-radius: 50%;
+      background: @secondary;
+      .transition(all, 0.3s);
+      &.active{
+        background: @primary;
+      }
+    }
+  }
+}*/
+
+  //todo: Form-Section in SCOPE ändern und an neues Bootstrap und CSS-Schema anpassen
+section{
+  &#form {
+    padding: 70px 0;
+    .applyOnXing{
+      background: @primary;
+      color: @light;
+      text-align: center;
+      margin-top: 44px;
+      .btn;
+      span, i{
+        color: @light;
+      }
+    }
+    .formContainer{
+      a{
+        color: @primary;
+      }
+      h3 {
+        font-size: 18px;
+        font-weight: 400;
+        text-transform: uppercase;
+        margin-top: 40px;
+        color: @primary;
+        margin-bottom: 10px;
+        @media (max-width: 991px) {
+          font-size: 16px;
+          line-height: 20px;
+        }
+      }
+      .row{
+        margin-bottom: 10px;
+      }
+    }
+    .formText, .label{
+      font-family: "Open Sans";
+      font-size: 14px;
+      line-height: 22px;
+      font-weight: 400;
+      margin-bottom: 5px;
+    }
+    input:not([type="checkbox"]), select{
+      width: 100%;
+      background: @secondary;
+      border-radius: 5px;
+      box-sizing: border-box;
+      border: none;
+      outline: none;
+      padding: 5px 5px 5px 10px;
+      height: 50px;
+    }
+
+    .customCheckbox {
+      input[type="checkbox"] {
+        width: 20px;
+        padding: 0;
+        float: left;
+        margin:5px 5px 0 0;
+      }
+      .label{
+        width: calc(~'100% - 25px');
+        float: left;
+      }
+    }
+
+
+    .h2{
+      font-family: "Open Sans";
+      font-weight: 400;
+      color: @primary;
+      text-align: center;
+      display: block;
+      font-size: 24px;
+      line-height: 32px;
+      @media (max-width: 991px) {
+        font-size: 18px;
+        line-height: 20px;
+      }
+    }
+    &:nth-of-type(odd) {
+      background: @secondary;
+    }
+  }
+}
+
+
+
+
