@@ -1,22 +1,6 @@
 $(document).ready(function (e) {
 
-    var xingSuccess = templateHandler.findGetParameter('xing');
     var applyNow = templateHandler.findGetParameter('apply');
-
-    if (xingSuccess == 1) {
-
-        var formOffset = $("#scope_job_form_block").length ? $("#scope_job_form_block").parent().parent().parent().offset().top : $('.formContainer').offset().top;
-
-        $('html, body').animate({
-                scrollTop: formOffset
-            },
-            {
-                complete: function () {
-                    alert('Wir haben Ihre Daten erfolgreich von Xing übernommen und das Bewerbungsformular vorausgefüllt. ' +
-                        'Bitte ergänzen Sie die fehlenden Informationen und schicken das Formular anschließend ab.');
-                }
-            }, 2000);
-    }
 
     if (applyNow == 1) {
         $('html, body').animate({
