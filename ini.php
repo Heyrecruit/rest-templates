@@ -71,9 +71,7 @@
     $company  = $company['data'];
     $googleTagManager = $scope->getGoogleTagCode($company['CompanySetting']['google_tag_public_id']);
 
-
     $template = $company['Company']['template_folder'];
-	$template = 'pima';
 
     define("TEMPLATE_PATH", $_SERVER['DOCUMENT_ROOT'] . $_ENV['BASE_PATH'] . DS . 'templates' . DS . $template. DS);
     define("SECTION_PATH", TEMPLATE_PATH . 'sections' . DS);

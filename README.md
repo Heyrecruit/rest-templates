@@ -15,12 +15,12 @@ Scope-Recruiting is a top-level recruitment management software.
 
 You can either download the ZIP file:
 
-https://github.com/om1/Scope-Rest-API-Templates/archive/master.zip
+https://github.com/SCOPE-Recruiting/rest-templates.git
 
 or checkout the code:
 
 ```
-https://github.com/om1/Scope-Rest-API-Templates.git
+https://github.com/SCOPE-Recruiting/rest-templates.git
 ```
 
 ### Run composer
