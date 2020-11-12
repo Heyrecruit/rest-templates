@@ -1,5 +1,5 @@
 RewriteEngine On
-RewriteBase /rest-template/templates/scope-flat
+RewriteBase /rest-templates/templates/scope-flat
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ index.php?page=$1 [L,QSA]
