@@ -30,6 +30,8 @@ $(document).ready(function () {
             $(this).siblings('#nav').height(countNav * 42);
         }
     });
+
+    $('.datepicker ').datepicker({dateFormat: 'dd.mm.yy'});
     // Open modal
     $(document).on('click', '.scope_open_modal', function (e) {
         e.preventDefault();
@@ -44,9 +46,14 @@ $(document).ready(function () {
         $(this).closest('.modal').fadeOut();
     });
 
+    // Locationselect
+    $('.locationTrigger').click(function(){
+        $('#locationWrapper').toggleClass('active');
+        $('#locationList').slideToggle('fast');
+    });
 });
 
-$(document).off('click', 'a[href^=\\#]:not(.scope_open_modal)').on('click', 'a[href^=\\#]:not(.scope_open_modal)', function (e) {
+/*$(document).off('click', 'a[href^=\\#]:not(.scope_open_modal)').on('click', 'a[href^=\\#]:not(.scope_open_modal)', function (e) {
     e.preventDefault();
     var href = $(this).attr('href');
 
@@ -61,4 +68,4 @@ $(document).off('click', 'a[href^=\\#]:not(.scope_open_modal)').on('click', 'a[h
             }, 600);
         }
     }
-});
+});*/

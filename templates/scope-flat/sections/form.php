@@ -33,10 +33,14 @@
 									<input type="hidden" name="data[HiddenField][jwt]" value="<?=$authData['token']?>" id="scope_jwt">
 
 									<?php
+
 										if(!empty($form['QuestionCategory'])){
 											foreach($form['QuestionCategory'] as $k => $v) {
 
-												$questionCategoryTitle = !empty($v['QuestionCategoryString']) ? $v['QuestionCategoryString'][0]['title'] : '';
+
+
+												$questionCategoryTitle = getQuestionStringBasedOnLanguage($company['Languages']['ids'], $v['QuestionCategoryString'], 'title', $language);
+												//$questionCategoryTitle = !empty($v['QuestionCategoryString']) ? $v['QuestionCategoryString'][0]['title'] : '';
 									?>
 												<div class="row">
 													<div class="col-12">
@@ -46,24 +50,31 @@
 												<?php
 												foreach($v['Question'] as $a => $b) {
 
-													if(!empty($b['QuestionString']) && file_exists(__DIR__ . DS . '../elements/form/' . DS . $b['form_type'] . '.php')) {
+													$path = file_exists(ELEMENT_PATH_ROOT . 'form' . DS . $b['form_type'] . '.php')
+														? ELEMENT_PATH_ROOT . 'form' . DS . $b['form_type'] . '.php'
+														: ELEMENT_PATH . 'form' . DS . $b['form_type'] . '.php';
+
+													if(file_exists($path)) {
 															$answer        = '';
-															$fieldValue    = $b['QuestionString'][0]['value'];
+															$fieldValue    = getQuestionStringBasedOnLanguage($company['Languages']['ids'], $b['QuestionString'], 'value', $language);
 															$fieldName     = $b['field_name'];
-															$placeholder   = $b['QuestionString'][0]['placeholder'];
+															$placeholder   = getQuestionStringBasedOnLanguage($company['Languages']['ids'], $b['QuestionString'], 'placeholder', $language);
 															$uniqueFieldId = uniqid();
 															$required      = $b['required'] ? '*' : '';
 															$questionId    = $b['id'];
-															$modalValue    = $b['QuestionString'][0]['modal_value'];
+															$modalValue    = getQuestionStringBasedOnLanguage($company['Languages']['ids'], $b['QuestionString'], 'modal_value', $language);
 														?>
-														<div class="row">
+														<div class="row <?=$b['form_type'] == 'document' ? "upload-row" : "" ?>">
 															<div class="col-12 col-sm-6 col-md-5">
-																<div class="formText"><?=$b['QuestionString'][0]['title'] . $required?></div>
+																<?php
+																	$title = getQuestionStringBasedOnLanguage($company['Languages']['ids'], $b['QuestionString'], 'title', $language);
+																?>
+																<div class="formText"><?=$title . $required?></div>
 															</div>
 															<div class="col-12 col-sm-6 col-md-7">
 																<?php
 																	ob_start();
-																	include __DIR__ . DS . '../elements/form/' . DS . $b['form_type'] . '.php';
+																	include $path;
 																	echo ob_get_clean();
 																?>
 															</div>
@@ -72,14 +83,11 @@
 													<?php
 														if($b['form_type'] == 'document') {
 													?>
-															<div id="scope_upload_all_documents_wrapper"
-															     style="display:none">
-																<div class="scope_upload_error"></div>
-																<form method="post" action="<?=$postUrl?>" class="dropzone">
-
-																</form>
+															<div id="scope_upload_all_documents_wrapper_<?=$b['id']?>" style="display:none" class="uploadOuterWrapper">
+																<div class="scope_upload_error_<?=$b['id']?>"></div>
+																<form method="post" id="scope_dropzone_<?=$b['id']?>" action="<?=$postUrl?>" class="dropzone"></form>
 															</div>
-															<div id="scope_list_all_documents_wrapper">
+															<div id="scope_list_all_documents_wrapper_<?=$b['id']?>" class="documentOuterWrapper">
 															</div>
 									<?php
 														}
@@ -90,7 +98,10 @@
 									?>
 									<div class="row justify-content-end">
 										<div class="col-12 col-sm-6 col-md-7">
-											<input class="btn showApplicantSuccess primary-bg white-bg-hover primary-color-hover" id="saveApplicant" type="submit" value="Bewerbung abschicken">
+											<?php
+												$text = $language != 'de' ? 'Apply now' : 'Bewerbung abschicken';
+											?>
+											<input class="btn showApplicantSuccess primary-bg white-bg-hover primary-color-hover" id="saveApplicant" type="submit" value="<?=$text?>">
 										</div>
 									</div>
 								</div>
@@ -104,4 +115,25 @@
 	</div>
 </section>
 
+<?php
+	function getQuestionStringBasedOnLanguage($languageIds, $data, $key, $language) {
+		$string = '';
+		if(!empty($data)){
+			if(isset($languageIds[strtolower($language)])) {
+
+				foreach($data as $k => $value) {
+
+
+					if(isset($value[$key]) && $value['language_id'] == $languageIds[strtolower($language)]) {
+						$string = $value[$key];
+						break;
+					}else{
+						$string = $value[$key];
+					}
+				}
+			}
+		}
+
+		return $string;
+	}
 

@@ -35,19 +35,17 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-12 col-lg-6 order-last order-lg-first">
-			<div class="scope-img-wrap">
-				<?php
-					foreach($jobSection['JobSectionElement'] as $key => $value) {
-						if($value['element_type'] === 'image' && file_exists(__DIR__ . DS . '../elements' . DS . $value['element_type'] . '.php')) {
-							$jobSectionElement = $value;
-							ob_start();
-							include __DIR__ . DS . '../elements' . DS . $value['element_type'] . '.php';
-							echo ob_get_clean();
-						}
-					}
-				?>
-			</div>
-		</div>
+      <div class="col-12 col-lg-6 order-last order-lg-first">
+         <?php
+         foreach ($jobSection['JobSectionElement'] as $key => $value) {
+            if ($value['element_type'] === 'image' && file_exists(__DIR__ . DS . '../elements' . DS . $value['element_type'] . '.php')) {
+               $jobSectionElement = $value;
+               ob_start();
+               include __DIR__ . DS . '../elements' . DS . $value['element_type'] . '.php';
+               echo ob_get_clean();
+            }
+         }
+         ?>
+      </div>
 	</div>
 </section>

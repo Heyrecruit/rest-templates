@@ -409,7 +409,7 @@ var cookieBanner = {
             var d = new Date();
             d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
             var expires = 'expires=' + d.toUTCString();
-            document.cookie = cname + '=' + cvalue + ';' + expires + ';path=/';
+            document.cookie = cname + '=' + cvalue + ';' + expires + '/; SameSite=None; Secure';
         }
 
         /**
@@ -430,6 +430,7 @@ var cookieBanner = {
          */
         function getJsonCookie(cname, ckey) {
             var cookieValue = getCookie(cname);
+
             if (cookieValue) {
                 var jValue = JSON.parse(cookieValue);
                 if (jValue)

@@ -1,1 +1,1 @@
-<h2 class="mb-3 primary-color"><?=$jobSectionElement['text']?></h2>
+<h3 class="mb-3 primary-color"><?=$jobSectionElement['text']?></h3>

@@ -21,22 +21,23 @@
 				<thead>
 					<tr>
 
-						<th>Offene Stellen</th>
+						<th><?=$language !== 'de' ? 'Job' : 'Offene Stellen'?></th>
 						<?php
+
 							if(strpos($company['OverviewPage']['job_table_categories'], 'location') !== false) {
 						?>
-								<th>Standort</th>
+								<th><?=$language !== 'de' ? 'Location' : 'Standort'?></th>
 						<?php
 							}
 							if(strpos($company['OverviewPage']['job_table_categories'], 'employment') !== false) {
 						?>
-								<th>Einstellungsart</th>
+								<th><?=$language !== 'de' ? 'Employment type' : 'Einstellungsart'?></th>
 						<?php
 							}
 
 							if(strpos($company['OverviewPage']['job_table_categories'], 'department') !== false) {
 						?>
-								<th>Fachabteilung</th>
+								<th><?=$language !== 'de' ? 'Department' : 'Fachabteilung'?></th>
 						<?php
 							}
 						?>
@@ -45,6 +46,10 @@
 				</thead>
 				<tbody>
 				<?php
+					$publicationUrl = !empty($company['CompanySetting']['scope_publication_url']) ? $company['CompanySetting']['scope_publication_url'] : '';
+					//$publicationUrl = $company['Company']['id'] == 587 ? 'https://gemtec.eu/karriereportal/' : $publicationUrl;
+					//$publicationUrl = $company['Company']['id'] == 574 ? 'https://neylux.com/karriere/' : $publicationUrl;
+
 					foreach($jobs as $key => $value) {
 
 						if(!empty($value['CompanyLocationJob'])) {
@@ -53,7 +58,7 @@
 				?>
 								<tr>
 									<td>
-										<a href="?page=job&id=<?=$value['Job']['id']?>&location=<?=$v['company_location_id']?>&language=<?=$language?>" target="_blank" class="primary-color secondary-color-hover "><?=$value['Job']['title']?></a>
+										<a title="<?=$value['Job']['title']?>" href="<?=$publicationUrl?>?page=job&id=<?=$value['Job']['id']?>&location=<?=$v['company_location_id']?>&language=<?=$language?>" target="_blank" class="primary-color secondary-color-hover "><?=$value['Job']['title']?></a>
 									</td>
 									<?php
 										if(strpos($company['OverviewPage']['job_table_categories'], 'location') !== false) {
@@ -68,6 +73,11 @@
 															if(empty($formattedAddress)){
 																$formattedAddress = $scope->getFormattedAddress($v, true, true, true);
 															}
+
+															if($language !== 'de'){
+																$formattedAddress = str_replace('Deutschland', 'Germany', $formattedAddress);
+															}
+
 															echo $formattedAddress;
 														?>
 													</span>
@@ -109,7 +119,7 @@
 										}
 									?>
 									<td>
-										<a href="?page=job&id=<?=$value['Job']['id']?>&location=<?=$v['company_location_id']?>&language=<?=$language?>" target="_blank"><i class="fas fa-chevron-right primary-color"></i></a>
+										<a href="<?=$publicationUrl?>?page=job&id=<?=$value['Job']['id']?>&location=<?=$v['company_location_id']?>&language=<?=$language?>" target="_blank"><i class="fas fa-chevron-right primary-color"></i></a>
 									</td>
 								</tr>
 				<?php
@@ -125,7 +135,16 @@
 <div id="scope-jobs-table-mobile-wrap">
 	<div class="row">
 		<?php
-
+        $rowSpan = 1;
+        if(strpos($company['OverviewPage']['job_table_categories'], 'location') !== false) {
+            $rowSpan +=1;
+        }
+        if(strpos($company['OverviewPage']['job_table_categories'], 'employment') !== false) {
+            $rowSpan +=1;
+        }
+        if(strpos($company['OverviewPage']['job_table_categories'], 'department') !== false) {
+            $rowSpan +=1;
+        }
 			foreach($jobs as $key => $value) {
 
 				if(!empty($value['CompanyLocationJob'])) {
@@ -137,10 +156,10 @@
 						<table class="scope-jobs-table-mobile">
 							<tr>
 								<td>
-									<a href="?page=job&id=<?=$value['Job']['id']?>&location=<?=$v['company_location_id']?>&language=<?=$language?>" target="_blank" class="primary-color"><?=$value['Job']['title']?></a>
+									<a href="<?=$publicationUrl?>?page=job&id=<?=$value['Job']['id']?>&location=<?=$v['company_location_id']?>&language=<?=$language?>" target="_blank" class="primary-color"><?=$value['Job']['title']?></a>
 								</td>
-								<td class="scope-jobs-table-mobile-angle" rowspan="2">
-									<a href="?page=job&id=<?=$value['Job']['id']?>&location=<?=$v['company_location_id']?>&language=<?=$language?>" target="_blank"><i class="fas fa-chevron-right primary-color"></i></a>
+								<td class="scope-jobs-table-mobile-angle" rowspan="<?=$rowSpan?>">
+									<a href="<?=$publicationUrl?>?page=job&id=<?=$value['Job']['id']?>&location=<?=$v['company_location_id']?>&language=<?=$language?>" target="_blank"><i class="fas fa-chevron-right primary-color"></i></a>
 								</td>
 							</tr>
 							<?php

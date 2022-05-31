@@ -11,8 +11,8 @@
 
 	use \ScopeRecruiting\ScopeRestApi;
 
-	define('DS', '/');
 
+	define('DS', '/');
 	// Read .env config file
 	$dotenv = Dotenv\Dotenv::create(__DIR__);
 	$dotenv->load();
@@ -21,6 +21,8 @@
 		error_reporting(0);
 		@ini_set('display_errors', 0);
 	}
+
+	$cookieBanner = isset($_ENV['COOKIE_BANNER']) ? $_ENV['COOKIE_BANNER'] : false;
 
 	$scope = new ScopeRestApi($_ENV);
 
@@ -47,14 +49,14 @@
 
 	$scope->setReferrer($_SESSION['referrer']);
 
-	if($scope->analytics['active']) {
-		$scope->setAnalyticsCookie();
-	}
+	$scope->setAnalyticsCookie();
 
 	$scope->setFilter($_SERVER["QUERY_STRING"]);
 
+
 	$url = $_SERVER['HTTP_HOST'];
 
+	//$subDomain = 'pima-health-group-gmbh';
     $subDomain = explode('.', $_SERVER['HTTP_HOST'])[0];
 
     $company = $scope->getCompanyBySubDomain($subDomain);
@@ -71,12 +73,18 @@
     $company  = $company['data'];
     $googleTagManager = $scope->getGoogleTagCode($company['CompanySetting']['google_tag_public_id']);
 
-    $template = $company['Company']['template_folder'];
+	include __DIR__ . '/partials/overwrite_pages_settings_by_query.php';
 
-    define("TEMPLATE_PATH", $_SERVER['DOCUMENT_ROOT'] . $_ENV['BASE_PATH'] . DS . 'templates' . DS . $template. DS);
-    define("SECTION_PATH", TEMPLATE_PATH . 'sections' . DS);
-    define("PAGE_PATH", TEMPLATE_PATH  . 'pages' . DS);
-    define("ELEMENT_PATH", TEMPLATE_PATH . 'elements' . DS);
+    $template = $company['Company']['template_folder'];
+    //$template = 'heyrecruit';
+
+	define("TEMPLATE_PATH", $_SERVER['DOCUMENT_ROOT'] . $_ENV['BASE_PATH'] . DS . 'templates' . DS . $template . DS);
+	define("SECTION_PATH", TEMPLATE_PATH . 'sections' . DS);
+	define("PAGE_PATH", TEMPLATE_PATH . 'pages' . DS);
+	define("ELEMENT_PATH_ROOT", $_SERVER['DOCUMENT_ROOT'] . $_ENV['BASE_PATH']  . DS . 'elements' . DS);
+	define("ELEMENT_PATH", TEMPLATE_PATH . 'elements' . DS);
+
+	define("VERSION", '1.7.2');
 
 	$language = isset($_GET['language']) ? $_GET['language'] : 'de';
 

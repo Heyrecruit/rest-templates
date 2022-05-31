@@ -4,7 +4,6 @@
 	}
 
 	$googleTagManager = $scope->getGoogleTagCode($company['CompanySetting']['google_tag_public_id']);
-	//$scope->printH($company);
 ?>
 
 <!DOCTYPE html>
@@ -17,7 +16,11 @@
 			color: <?=$company['CompanyTemplate']['key_color']?> !important;
 		}
 
-		.primary-color-hover:hover {
+		.primary-color-hover:hover,
+		.primary-color-hover:hover span,
+		.primary-color-hover:hover i,
+      .dz-message .dz-button,
+      ol li::marker {
 			color: <?=$company['CompanyTemplate']['key_color']?> !important;
 		}
 
@@ -25,11 +28,10 @@
 			background: <?=$company['CompanyTemplate']['key_color']?> !important;
 		}
 
-		.primary-bg-before:before, .primary-bg-before ul li:before {
-			background: <?=$company['CompanyTemplate']['key_color']?> !important;
-		}
-
-		.primary-bg-hover:hover {
+      .primary-bg-before:before,
+      .primary-bg-before ul li:before,
+      .primary-bg-hover:hover,
+      .scope-img-wrap .dot.active {
 			background: <?=$company['CompanyTemplate']['key_color']?> !important;
 		}
 
@@ -60,6 +62,7 @@
 	?>
 </head>
 <?php
+
 	echo "<body data-base-path=\"{$_ENV['BASE_PATH']}/templates/$template\"
 	            data-domain=\"{$_SERVER['SERVER_NAME']}\"
 	            data-company-name=\"{$company['Company']['name']}\"
@@ -67,6 +70,7 @@
 	            data-gtm-id=\"{$company['CompanySetting']['google_tag_public_id']}\"
 	            data-gtm-property-id=\"_gat_{$company['CompanySetting']['google_analytics_property_id']}\"
 	            data-datenschutz-url=\"#scope_datenschutz\"
+	            data-language=\"{$language}\"
 	            data-datenschutz-class=\"\">";
 
 	//		echo $googleTagManager['body'];

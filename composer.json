@@ -2,6 +2,7 @@
     "require": {
         "vlucas/phpdotenv": "^3.3",
         "werbeagentur_artrevolver/scope-php-sdk": "dev-master",
-        "twbs/bootstrap": "4.4.1"
+        "twbs/bootstrap": "4.4.1",
+        "nesbot/carbon": "^2.47"
     }
 }

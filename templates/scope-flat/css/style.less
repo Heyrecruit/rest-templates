@@ -32,6 +32,11 @@ a{
 strong, .strong{
   font-weight: 600;
 }
+
+span.block-span {
+  display: block;
+}
+
 h1, h2, h3, h4{
   font-family: "Open Sans";
   font-weight: 600;
@@ -81,6 +86,33 @@ h2{
     &:hover{
       background: @primary;
       color: @light;
+    }
+  }
+}
+
+.scope-img-wrap {
+  img {
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  &.vertical-img:not(.company-img-wrap) {
+    max-height: calc(~'100vh - 200px');
+    height: 100% !important;
+
+    img {
+      height: 100%;
+      width: unset !important;
+      object-fit: contain;
+      object-position: left center;
+      border-radius: 10px;
+    }
+  }
+
+  .slider-control {
+    i {
+      transition: color .2s ease-in-out;
     }
   }
 }
@@ -313,13 +345,75 @@ body{
         }
         #scope-jobs-intro-section-info{
           margin:15px 0 30px 0;
-
-          span, a, i {
+          select {
+            display: none;
+            visibility: hidden;
+            width:0;
+          }
+          span, a, i, li {
             color: @light;
+            .transition(color, .2s);
           }
           span{
             display: inline-block;
-            margin: 0 8px;
+            margin: 0 5px;
+            i {
+              margin-right: 5px;
+            }
+          }
+          #locationWrapper {
+            position: relative;
+            display: inline-block;
+            margin-right: 5px;
+            padding: 2px 12px 0;
+            z-index: 100;
+            &:hover{
+              span, i {
+                color: @scope_gray_dark;
+              }
+            }
+            &.active {
+              span, i {
+                //color: @scope_gray_dark;
+              }
+              #locationTrigger {
+
+              }
+            }
+            .locationTrigger {
+              display: inline-block;
+              cursor: pointer;
+            }
+            ul {
+              cursor: pointer;
+              position: absolute;
+              display: none;
+              left: 0;
+              top: 0;
+              right: 0;
+              //padding-top: 32px;
+              //padding-bottom: 5px;
+              border-radius: 5px;
+              background: white;
+              z-index: -1;
+              max-height: 180px;
+
+              width: fit-content;
+              width: -moz-fit-content;
+              width: -webkit-fit-content;
+              padding: 5px 15px;
+              text-align: left;
+              overflow-y: auto;
+              margin-top: 34px;
+              li {
+                display: block;
+                white-space: nowrap;
+                color: @scope_gray_dark;
+                &:hover {
+                  color: @primary;
+                }
+              }
+            }
           }
         }
         #scope-jobs-intro-section-btn{
@@ -345,6 +439,15 @@ body{
       }
 
       .scope-img-wrap {
+
+        @media (min-width: 768px) {
+          height: calc(~'100vh - 60px') !important;
+        }
+
+        @media (min-width: 1024px) {
+          height: calc(~'100vh - 100px') !important;
+        }
+
         #header-overlay {
           background: rgba(128, 128, 128, 0.3);
           position: absolute;
@@ -357,14 +460,17 @@ body{
         position: relative;
         top:0;
         left:0;
-        width: 100%;
         z-index: 1;
-        @media (max-width: 767px) {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        margin: 0 !important;
+
+        /*@media (max-width: 767px) {
           width: unset !important;
-          object-fit: cover;
           height: 400px !important;
           margin-left: 0;
-        }
+        }*/
       }
     }
     //Table Intro
@@ -450,6 +556,18 @@ body{
                 padding: 12px 15px;
                 white-space: nowrap;
 
+                &:first-of-type {
+                  width: 100%;
+                  max-width: 0;
+
+                  a {
+                    display: block;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                    white-space: nowrap;
+                  }
+                }
+
                 &:nth-of-type(2), &:nth-of-type(3) {
                   >div{
                     width: 160px;
@@ -469,11 +587,6 @@ body{
                     }
                   }
 
-                }
-
-                &:nth-of-type(4) {
-                  width: 50px;
-                  text-align: center;
                 }
 
                 i {
@@ -506,21 +619,29 @@ body{
       }
       #scope-jobs-table-mobile-wrap {
         width: 100%;
+        line-height: 26px;
         display: none;
         @media (max-width: 991px) {
           display: block;
         }
+
+
         .scope-jobs-table-mobile {
           width: 100%;
           border-spacing: 0;
           table-layout: fixed;
           background: @secondary;
           margin-bottom: 15px;
+          @media (min-width: 768px) {
+            height: calc(~'100% - 15px');
+          }
           tr {
             td {
+              vertical-align: top;
               padding: 10px 20px 0 20px;
               &.scope-jobs-table-mobile-angle {
-                width: 20px;
+                width: 35px;
+                vertical-align: middle;
                 i {
                   float: right;
                   margin-right: 0;
@@ -576,6 +697,28 @@ body{
         font-weight: 400;
         color: @primary;
       }
+      .output {
+        ul, ol {
+          padding-left: 20px;
+          margin: 10px 0;
+          position: relative;
+          li {
+            position: relative;
+            &::before {
+              content: '';
+              border-radius: 50%;
+              width: 6px;
+              height: 6px;
+              background: transparent;
+              //border: 1px solid @primary;
+              position: absolute;
+              top: 14px;
+              left: -15px;
+              display: block;
+            }
+          }
+        }
+      }
       #scope-job-about-section-social{
         i, a{
           color: @primary;
@@ -601,6 +744,7 @@ body{
     }
     &.scope-jobs-list-section{
       padding: 70px 0;
+
       &:nth-of-type(odd){
         background: @secondary;
       }
@@ -612,7 +756,7 @@ body{
         overflow: hidden;
       }
       .output{
-        >p, >ul, >ol{
+        p, ul, ol{
           margin-bottom: 1rem;
         }
         li, p{
@@ -620,13 +764,13 @@ body{
             color: @primary;
           }
         }
-        >ul, >ol {
+        ul, ol {
           list-style: outside;
           @media(min-width: 1023px){
             width: 80%;
           }
 
-          > li {
+          li {
             width: calc(~'100% - 20px');
             box-sizing: border-box;
             padding-right: 40px;
@@ -634,11 +778,11 @@ body{
             margin-bottom: 10px;
           }
 
-          > ul, ol {
+          ul, ol {
             margin-bottom: 8px;
             list-style: outside;
 
-            > li {
+            li {
               width: calc(~'100% - 40px');
               box-sizing: border-box;
               margin-left: 40px;
@@ -655,20 +799,26 @@ body{
                 position: absolute;
                 top: 14px;
                 left: -15px;
+
+                @media (max-width: 767px) {
+                  width: 5px;
+                  height: 5px;
+                  top: 9px;
+                }
               }
             }
-            >ul{
-              >li{
+            ul{
+              li{
 
                 list-style: none;
               }
             }
 
-            > ul, ol {
+            ul, ol {
               margin-bottom: 8px;
               list-style: outside;
 
-              > li {
+              li {
                 width: calc(~'100% - 60px');
                 list-style: disc outside;
                 box-sizing: border-box;
@@ -685,18 +835,24 @@ body{
                   position: absolute;
                   top: 14px;
                   left: -15px;
+
+                  @media (max-width: 767px) {
+                    width: 5px;
+                    height: 5px;
+                    top: 9px;
+                  }
                 }
               }
             }
           }
         }
-        >ol{
+        ol{
           >li{
             list-style: outside decimal;
           }
         }
-        >ul{
-          >li{
+        ul{
+          li{
             position: relative;
             list-style: none;
             &::before {
@@ -708,6 +864,12 @@ body{
               position: absolute;
               top: 14px;
               left: -15px;
+
+              @media (max-width: 767px) {
+                width: 5px;
+                height: 5px;
+                top: 9px;
+              }
             }
           }
         }
@@ -776,7 +938,7 @@ body{
         margin-bottom: 5px;
       }
 
-      input:not([type="checkbox"]), select {
+      input:not([type="checkbox"]), select, textarea {
         width: 100%;
         background: @secondary;
         border-radius: 5px;
@@ -787,6 +949,11 @@ body{
         height: 50px;
         color: gray;
       }
+
+      textarea {
+        height: unset;
+      }
+
       input[type="submit"]{
         background: @primary;
         color: white;
@@ -820,6 +987,227 @@ body{
         border: 1px solid #ddd;
         float: right;
         width: 100%;
+      }
+    }
+    &.scope-media-section {
+      padding: 70px 0;
+
+      > .container > .row > .col-12 {
+        display: flex;
+        flex-direction: column;
+        grid-gap: 30px;
+      }
+
+      h2 {
+        font-weight: 400;
+        margin: 0 !important;
+      }
+
+      h3 {
+        font-size: 18px;
+        margin: 0 !important;
+
+        @media (max-width: 991px) {
+          font-size: 14px;
+        }
+      }
+
+      .block-span, .scope-img-wrap {
+        margin-bottom: 30px;
+      }
+
+      .scope-img-wrap {
+        border-radius: 5px;
+        margin-bottom: 0;
+
+        .dot {
+          &:hover {
+            background: #aaa;
+          }
+        }
+
+        .slider {
+          img {
+            height: 100%;
+            object-fit: cover;
+          }
+        }
+
+        &.vertical-img {
+          max-height: calc(~'100vh - 200px');
+          height: 100% !important;
+
+          img {
+            height: 100%;
+            width: unset !important;
+            object-fit: contain;
+            object-position: left center;
+            border-radius: 5px;
+          }
+        }
+
+        .slider-control {
+          i {
+            transition: color .2s ease-in-out;
+          }
+        }
+      }
+
+      .output{
+        p, ul, ol{
+          margin-bottom: 1rem;
+        }
+        li, p{
+          a{
+            color: @primary;
+          }
+        }
+        ul, ol {
+          list-style: outside;
+          @media(min-width: 1023px){
+            width: 80%;
+          }
+
+          li {
+            width: calc(~'100% - 20px');
+            box-sizing: border-box;
+            padding-right: 40px;
+            margin-left: 20px;
+            margin-bottom: 10px;
+          }
+
+          ul, ol {
+            margin-bottom: 8px;
+            list-style: outside;
+
+            li {
+              width: calc(~'100% - 40px');
+              box-sizing: border-box;
+              margin-left: 40px;
+              margin-bottom: 10px;
+              position: relative;
+
+              &::before {
+                content: '';
+                border-radius: 50%;
+                width: 6px;
+                height: 6px;
+                background: transparent;
+                border: 1px solid @primary;
+                position: absolute;
+                top: 14px;
+                left: -15px;
+
+                @media (max-width: 767px) {
+                  width: 5px;
+                  height: 5px;
+                  top: 9px;
+                }
+              }
+            }
+            ul{
+              li{
+
+                list-style: none;
+              }
+            }
+
+            ul, ol {
+              margin-bottom: 8px;
+              list-style: outside;
+
+              li {
+                width: calc(~'100% - 60px');
+                list-style: disc outside;
+                box-sizing: border-box;
+                margin-left: 60px;
+                margin-bottom: 10px;
+                position: relative;
+
+                &::before {
+                  content: '';
+                  border-radius: 50%;
+                  width: 6px;
+                  height: 6px;
+                  background: @primary;
+                  position: absolute;
+                  top: 14px;
+                  left: -15px;
+
+                  @media (max-width: 767px) {
+                    width: 5px;
+                    height: 5px;
+                    top: 9px;
+                  }
+                }
+              }
+            }
+          }
+        }
+        ol{
+          >li{
+            list-style: outside decimal;
+
+            &::marker {
+              font-weight: 700;
+            }
+          }
+        }
+        ul{
+          li{
+            position: relative;
+            list-style: none;
+            &::before {
+              content: '';
+              border-radius: 50%;
+              width: 6px;
+              height: 6px;
+              background: @primary;
+              position: absolute;
+              top: 14px;
+              left: -15px;
+
+              @media (max-width: 767px) {
+                width: 5px;
+                height: 5px;
+                top: 9px;
+              }
+            }
+          }
+        }
+      }
+
+      .youtube-embed-container {
+        position: relative;
+        padding-bottom: 56.25%;
+        height: 0;
+        overflow: hidden;
+        max-width: 100%;
+        border-radius: 5px;
+
+        iframe, object, embed {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          border: none;
+        }
+      }
+
+      .vimeo-embed-container {
+        padding: 56.25% 0 0 0;
+        position: relative;
+
+        iframe {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          border: none;
+          border-radius: 5px
+        }
       }
     }
   }
@@ -864,6 +1252,9 @@ footer{
   padding-left: 15px;
   margin-right: auto;
   margin-left: auto;
+
+  list-style: disc !important;
+  padding-left: 20px;
   @media (min-width: 576px) {
     max-width: 540px;
   }
@@ -877,7 +1268,7 @@ footer{
   }
   @media (min-width: 1200px) {
     width: 585px;
-    margin-left: 0
+    margin-left: 0;
   }
 }
 //modal
@@ -887,9 +1278,16 @@ footer{
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
   background: rgba(0,0,0,0.5);
   display: none;
+  height: calc(~'100vh - 100px');
+  margin-top: 100px;
+
+  @media (max-width: 1023px) {
+    height: calc(~'100vh - 60px');
+    margin-top: 60px;
+  }
+
   .modal-dialog{
     width: 760px;
     height: 620px;
@@ -940,25 +1338,32 @@ footer{
   top: 50%;
   margin-top: -100px;
   z-index: 999;
-  width: 70px;
-  height: 200px;
+  width: 71px;
   @media (max-width: 1120px) {
     display: none;
   }
   div {
     background-color: @primary;
+
+    &:not(:last-of-type) {
+      a {
+        margin-bottom: 5px;
+      }
+    }
   }
   a {
     float: right;
-    display: block;
     width: 71px;
     height: 66px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-right: 5px;
     line-height: 66px;
     font-size: 30px;
     text-align: center;
     background: @primary;
     color: @light;
-    margin-bottom: 5px;
     border: 0;
     border-radius: 5px;
     transition: all 0.3s;
@@ -1158,6 +1563,142 @@ section{
   }
 }
 
+.upload-row {
+  margin-bottom: 2.5rem;
+}
 
+.uploadOuterWrapper {
+  margin-bottom: 2.5rem;
 
+  .dz-default {
+    > * {
+      float: none !important;
+    }
+  }
 
+  .dz-button {
+    margin: 0;
+    font-size: 14px;
+    color: @primary;
+    &:hover {
+      background: @secondary;
+    }
+  }
+  .dz-default.dz-message {
+    span {
+      display: none;
+      margin: 2rem 0;
+      font-size: 14px;
+      color: @primary;
+
+      padding: 30px;
+      background: none;
+      border: 1px solid #ddd;
+      float: right;
+      width: 100%;
+      text-align: center;
+    }
+  }
+  .alert {
+    font-family: "Open Sans";
+    text-align: center;
+    margin-top: 2rem;
+    button.close {
+      display: none;
+    }
+  }
+  .dz-progress {
+    display: block;
+    width: 100%;
+    height: 5px;
+    .dz-upload {
+      display: block;
+      height: 5px;
+      border-radius: 5px;
+      content: "";
+      background: @primary;
+    }
+  }
+  .dz-success-mark, .dz-error-mark {
+    display: none;
+  }
+  .dz-size, .dz-filename {
+    display: inline-block;
+    font-size: 14px;
+  }
+  .dz-size {
+    margin-right: 16px;
+    position: relative;
+    &:after {
+      content: "";
+      width: 8px;
+      height: 1px;
+      display: block;
+      top: 50%;
+      right: -14px;
+      position: absolute;
+      background: @dark;
+
+    }
+  }
+  .dz-started {
+    .dz-details {
+      margin-top: 2rem;
+    }
+    .dz-button {
+      display: none;
+    }
+  }
+  .dz-max-files-reached, form:not(.dz-started) {
+    .dz-default.dz-message {
+     display: block;
+      span {
+        display: block;
+      }
+    }
+  }
+}
+
+.documentOuterWrapper {
+  margin-top: 2.5rem;
+  .documentList {
+    margin-bottom: .6rem;
+    label {
+      display: block;
+      color: @dark;
+    }
+    span {
+      font-size: 14px;
+    }
+    .documentDelete {
+      display: inline-block;
+      margin-left: 10px;
+      font-size: 12px;
+      color: lighten(@dark, 20%);
+      cursor: pointer;
+    }
+  }
+}
+
+.scope-inside-iframe {
+  section {
+    &#scope-jobs-intro-section {
+      .scope-img-wrap {
+        height: 800px !important;
+
+        @media (max-width: 768px) {
+          height: 600px !important;
+        }
+
+        @media (max-width: 511px) {
+          height: 400px !important;
+        }
+
+        img {
+          width: 100% !important;
+          height: 100% !important;
+        }
+      }
+    }
+  }
+}

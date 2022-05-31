@@ -314,6 +314,7 @@ function JobsMap(mapId) {
                         google.maps.event.addListener(infoWindow, 'closeclick', function () {
                             if (typeof templateHandler !== 'undefined' && typeof templateHandler.filter !== 'undefined') {
                                 $('#standort').val('');
+                                $('#location-list').val('all');
                                 templateHandler.filter();
                             }
                         });
@@ -340,7 +341,7 @@ function JobsMap(mapId) {
 
                             _this.infoWindows[v['CompanyLocation']['id']].open(_this.googleMap, marker);
                             if (typeof templateHandler !== 'undefined' && typeof templateHandler.filter !== 'undefined') {
-                                templateHandler.filter(_this.contentStrings[v['CompanyLocation']['id']], null, null, 1);
+                                templateHandler.filter(v['CompanyLocation']['id'], null, null, 1);
                             }
 
                         }.bind(_this));

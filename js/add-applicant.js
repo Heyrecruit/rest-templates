@@ -57,11 +57,11 @@ function addApplicant(applicant) {
         templateHandler.ajaxCall(url, applicant, false, function (response) {
             if (response.success && typeof response.data.applicant_job_id != 'undefined') {
 
-                alert("Ihre Bewerbung war erfolgreich");
+                //alert("Ihre Bewerbung war erfolgreich");
 
                if (typeof response.data.redirect_url != 'undefined') {
                     if(response.data.redirect_url != null) {
-                        window.location.href = response.data.redirect_url + '?applicant_job_id=' + response.data.applicant_job_id + '&success=1';
+                        window.location.href = response.data.redirect_url;
                     } else {
                         let w = window.location;
                         let url = w.protocol + "//" + w.host + "/?page=danke&job=" + response.data.job_id + "&location=" + response.data.company_location_id ;
@@ -102,42 +102,61 @@ function getApplicationFormData(parentElementId) {
         QuestionAnswer: {},
         HiddenField: {}
     };
+
     parentElementId = typeof parentElementId != 'undefined' ? parentElementId : '';
 
     applicant.ApplicantJob['job_id'] = $(parentElementId + " input[name='data[Job][id]']").val();
     applicant.HiddenField['post_url'] = $(parentElementId + " #scope_post_url").val();
     applicant.HiddenField['csrf'] = $(parentElementId + " #scope_csrf").val();
 
-    $(parentElementId + " input[name^='data[Applicant]'], " + parentElementId + " select[name^='data[Applicant]'], " + parentElementId + " textarea[name^='data[Question]']").each(function (index, element) {
+    $(
+        parentElementId + " input[name^='data[Applicant]'], " +
+        parentElementId + " select[name^='data[Applicant]'], " +
+        parentElementId + " textarea[name^='data[Question]']"
+    )
+        .each(function (index, element) {
+            var name = $(element).attr('name');
+            var firstIndex = templateHandler.secondIndexOf('[', name) + 1;
+            var secoundIndex = name.lastIndexOf(']');
+
+            var answer = $(element).val();
+
+            if ($(element).attr('type') === 'checkbox') {
+                answer = $(element).is(':checked') ? 1 : '';
+            }
+
+            if ($(element).attr('type') === 'radio') {
+                var el = $('input[name="' + $(element).attr('name') + '"]:checked');
+                answer = el.length ? el.val() : '';
+            }
+            applicant.Applicant[name.substring(firstIndex, secoundIndex)] = answer;
+
+            if (typeof $(element).attr('data-question-id') != 'undefined') {
+                applicant.QuestionAnswer[$(element).attr('data-question-id')] = {
+                    question_string: $(element).closest('.row').find('.formText').text(),
+                    question_id: $(element).attr('data-question-id'),
+                    answer: answer
+                };
+            }
+        });
+    $(
+        parentElementId + " input[name^='data[ApplicantJob]'], " +
+        parentElementId + " select[name^='data[ApplicantJob]'], " +
+        parentElementId + " textarea[name^='data[Question]']"
+    ).each(function (index, element) {
         var name = $(element).attr('name');
         var firstIndex = templateHandler.secondIndexOf('[', name) + 1;
         var secoundIndex = name.lastIndexOf(']');
 
         var answer = $(element).val();
 
-        if ($(element).attr('type') == 'checkbox') {
+        if ($(element).attr('type') === 'checkbox') {
             answer = $(element).is(':checked') ? 1 : '';
         }
-        applicant.Applicant[name.substring(firstIndex, secoundIndex)] = answer;
 
-        if (typeof $(element).attr('data-question-id') != 'undefined') {
-            applicant.QuestionAnswer[$(element).attr('data-question-id')] = {
-                question_string: $(element).closest('.row').find('.formText').text(),
-                question_id: $(element).attr('data-question-id'),
-                answer: answer
-            };
-        }
-    });
-
-    $(parentElementId + " input[name^='data[ApplicantJob]'], " + parentElementId + " select[name^='data[ApplicantJob]'], " + parentElementId + " textarea[name^='data[Question]']").each(function (index, element) {
-        var name = $(element).attr('name');
-        var firstIndex = templateHandler.secondIndexOf('[', name) + 1;
-        var secoundIndex = name.lastIndexOf(']');
-
-        var answer = $(element).val();
-
-        if ($(element).attr('type') == 'checkbox') {
-            answer = $(element).is(':checked') ? 1 : '';
+        if ($(element).attr('type') === 'radio') {
+            var el = $('input[name="' + $(element).attr('name') + '"]:checked');
+            answer = el.length ? el.val() : '';
         }
 
         applicant.ApplicantJob[name.substring(firstIndex, secoundIndex)] = answer;
@@ -151,7 +170,11 @@ function getApplicationFormData(parentElementId) {
         }
     });
 
-    $(parentElementId + " input[name^='data[Question]'], " + parentElementId + " select[name^='data[Question]'], " + parentElementId + " textarea[name^='data[Question]']").each(function (index, element) {
+    $(
+        parentElementId + " input[name^='data[Question]'], " +
+        parentElementId + " select[name^='data[Question]'], " +
+        parentElementId + " textarea[name^='data[Question]']"
+    ).each(function (index, element) {
         var data = {
             question_string: $(element).closest('.row').find('.formText').text(),
             question_id: $(element).attr('data-question-id'),
@@ -163,17 +186,22 @@ function getApplicationFormData(parentElementId) {
         }
 
         if ($(element).attr('type') === 'checkbox') {
-            var answer = $(element).is(':checked') ? $(element).closest('div').find('.label').text() : '';
+            var answer = $(element).is(':checked') ? $(element).closest('.row').find('.label').text() : '';
             if (applicant.QuestionAnswer[$(element).attr('data-question-id')]['answer'] !== '') {
                 applicant.QuestionAnswer[$(element).attr('data-question-id')]['answer'] += ';';
             }
             applicant.QuestionAnswer[$(element).attr('data-question-id')]['answer'] += answer;
 
         } else {
-            applicant.QuestionAnswer[$(element).attr('data-question-id')].answer = $(element).val();
+            if ($(element).attr('type') === 'radio') {
+                var el = $('input[name="' + $(element).attr('name') + '"]:checked');
+
+                applicant.QuestionAnswer[$(element).attr('data-question-id')].answer = el.length ? el.val() : '';
+            }else{
+                applicant.QuestionAnswer[$(element).attr('data-question-id')].answer = $(element).val();
+            }
         }
     });
-
     return applicant;
 }
 
@@ -184,11 +212,18 @@ function setInputErrorMsg(errors) {
         var $lastErrorElement = null;
         $.each(errors, function (index, value) {
 
-            $("*[name='data[Applicant][" + index + "]'], *[name='data[ApplicantJob][" + index + "]'], *[name^='data[Question][" + index + "]']").parent().parent().append(
+            var $selector = $(
+                "*[name='data[Applicant][" + index + "]'], " +
+                "*[name='data[ApplicantJob][" + index + "]'], " +
+                "*[name^='data[Question][" + index + "]'], " +
+                "*[name^='data[ApplicantDocument][" + index + "]']"
+            );
+
+            $selector.parent().parent().append(
                 $('<span class="error">' + value + '</span>').fadeIn('slow')
             );
 
-            $lastErrorElement = $("*[name='data[Applicant][" + index + "]'], *[name='data[ApplicantJob][" + index + "]'], *[name^='data[Question][" + index + "]']").parent().parent();
+            $lastErrorElement = $selector.parent().parent();
         });
 
         if ($lastErrorElement != null) {

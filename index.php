@@ -1,6 +1,5 @@
 <?php
 
-
 	if(!isset($scope)) {
 		include __DIR__ . '/ini.php';
 	}
@@ -9,9 +8,6 @@
 
 	$page = strtolower(preg_replace("/[^a-zA-Z0-9_äüö-]/", "", $page));
 
-	if(!file_exists(__DIR__ . '/templates/' . $template . '/pages/' . $page . '.php')) {
-		die('page not found.');
-	}
 
 	$metadata = [
 		'jobs' => [
@@ -32,6 +28,8 @@
 			'description' => 'Geh deinen Weg mit uns'
 		];
 	}
+
+
 
 	include __DIR__ . '/templates/' . $template . '/index.php';
 

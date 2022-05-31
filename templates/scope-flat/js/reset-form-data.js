@@ -28,7 +28,7 @@ $(document).on('change', 'input, select', function () {
 
 function setFormData(data) {
     $.each(data, function (key, value) {
-        if ($("[name='"+ key +"']").length){
+        if ($("[name='"+ key +"']").length && $("[name='" + key + "']").attr('id').indexOf('document') == -1){
 
             if ($("[name='" + key + "']").is(":checkbox") && key !== 'data[Applicant][consent_form_accepted]') {
                 $("[name='" + key + "']").prop('checked', value);

@@ -4,7 +4,6 @@
 	if(!empty($company) && isset($company['Company']['logo'])) {
 		$logoUrl = $company['Company']['logo'];
 	}
-
 ?>
 <header class="row no-gutters">
 	<div class="col-12">
@@ -37,9 +36,18 @@
 			<div id="lang">
 				<i  class="fas fa-globe-americas primary-color-hover"></i>
 				<ul>
-					<li>
-						<a class="primary-bg-hover" data-language="de">Deutsch</a>
-					</li>
+					<?php
+						foreach($company['Languages']['list'] as $key => $value) {
+					?>
+
+							<li>
+								<a class="primary-bg-hover" data-language="<?=$key?>"><?=$value?></a>
+							</li>
+
+					<?php
+						}
+					?>
+
 				</ul>
 			</div>
 		</nav>

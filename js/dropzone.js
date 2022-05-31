@@ -1071,7 +1071,7 @@ class Dropzone extends Emitter {
         }
 
         if (this.element.classList.contains("dropzone") && !this.element.querySelector(".dz-message")) {
-            this.element.appendChild(Dropzone.createElement(`<div class="dz-default dz-message"><button class="dz-button" type="button">${this.options.dictDefaultMessage}</button></div>`));
+            this.element.appendChild(Dropzone.createElement(`<div class="dz-default dz-message"><button class="dz-button" type="button"><i class="fal fa-paperclip"></i> ${this.options.dictDefaultMessage}</button></div>`));
         }
 
         if (this.clickableElements.length) {

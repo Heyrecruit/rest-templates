@@ -39,7 +39,7 @@ function TemplateHandler(addEventHandler) {
             if (href !== '#' && typeof href !== 'undefined' && $(href).length){
 
                 $('html, body').animate({
-                    scrollTop: $(href).offset().top - 0
+                    scrollTop: $(href).offset().top - 100
                 }, 600);
 
             }
@@ -48,7 +48,7 @@ function TemplateHandler(addEventHandler) {
         // On click of job detail url inside iframe
         $(document).on('click', 'a[href*="location="]', function (e) {
 
-           if(window.name === 'scopeFrame'){
+           if(window.name === 'scopeFrame' && $(this).attr('target') !== '_parent' && $(this).attr('target') !== '_blank'){
                e.preventDefault();
                _this.sendJobDetailParams($(this));
            }
@@ -77,6 +77,12 @@ function TemplateHandler(addEventHandler) {
         $(document).on('click', '.modal .close', function () {
             $(this).closest('.modal').fadeOut();
         });
+        $(document).on('click', '.modal', function (e) {
+            if (e.target !== this)
+                return;
+
+            $(this).fadeOut();
+        });
 
         // Filter jobs table -> branche
         $(document).on('change', '#branche', function () {
@@ -97,12 +103,25 @@ function TemplateHandler(addEventHandler) {
         });
 
         // Filter jobs table -> standort
+        $(document).off('change', '#location-list').on('change', '#location-list', function () {
+            _this.filter();
+        });
+
+        // Filter jobs table -> standort
         var typingTimer;
         $(document).on('keyup', '#standort', function () {
             clearTimeout(typingTimer);
             typingTimer = setTimeout(function doneTyping() {
                 _this.filter();
             }, 1500);
+        });
+
+        // Location change
+
+        $(document).on('click', '.locationTriggerLi', function (e) {
+            e.preventDefault();
+
+           window.location.href = _this.updateURLParameter(window.location.href, 'location', $(this).attr('data-location-id'));
         });
     };
 
@@ -111,6 +130,8 @@ function TemplateHandler(addEventHandler) {
         var postMessageHeight = {
             iframe_height: height + 95
         };
+
+        //console.log(postMessageHeight);
 
         if (typeof window.parent.postMessage != 'undefined') {
 
@@ -208,12 +229,12 @@ function TemplateHandler(addEventHandler) {
     };
 
     this.filter = function (location, employment, department, areaSearchDistance) {
-        var _this = this;
-        var url = this.getBaseUrl();
-        var searchParams = '';
+        let _this = this;
+        let url = this.getBaseUrl();
+        let searchParams = '';
+        let locationType = 'search';
 
-
-        var locationQuery = '';
+        let locationQuery = '';
         if(typeof $('#standort').val() !== 'undefined'){
             locationQuery = $('#standort').val();
         }
@@ -225,12 +246,30 @@ function TemplateHandler(addEventHandler) {
             locationQuery = location;
         }
 
-        searchParams += '?address=' + encodeURIComponent(locationQuery);
+        if (typeof $('#location-list').val() !== 'undefined') {
+            locationQuery = $('#location-list').val();
+            locationType = 'list';
+        }
+
+        if (typeof location !== 'undefined' && location !== null) {
+            if ($('#location-list').length) {
+                $('#location-list').val(location)
+            }
+            locationType = 'list';
+            locationQuery = location;
+        }
+
+        if (locationType === 'list'){
+            searchParams += '?location=' + encodeURIComponent(locationQuery) + '&locationType=' + locationType;
+        }else{
+            searchParams += '?address=' + encodeURIComponent(locationQuery) + '&locationType=' + locationType;
+        }
+
+
 
         if (typeof areaSearchDistance !== 'undefined') {
             searchParams += '&area_search_distance=' + encodeURIComponent(areaSearchDistance);
         }
-
 
         if (typeof $('#einstellungsart option:selected').val() !== 'undefined') {
             if (typeof employment !== 'undefined' && employment !== null) {
@@ -250,11 +289,23 @@ function TemplateHandler(addEventHandler) {
 
         var $jobsContainer = $('*[data-jobs-container="true"]').length ? $('*[data-jobs-container="true"]') : $('#scope_jobs_table');
 
+
+        if (_this.findGetParameter('language') !== null){
+            searchParams += searchParams.indexOf('?') !== -1 ? '&' : '?';
+            searchParams += 'language=' + _this.findGetParameter('language');
+        }
+
         $jobsContainer.load(url + 'elements/jobs_table.php' + searchParams, function () {
             if(typeof makeAutomatedTranslation=="function") {
                 makeAutomatedTranslation();
             }
             _this.sendIframeHeight();
+
+
+            if (typeof setPagination !== 'undefined'){
+                setPagination();
+            }
+
         });
 
     };

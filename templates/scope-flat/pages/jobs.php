@@ -32,9 +32,9 @@
 <section id="scope-jobs-intro-section" class="row no-gutters mb-3" <?=$hideElements?>>
 	<div class="col-12">
 		<div id="scope-jobs-intro-section-hl-wrap">
-			<h2 class="uppercase"><?=$company['OverviewPage']['title']?></h2>
+			<h2><?=$company['OverviewPage']['title']?></h2>
 			<div id="scope-jobs-intro-section-hl-line"></div>
-			<h1 class="uppercase"><?=$company['OverviewPage']['subtitle']?></h1>
+			<h1><?=$company['OverviewPage']['subtitle']?></h1>
 		</div>
 
 
@@ -51,14 +51,34 @@
 		</div>
 	</div>
 </section>
+<?php
+	if($company['OverviewPage']['show_description']) {
 
+?>
+		<section id="scope-jobs-table-description-section" class="mb-3">
+			<div class="container">
+				<div class="row">
+					<div class="col-12">
+						<h2 class="mt-5 mb-2 primary-color"><?=$company['Company']['name']?></h2>
+						<?php
+							echo $company['OverviewPage']['description'];
+						?>
+					</div>
+				</div>
+			</div>
+		</section>
+<?php
+	}
+?>
 
 <section id="scope-jobs-table-intro-section" class="mb-3">
 	<div class="container">
 		<div class="row">
 			<div class="col-12">
-				<h2 class="uppercase primary-color">Offene Stellen</h2>
-				<p>Finden Sie Ihren Traumjob.</p>
+				<?php
+					$title = $language !== 'de' ? 'Vacancies' : 'Offene Stellen';
+				?>
+				<h2 class="mt-5 mb-2 primary-color"><?=$title?></h2>
 			</div>
 		</div>
 	</div>
@@ -84,7 +104,10 @@
 	<div class="container">
 		<div class="row" id="scope-jobs-list-section-filter">
 			<?php
-				require(__DIR__ . "/../elements/jobs_filter.php")
+				$path = file_exists(ELEMENT_PATH . 'jobs_filter.php')
+					? ELEMENT_PATH . 'jobs_filter.php'
+					: ELEMENT_PATH_ROOT . 'jobs_filter.php';
+				require($path)
 			?>
 		</div>
 		<div id="scope-jobs-list" data-jobs-container="true">
@@ -95,10 +118,3 @@
 
 	</div>
 </section>
-
-<script>
-	$(document).ready(function () {
-		// Do automated google translation
-        makeAutomatedTranslation();
-    });
-</script>

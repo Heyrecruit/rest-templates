@@ -1,11 +1,3 @@
 <div class="output primary-bg-before">
-	<?php
-		if(strpos($jobSectionElement['html'], '<p>') !== false) {
-			echo $jobSectionElement['html'];
-		} else {
-			?>
-			<p><?=$jobSectionElement['html']?></p>
-			<?php
-		}
-	?>
+    <span class="block-span"><?= $jobSectionElement['html'] ?></span>
 </div>
