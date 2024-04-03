@@ -69,7 +69,7 @@
       insertBefore.call(head, newElement, referenceElement);
    };
 </script>
-<?php if ($company['OverviewPage']['show_map']) {?>
+<?php if ($company['overview_page']['show_map']) {?>
     <script src="https://maps.googleapis.com/maps/api/js?key=<?= $_ENV['MAPS_API_KEY'] ?>"></script >
     <script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js?version=<?= VERSION ?>" ></script >
 <?php
