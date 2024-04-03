@@ -18,13 +18,13 @@
 			$imageUrl = 'https://www.scope-recruiting.de/img/scope_default_job_header_image.png';
 
 
-			if(!empty($company) && isset($company['Company']['overview_header_picture'])) {
-				$imageUrl = $company['Company']['overview_header_picture'];
+			if(!empty($company) && isset($company['overview_header_picture'])) {
+				$imageUrl = $company['overview_header_picture'];
 			}
 		?>
 		<div id="scope-jobs-intro-section-overlay"></div>
 		<div class="scope-img-wrap">
-			<img src="<?=$imageUrl?>" alt="Head Hintergrund  <?=$company['Company']['name']?>"/>
+			<img src="<?=$imageUrl?>" alt="Head Hintergrund  <?=$company['name']?>"/>
 		</div>
 
 	</div>

@@ -7,7 +7,7 @@ Scope-Recruiting is a top-level recruitment management software.
 
 ## System requirements:
 - HTTP Server. For example: Apache. Having mod_rewrite is preferred.
-- PHP 7.0 or greater (including PHP 7.2).
+- PHP 8.0 or greater.
 
 ## Installation and configuration
 
@@ -15,7 +15,7 @@ Scope-Recruiting is a top-level recruitment management software.
 
 You can either download the ZIP file:
 
-https://github.com/SCOPE-Recruiting/rest-templates.git
+https://github.com/SCOPE-Recruiting/rest-templates/archive/master.zip
 
 or checkout the code:
 

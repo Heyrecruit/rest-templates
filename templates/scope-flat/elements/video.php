@@ -1,5 +1,5 @@
 <?php
-$videoUrl = $jobSectionElement['text'];
+$videoUrl = $jobSectionElement['job_section_element_strings'][0]['text'];
 $videoId = str_replace('?rel=0', '', substr($videoUrl, strrpos($videoUrl, '/') + 1));
 
 if (strpos($videoUrl, 'vimeo')) {

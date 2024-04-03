@@ -1,29 +1,7 @@
-/* Font */
-@import "../../../vendor/twbs/bootstrap/dist/css/bootstrap-grid.css";
-@font-face {
-  font-family: 'Open Sans';
-  font-style: normal;
-  font-weight: 300;
-  font-stretch: normal;
-  src: url(https://fonts.gstatic.com/s/opensans/v29/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsiH0B4gaVc.ttf) format('truetype');
-}
-@font-face {
-  font-family: 'Open Sans';
-  font-style: normal;
-  font-weight: 400;
-  font-stretch: normal;
-  src: url(https://fonts.gstatic.com/s/opensans/v29/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsjZ0B4gaVc.ttf) format('truetype');
-}
-@font-face {
-  font-family: 'Open Sans';
-  font-style: normal;
-  font-weight: 600;
-  font-stretch: normal;
-  src: url(https://fonts.gstatic.com/s/opensans/v29/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsgH1x4gaVc.ttf) format('truetype');
-}
 /* Color */
 /* Brands */
 /* Grid */
+@import "../../../vendor/twbs/bootstrap/dist/css/bootstrap-grid.css";
 /* Config */
 /* Config colors */
 /* Breakpoints */
@@ -123,6 +101,66 @@ a img {
 a {
   text-decoration: none;
 }
+/* open-sans-300 - latin-ext_latin */
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 300;
+  src: url('/font/open-sans/open-sans-v34-latin-ext_latin-300.eot');
+  /* IE9 Compat Modes */
+  src: local(''), url('/font/open-sans/open-sans-v34-latin-ext_latin-300.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */ url('/font/open-sans/open-sans-v34-latin-ext_latin-300.woff2') format('woff2'), /* Super Modern Browsers */ url('/font/open-sans/open-sans-v34-latin-ext_latin-300.woff') format('woff'), /* Modern Browsers */ url('/font/open-sans/open-sans-v34-latin-ext_latin-300.ttf') format('truetype'), /* Safari, Android, iOS */ url('/font/open-sans/open-sans-v34-latin-ext_latin-300.svg#OpenSans') format('svg');
+  /* Legacy iOS */
+}
+/* open-sans-regular - latin-ext_latin */
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/font/open-sans/open-sans-v34-latin-ext_latin-regular.eot');
+  /* IE9 Compat Modes */
+  src: local(''), url('/font/open-sans/open-sans-v34-latin-ext_latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */ url('/font/open-sans/open-sans-v34-latin-ext_latin-regular.woff2') format('woff2'), /* Super Modern Browsers */ url('/font/open-sans/open-sans-v34-latin-ext_latin-regular.woff') format('woff'), /* Modern Browsers */ url('/font/open-sans/open-sans-v34-latin-ext_latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */ url('/font/open-sans/open-sans-v34-latin-ext_latin-regular.svg#OpenSans') format('svg');
+  /* Legacy iOS */
+}
+/* open-sans-600 - latin-ext_latin */
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 600;
+  src: url('/font/open-sans/open-sans-v34-latin-ext_latin-600.eot');
+  /* IE9 Compat Modes */
+  src: local(''), url('/font/open-sans/open-sans-v34-latin-ext_latin-600.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */ url('/font/open-sans/open-sans-v34-latin-ext_latin-600.woff2') format('woff2'), /* Super Modern Browsers */ url('/font/open-sans/open-sans-v34-latin-ext_latin-600.woff') format('woff'), /* Modern Browsers */ url('/font/open-sans/open-sans-v34-latin-ext_latin-600.ttf') format('truetype'), /* Safari, Android, iOS */ url('/font/open-sans/open-sans-v34-latin-ext_latin-600.svg#OpenSans') format('svg');
+  /* Legacy iOS */
+}
+/* open-sans-300italic - latin-ext_latin */
+@font-face {
+  font-family: 'Open Sans';
+  font-style: italic;
+  font-weight: 300;
+  src: url('/font/open-sans/open-sans-v34-latin-ext_latin-300italic.eot');
+  /* IE9 Compat Modes */
+  src: local(''), url('/font/open-sans/open-sans-v34-latin-ext_latin-300italic.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */ url('/font/open-sans/open-sans-v34-latin-ext_latin-300italic.woff2') format('woff2'), /* Super Modern Browsers */ url('/font/open-sans/open-sans-v34-latin-ext_latin-300italic.woff') format('woff'), /* Modern Browsers */ url('/font/open-sans/open-sans-v34-latin-ext_latin-300italic.ttf') format('truetype'), /* Safari, Android, iOS */ url('/font/open-sans/open-sans-v34-latin-ext_latin-300italic.svg#OpenSans') format('svg');
+  /* Legacy iOS */
+}
+/* open-sans-italic - latin-ext_latin */
+@font-face {
+  font-family: 'Open Sans';
+  font-style: italic;
+  font-weight: 400;
+  src: url('/font/open-sans/open-sans-v34-latin-ext_latin-italic.eot');
+  /* IE9 Compat Modes */
+  src: local(''), url('/font/open-sans/open-sans-v34-latin-ext_latin-italic.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */ url('/font/open-sans/open-sans-v34-latin-ext_latin-italic.woff2') format('woff2'), /* Super Modern Browsers */ url('/font/open-sans/open-sans-v34-latin-ext_latin-italic.woff') format('woff'), /* Modern Browsers */ url('/font/open-sans/open-sans-v34-latin-ext_latin-italic.ttf') format('truetype'), /* Safari, Android, iOS */ url('/font/open-sans/open-sans-v34-latin-ext_latin-italic.svg#OpenSans') format('svg');
+  /* Legacy iOS */
+}
+/* open-sans-600italic - latin-ext_latin */
+@font-face {
+  font-family: 'Open Sans';
+  font-style: italic;
+  font-weight: 600;
+  src: url('/font/open-sans/open-sans-v34-latin-ext_latin-600italic.eot');
+  /* IE9 Compat Modes */
+  src: local(''), url('/font/open-sans/open-sans-v34-latin-ext_latin-600italic.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */ url('/font/open-sans/open-sans-v34-latin-ext_latin-600italic.woff2') format('woff2'), /* Super Modern Browsers */ url('/font/open-sans/open-sans-v34-latin-ext_latin-600italic.woff') format('woff'), /* Modern Browsers */ url('/font/open-sans/open-sans-v34-latin-ext_latin-600italic.ttf') format('truetype'), /* Safari, Android, iOS */ url('/font/open-sans/open-sans-v34-latin-ext_latin-600italic.svg#OpenSans') format('svg');
+  /* Legacy iOS */
+}
 .white-color {
   color: white !important;
 }
@@ -149,7 +187,8 @@ textarea,
 button,
 label,
 select,
-strong {
+strong,
+.alert {
   font-family: "Open Sans";
   font-size: 16px;
   line-height: 32px;
@@ -170,7 +209,8 @@ strong {
   button,
   label,
   select,
-  strong {
+  strong,
+  .alert {
     font-size: 14px;
     line-height: 22px;
   }
@@ -372,6 +412,7 @@ body header nav #lang ul > li a {
 body header nav #lang ul > li a:hover,
 body header nav #lang ul > li a.active {
   background: #20A8D8;
+  color: #fff;
 }
 body header nav #nav {
   position: absolute;
@@ -399,6 +440,22 @@ body header nav #nav {
     -o-transform: translate(0, 0);
     transform: translate(0, 0);
     box-shadow: 0 10px 10px rgba(0, 0, 0, 0.3);
+  }
+  body header nav #nav li,
+  body header nav #nav a,
+  body header nav #nav ul {
+    font-size: 14px;
+    line-height: 22px;
+  }
+  body header nav #nav a {
+    display: inline-block;
+    width: 100%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  body header nav #nav li {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
   }
 }
 body header nav #nav > li {
@@ -659,9 +716,6 @@ body section#scope-jobs-list-section {
 body section#scope-jobs-list-section #scope-jobs-list-section-filter {
   margin-bottom: 15px;
 }
-body section#scope-jobs-list-section #scope-jobs-list-section-filter .col-12 {
-  padding: 0 30px;
-}
 body section#scope-jobs-list-section #scope-jobs-list-section-filter label {
   text-transform: uppercase;
   font-weight: 600;
@@ -828,22 +882,22 @@ body section#scope-jobs-list-section #scope-jobs-table-mobile-wrap .scope-jobs-t
 body section#scope-jobs-list-section #scope-jobs-table-mobile-wrap .scope-jobs-table-mobile a:hover i {
   color: #4d4d4d;
 }
-body section#scope-job-about-section h2 {
+body section.scope-job-about-section h2 {
   font-weight: 400;
   color: #20A8D8;
 }
-body section#scope-job-about-section .output ul,
-body section#scope-job-about-section .output ol {
+body section.scope-job-about-section .output ul,
+body section.scope-job-about-section .output ol {
   padding-left: 20px;
   margin: 10px 0;
   position: relative;
 }
-body section#scope-job-about-section .output ul li,
-body section#scope-job-about-section .output ol li {
+body section.scope-job-about-section .output ul li,
+body section.scope-job-about-section .output ol li {
   position: relative;
 }
-body section#scope-job-about-section .output ul li::before,
-body section#scope-job-about-section .output ol li::before {
+body section.scope-job-about-section .output ul li::before,
+body section.scope-job-about-section .output ol li::before {
   content: '';
   border-radius: 50%;
   width: 6px;
@@ -854,26 +908,61 @@ body section#scope-job-about-section .output ol li::before {
   left: -15px;
   display: block;
 }
-body section#scope-job-about-section #scope-job-about-section-social i,
-body section#scope-job-about-section #scope-job-about-section-social a {
+body section.scope-job-about-section #scope-job-about-section-social i,
+body section.scope-job-about-section #scope-job-about-section-social a {
   color: #20A8D8;
   display: inline-block;
   margin-bottom: 5px;
 }
-body section#scope-job-about-section #scope-job-about-section-social i {
+body section.scope-job-about-section #scope-job-about-section-social i {
   margin-right: 8px;
   width: 20px;
   text-align: center;
 }
-body section#scope-job-about-section #scope-job-about-section-social a:hover {
+body section.scope-job-about-section #scope-job-about-section-social a:hover {
   color: #4d4d4d;
 }
-body section#scope-job-about-section #scope-job-about-section-facts strong,
-body section#scope-job-about-section #scope-job-about-section-facts span {
+body section.scope-job-about-section #scope-job-about-section-facts strong,
+body section.scope-job-about-section #scope-job-about-section-facts span {
   display: block;
 }
 body section.scope-jobs-list-section {
   padding: 70px 0;
+}
+body section.scope-jobs-list-section .youtube-embed-container {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  max-width: 100%;
+  border-radius: 10px;
+  margin-bottom: 2rem;
+}
+body section.scope-jobs-list-section .youtube-embed-container iframe,
+body section.scope-jobs-list-section .youtube-embed-container object,
+body section.scope-jobs-list-section .youtube-embed-container embed {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+body section.scope-jobs-list-section .vimeo-embed-container {
+  padding: 56.25% 0 0 0;
+  position: relative;
+  margin-bottom: 2rem;
+  background: #e6e6e6;
+  border-radius: 10px;
+}
+body section.scope-jobs-list-section .vimeo-embed-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 10px;
 }
 body section.scope-jobs-list-section:nth-of-type(odd) {
   background: #EFF3F8;
@@ -1040,19 +1129,19 @@ body section.scope-jobs-list-section .output ul li::before {
     top: 9px;
   }
 }
-body section#scope-job-form-block {
+body section.jp-section-form {
   padding: 70px 0;
 }
-body section#scope-job-form-block h2 {
+body section.jp-section-form h2 {
   font-weight: 400;
   color: #20A8D8;
 }
-body section#scope-job-form-block .error {
+body section.jp-section-form .error {
   font-size: 14px;
   line-height: 22px;
   color: #fa5c7c;
 }
-body section#scope-job-form-block .applyOnXing {
+body section.jp-section-form .applyOnXing {
   background: #20A8D8;
   color: #fff;
   text-align: center;
@@ -1062,21 +1151,21 @@ body section#scope-job-form-block .applyOnXing {
   transition: all 0.3s;
   -webkit-transition: all 0.3s;
 }
-body section#scope-job-form-block .applyOnXing span,
-body section#scope-job-form-block .applyOnXing i {
+body section.jp-section-form .applyOnXing span,
+body section.jp-section-form .applyOnXing i {
   color: #fff;
 }
-body section#scope-job-form-block .applyOnXing:hover {
+body section.jp-section-form .applyOnXing:hover {
   background: #fff;
 }
-body section#scope-job-form-block .applyOnXing:hover span,
-body section#scope-job-form-block .applyOnXing:hover i {
+body section.jp-section-form .applyOnXing:hover span,
+body section.jp-section-form .applyOnXing:hover i {
   color: #20A8D8;
 }
-body section#scope-job-form-block a {
+body section.jp-section-form a {
   color: #20A8D8;
 }
-body section#scope-job-form-block h3 {
+body section.jp-section-form h3 {
   font-size: 18px;
   font-weight: 400;
   margin-top: 40px;
@@ -1084,25 +1173,25 @@ body section#scope-job-form-block h3 {
   margin-bottom: 10px;
 }
 @media (max-width: 991px) {
-  body section#scope-job-form-block h3 {
+  body section.jp-section-form h3 {
     font-size: 16px;
     line-height: 20px;
   }
 }
-body section#scope-job-form-block .row {
+body section.jp-section-form .row {
   margin-bottom: 10px;
 }
-body section#scope-job-form-block .formText,
-body section#scope-job-form-block .label {
+body section.jp-section-form .formText,
+body section.jp-section-form .label {
   font-family: "Open Sans";
   font-size: 14px;
   line-height: 22px;
   font-weight: 400;
   margin-bottom: 5px;
 }
-body section#scope-job-form-block input:not([type="checkbox"]),
-body section#scope-job-form-block select,
-body section#scope-job-form-block textarea {
+body section.jp-section-form input:not([type="checkbox"]),
+body section.jp-section-form select,
+body section.jp-section-form textarea {
   width: 100%;
   background: #EFF3F8;
   border-radius: 5px;
@@ -1113,28 +1202,28 @@ body section#scope-job-form-block textarea {
   height: 50px;
   color: gray;
 }
-body section#scope-job-form-block textarea {
+body section.jp-section-form textarea {
   height: unset;
 }
-body section#scope-job-form-block input[type="submit"] {
+body section.jp-section-form input[type="submit"] {
   background: #20A8D8;
   color: white;
   float: right;
 }
-body section#scope-job-form-block .customCheckbox input[type="checkbox"] {
+body section.jp-section-form .customCheckbox input[type="checkbox"] {
   width: 20px;
   padding: 0;
   float: left;
   margin: 5px 5px 0 0;
 }
-body section#scope-job-form-block .customCheckbox.checkbox-with-modal input[type="checkbox"] {
+body section.jp-section-form .customCheckbox.checkbox-with-modal input[type="checkbox"] {
   margin: 10px 5px 0 0;
 }
-body section#scope-job-form-block .customCheckbox .label {
+body section.jp-section-form .customCheckbox .label {
   width: calc(100% - 25px);
   float: left;
 }
-body section#scope-job-form-block .dz-button {
+body section.jp-section-form .dz-button {
   padding: 30px;
   background: none;
   border: 1px solid #ddd;
@@ -1865,4 +1954,21 @@ section#form:nth-of-type(odd) {
 .scope-inside-iframe section#scope-jobs-intro-section .scope-img-wrap img {
   width: 100% !important;
   height: 100% !important;
+}
+.hey-form-row {
+  margin-bottom: 10px;
+}
+.hey-form-row .row {
+  margin-bottom: 10px;
+}
+.hey-form-row select,
+.hey-form-row input[type="text"] {
+  width: 100% !important;
+  border-radius: 5px;
+  box-sizing: border-box;
+  border: none;
+  outline: none;
+  padding: 5px 5px 5px 10px;
+  height: 50px;
+  color: gray;
 }

@@ -1,17 +1,25 @@
-<section id="jp-section-company-info">
+<?php
+	/** @var array $jobSection */
+	/** @var array $vars */
+?>
+<section id="jp-section-company-info" class="col-12">
     <div id="company-image" class="row">
        <div class="col-12">
           <?php
-          foreach ($jobSection['JobSectionElement'] as $key => $value) {
-             if ($value['element_type'] === 'image' && file_exists(__DIR__ . DS . '../elements' . DS . $value['element_type'] . '.php')) {
-                $companyInfoSection = true;
-                $jobSectionElement = $value;
-                ob_start();
-                include __DIR__ . DS . '../elements' . DS . $value['element_type'] . '.php';
-                echo ob_get_clean();
-                $companyInfoSection = false;
-             }
-          }
+           
+	          foreach ($jobSection['job_section_elements'] as $key => $value) {
+                 if (
+                     $value['element_type'] === 'image' &&
+                     file_exists(__DIR__ . DS . '../elements' . DS . $value['element_type'] . '.php')
+                 ) {
+                    $companyInfoSection = true;
+                    $jobSectionElement = $value;
+                    ob_start();
+                    include __DIR__ . DS . '../elements' . DS . $value['element_type'] . '.php';
+                    echo ob_get_clean();
+                    $companyInfoSection = false;
+                 }
+              }
           ?>
        </div>
     </div>
@@ -19,43 +27,63 @@
         <div class="col-12">
            <div id="company-info-box">
               <?php
-              foreach ($jobSection['JobSectionElement'] as $key => $value) {
-                 if ($value['element_type'] === 'h2' && file_exists(__DIR__ . DS . '../elements' . DS . $value['element_type'] . '.php')) {
-                    $jobSectionElement = $value;
-                    ob_start();
-                    include __DIR__ . DS . '../elements' . DS . $value['element_type'] . '.php';
-                    echo ob_get_clean();
-                 }
-              }
+                  foreach ($jobSection['job_section_elements'] as $key => $value) {
+                     if (
+                         $value['element_type'] === 'h2' &&
+                         file_exists(CURRENT_ELEMENT_PATH . $value['element_type'] . '.php')
+                     ) {
+                        $jobSectionElement = $value;
+                        ob_start();
+                        include CURRENT_ELEMENT_PATH . $value['element_type'] . '.php';
+                        echo ob_get_clean();
+                     }
+                  }
               ?>
               <div id="company-numbers" class="flexbox-badges">
                  <?php
-                 $employeeText = $language != 'de' ? 'employees' : 'Mitarbeiter';
-                 $locationText = $language != 'de' ? 'locations' : 'Standorte';
-                 $companyEmployeeNumberText = $companyEmployeeNumber;
-                 if($companyEmployeeNumber == 'unter 25'){
-                     $companyEmployeeNumberText = $language != 'de' ? 'under 25' : 'unter 25';
-                 }
-                 if($companyEmployeeNumber == 'über 100'){
-                     $companyEmployeeNumberText = $language != 'de' ? 'more than 100' : 'über 100';
-                 }
+                     $employeeText = $vars['language'] != 'de' ? 'employees' : 'Mitarbeiter';
+                     $locationText = $vars['language'] != 'de' ? 'locations' : 'Standorte';
+
+                     $companyEmployeeNumberText = HeyUtility::getFormattedEmployeeNumber(
+                         $vars['company']['employee_number'],
+                         $vars['language']
+                     );
                  ?>
-                 <span><i class="fal fa-user"></i><?= $companyEmployeeNumberText . " " . $employeeText ?></span> <span><i class="fal fa-map-marker-alt"></i><?= $company['Company']['location_count'] . " " . $locationText ?></span>
-                 <?php if ($company['Company']['business_type'] !== '') { ?>
-                    <span><i class="fal fa-industry"></i><?= $company['Company']['business_type'] ?></span>
-                 <?php } ?>
-              </div>
-              <div class="social-links">
+                 <span>
+                     <i class="fal fa-user"></i><?= $companyEmployeeNumberText . " " . $employeeText ?></span>
+                  <span>
+                      <i class="fal fa-map-marker-alt"></i>
+                      <?=count($vars['company']['company_locations']) . " " . $locationText?>
+                  </span>
                  <?php
-	                 foreach ($jobSection['JobSectionElement'] as $key => $value) {
+                    
+                     if (!empty($vars['company']['industry'])) {
+                         $industry =  $vars['company']['language_id'] === 1
+                             ? $vars['company']['industry']['name_de']
+                             :$vars['company']['industry']['name_en'];
+                 ?>
+                        <span><i class="fal fa-industry"></i><?=HeyUtility::h($industry)?></span>
+                 <?php
+                     }
+                 ?>
+              </div>
+              <div class="social-links" id="social-links">
+                 <?php
+	                 foreach ($jobSection['job_section_elements'] as $key => $value) {
 
 	                    if (
-		                    ($value['element_type'] === 'social_links' && file_exists(__DIR__ . DS . '../elements' . DS . $value['element_type'] . '.php')) ||
-		                    ($value['element_type'] === 'text' && file_exists(__DIR__ . DS . '../elements' . DS . $value['element_type'] . '.php'))
+		                    (
+                                $value['element_type'] === 'social_links' &&
+                                file_exists(CURRENT_ELEMENT_PATH . $value['element_type'] . '.php')
+                            ) ||
+		                    (
+                                $value['element_type'] === 'text' &&
+                                file_exists(CURRENT_ELEMENT_PATH . $value['element_type'] . '.php')
+                            )
 	                    ) {
 	                       $jobSectionElement = $value;
 	                       ob_start();
-	                       include __DIR__ . DS . '../elements' . DS . $value['element_type'] . '.php';
+	                       include CURRENT_ELEMENT_PATH . $value['element_type'] . '.php';
 	                       $element = ob_get_clean();
 
 	                       echo $element;

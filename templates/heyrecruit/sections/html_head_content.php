@@ -1,55 +1,94 @@
-<meta charset="utf-8">
-<title><?php echo $meta['title']; ?></title>
 <?php
-	if(isset($_GET['page']) && $_GET['page'] === 'job' && isset($job['status_code']) && $job['status_code'] === 200) {
-		$description = !empty($job['data']['Job']['description']) ? $job['data']['Job']['description'] : $job['data']['Job']['subtitle'] . ' ' . $job['data']['Job']['title'];
-		?>
-
+    /** @var array $meta */
+    /** @var string $page */
+    /** @var string $template */
+    /** @var array $job */
+    /** @var array $fonts */
+    /** @var array $company */
+?>
+<meta charset="utf-8">
+<title><?=strip_tags($meta['title'])?></title>
+<?php
+	if($page === 'job' && !empty($job)) {
+    
+        if(!empty($job['job_strings'][0]['description'])) {
+	        $description = $job['job_strings'][0]['description'];
+        }else{
+            $description = $job['job_strings'][0]['subtitle'] . ' ' .
+                $job['job_strings'][0]['title'];
+        }
+?>
 		<meta name="description" content="<?=strip_tags($description)?>"/>
 		<meta property="og:type" content="website"/>
-		<meta property="og:title" content="<?=strip_tags($job['data']['Job']['title'])?>"/>
+		<meta property="og:title" content="<?=strip_tags($job['job_strings'][0]['title'])?>"/>
 		<meta property="og:description" content='<?=strip_tags($description)?>'/>
-		<?php
+<?php
+        
+        $images = HeyUtility::getSectionElementImages($job);
+        
+        if (!empty($images)) {
+            foreach ($images as $imageUrl) {
+?>
+            <meta property="og:image" content="<?=strip_tags($imageUrl)?>"/>
+<?php
+		    }
+	    }
+	}
+	
+	if ($page === 'jobs' && !empty($company['overview_header_picture'])) {
+?>
+        <meta property="og:image" content="<?=strip_tags($company['overview_header_picture'])?>"/>
+<?php
 	}
 ?>
-<meta name="author" content="SCOPE Recruiting">
-<meta name="copyright" content="SCOPE Recruiting 2021">
+
+<meta name="author" content="Heyrecruit">
+<meta name="copyright" content="Heyrecruit 2022">
 <meta name="keywords" content="E-Recruiting">
 <meta name="viewport" content="width=device-width">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<!-- start cookieBanner -->
+
 <link rel="stylesheet" type="text/css" href="/css/cookieBanner.css?version=<?=VERSION?>">
-<?php if(is_file($_ENV['BASE_PATH'] . '/templates/'.$template.'/css/cookieBanner.css')) { ?>
-	<link rel="stylesheet" type="text/css" href="<?=$_ENV['BASE_PATH']?>/templates/<?=$template?>/css/cookieBanner.css?version=<?=VERSION?>">
-<?php } ?>
+<?php
+    $basePath = !empty($_ENV['BASE_PATH']) ? $_ENV['BASE_PATH'] : __DIR__;
+    if(is_file($basePath . '/templates/'. $template . '/css/cookieBanner.css')) {
+?>
+	    <link rel="stylesheet" type="text/css"
+              href="<?=$_ENV['BASE_PATH']?>/templates/<?=$template?>/css/cookieBanner.css?version=<?=VERSION?>">
+<?php
+    }
+
+	include $_ENV['BASE_PATH'] . 'partials/load_custom_font.php';
+?>
+
 <script src="/js/cookieBanner.js?version=<?=VERSION?>"></script>
-
-<link rel="preconnect" href="https://fonts.gstatic.com">
-<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
-
 <style>
+  body {
+      font-family: '<?=$fonts[$company['company_templates']['template_font']]?>' , sans-serif;
+  }
+
 	/* Set class to override the default CookieBanner */
 
 	.cookie h1, .cookie h2, .cookie h3, span.info, .cookie .cookieModal .descrption .infoTrigger {
-		color: <?=$company['CompanyTemplate']['key_color']?> !important;
+		color: <?=$company['company_templates']['key_color']?> !important;
 	}
 
 	.cookie .cookieModal .switch input:checked + .slider {
-		background-color: <?=$company['CompanyTemplate']['key_color']?> !important;
+		background-color: <?=$company['company_templates']['key_color']?> !important;
 	}
 
 	.cookie .button.color {
-		background: <?=$company['CompanyTemplate']['key_color']?> !important;
-		border-color: <?=$company['CompanyTemplate']['key_color']?> !important;
+		background: <?=$company['company_templates']['key_color']?> !important;
+		border-color: <?=$company['company_templates']['key_color']?> !important;
 	}
 
 	.cookie .button.color:hover {
 		background: white !important;
-		color: <?=$company['CompanyTemplate']['key_color']?> !important;
+		color: <?=$company['company_templates']['key_color']?> !important;
 	}
 
 	.error {
-		color: <?=$company['CompanyTemplate']['key_color']?> !important;
+		color: <?=$company['company_templates']['key_color']?> !important;
 	}
 
     .cookie p, .cookie td, .cookie a, .cookie span {
@@ -61,29 +100,29 @@
 <!-- Favicon -->
 <?php
 
-	if(is_dir(__DIR__ . '/../img/fav')) {
+	if(is_dir(__DIR__ . '/../img/fav/heyrecruit')) {
 ?>
-		<link rel="apple-touch-icon" sizes="60x60" href="<?=$_ENV['BASE_PATH']?>/templates/<?=$template?>/img/fav/apple-icon-60x60.png">
-		<link rel="apple-touch-icon" sizes="72x72" href="<?=$_ENV['BASE_PATH']?>/templates/<?=$template?>/img/fav/apple-icon-72x72.png">
-		<link rel="apple-touch-icon" sizes="76x76" href="<?=$_ENV['BASE_PATH']?>/templates/<?=$template?>/img/fav/apple-icon-76x76.png">
-		<link rel="apple-touch-icon" sizes="114x114" href="<?=$_ENV['BASE_PATH']?>/templates/<?=$template?>/img/fav/apple-icon-114x114.png">
-		<link rel="apple-touch-icon" sizes="120x120" href="<?=$_ENV['BASE_PATH']?>/templates/<?=$template?>/img/fav/apple-icon-120x120.png">
-		<link rel="apple-touch-icon" sizes="144x144" href="<?=$_ENV['BASE_PATH']?>/templates/<?=$template?>/img/fav/apple-icon-144x144.png">
-		<link rel="apple-touch-icon" sizes="152x152" href="<?=$_ENV['BASE_PATH']?>/templates/<?=$template?>/img/fav/apple-icon-152x152.png">
-		<link rel="apple-touch-icon" sizes="180x180" href="<?=$_ENV['BASE_PATH']?>/templates/<?=$template?>/img/fav/apple-icon-180x180.png">
-		<link rel="icon" type="image/png" sizes="192x192" href="<?=$_ENV['BASE_PATH']?>/templates/<?=$template?>/img/fav/android-icon-192x192.png">
-		<link rel="icon" type="image/png" sizes="32x32" href="<?=$_ENV['BASE_PATH']?>/templates/<?=$template?>/img/fav/favicon-32x32.png">
-		<link rel="icon" type="image/png" sizes="96x96" href="<?=$_ENV['BASE_PATH']?>/templates/<?=$template?>/img/fav/favicon-96x96.png">
-		<link rel="icon" type="image/png" sizes="16x16" href="<?=$_ENV['BASE_PATH']?>/templates/<?=$template?>/img/fav/favicon-16x16.png">
-		<link rel="manifest" href="<?=$_ENV['BASE_PATH']?>/templates/<?=$template?>/img/fav/manifest.json">
-		<meta name="msapplication-TileImage" content="<?=$_ENV['BASE_PATH']?>/templates/<?=$template?>/img/fav/ms-icon-144x144.png">
+		<link rel="apple-touch-icon" sizes="60x60" href="<?=$_ENV['BASE_PATH']?>/templates/<?=$template?>/img/fav/heyrecruit/heapple-icon-60x60.png">
+		<link rel="apple-touch-icon" sizes="72x72" href="<?=$_ENV['BASE_PATH']?>/templates/<?=$template?>/img/fav/heyrecruit/apple-icon-72x72.png">
+		<link rel="apple-touch-icon" sizes="76x76" href="<?=$_ENV['BASE_PATH']?>/templates/<?=$template?>/img/fav/heyrecruit/apple-icon-76x76.png">
+		<link rel="apple-touch-icon" sizes="114x114" href="<?=$_ENV['BASE_PATH']?>/templates/<?=$template?>/img/fav/heyrecruit/apple-icon-114x114.png">
+		<link rel="apple-touch-icon" sizes="120x120" href="<?=$_ENV['BASE_PATH']?>/templates/<?=$template?>/img/fav/heyrecruit/apple-icon-120x120.png">
+		<link rel="apple-touch-icon" sizes="144x144" href="<?=$_ENV['BASE_PATH']?>/templates/<?=$template?>/img/fav/heyrecruit/apple-icon-144x144.png">
+		<link rel="apple-touch-icon" sizes="152x152" href="<?=$_ENV['BASE_PATH']?>/templates/<?=$template?>/img/fav/heyrecruit/apple-icon-152x152.png">
+		<link rel="apple-touch-icon" sizes="180x180" href="<?=$_ENV['BASE_PATH']?>/templates/<?=$template?>/img/fav/heyrecruit/apple-icon-180x180.png">
+		<link rel="icon" type="image/png" sizes="192x192" href="<?=$_ENV['BASE_PATH']?>/templates/<?=$template?>/img/fav/heyrecruit/android-icon-192x192.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="<?=$_ENV['BASE_PATH']?>/templates/<?=$template?>/img/fav/heyrecruit/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="96x96" href="<?=$_ENV['BASE_PATH']?>/templates/<?=$template?>/img/fav/heyrecruit/favicon-96x96.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="<?=$_ENV['BASE_PATH']?>/templates/<?=$template?>/img/fav/heyrecruit/favicon-16x16.png">
+		<link rel="manifest" href="<?=$_ENV['BASE_PATH']?>/templates/<?=$template?>/img/fav/heyrecruit/manifest.json">
+		<meta name="msapplication-TileImage" content="<?=$_ENV['BASE_PATH']?>/templates/<?=$template?>/img/fav/heyrecruit/ms-icon-144x144.png">
 <?php
 	}
 ?>
 
 
 <meta name="msapplication-TileColor" content="#ffffff">
-<meta name="theme-color" content="#73CCE6">
+<meta name="theme-color" content="<?=$company['company_templates']['key_color']?>">
 
 <!-- Javascript -->
 <script src="<?=$_ENV['BASE_PATH']?>/js/jquery-3.3.1.min.js"></script>

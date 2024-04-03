@@ -6,7 +6,7 @@
 
 				<?php
 
-					foreach($jobSection['JobSectionElement'] as $key => $value) {
+					foreach($jobSection['job_section_elements'] as $key => $value) {
 
 						if(file_exists(__DIR__ . DS . '../elements' . DS . $value['element_type'] . '.php')) {
 							$jobSectionElement = $value;

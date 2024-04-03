@@ -10,49 +10,13 @@ function ApplicantDocumentUpload() {
     this.questionId = null;
     this.postUrl = null;
     this.uploadUrl = null;
-    this.CSRF = null;
     this.params = null
     this.dropZones = [];
 
     this.init = () => {
-        var _this = this;
-
-        $(document).ready(function () {
-
-            // Set JWT token for rest api calls
-            if ($('#scope_upload_url').length && $('#scope_upload_url').val().indexOf("restApplicants") !== -1 && $('#scope_jwt').length) {
-                var jwt = $('#scope_jwt').val();
-                Dropzone.prototype.submitRequest = function (xhr, formData, files) {
-                    xhr.setRequestHeader('Authorization', 'Bearer ' + jwt);
-                    return xhr.send(formData);
-                };
-            }
-
-            _this.postUrl = $('#scope_post_url').val();
-            _this.uploadUrl = $('#scope_upload_url').val();
-            _this.CSRF = $('#scope_csrf').val();
-            _this.companyLocationId = $("#scope_company_location_id").val();
-            _this.applicantId = $("#scope_applicant_id").val();
-
-            var hiddenFields = {
-                post_url: _this.postUrl,
-                csrf: _this.CSRF
-            };
-
-            var applicantJob = {
-                company_location_id: _this.companyLocationId
-            };
-
-            var applicant = {
-                id: _this.applicantId
-            };
-
-            _this.params = JSON.stringify({
-                HiddenField: hiddenFields,
-                ApplicantJob: applicantJob,
-                Applicant: applicant
-            });
-        });
+        let w = window.location;
+        let url = w.protocol + "//" + w.host;
+        this.uploadUrl =  url + '/partials/upload.php';
 
         this.setEventHandler();
     };
@@ -65,12 +29,13 @@ function ApplicantDocumentUpload() {
 
             if ($(this).val() !== '') {
 
-                _this.initDropzone(_this.questionId, $(this).val());
+                _this.initDropzone(_this.questionId, $(this).attr('name'), $(this).val());
 
                 $('#scope_upload_all_documents_wrapper_' + _this.questionId).fadeIn();
                 $('#scope_upload_all_documents_wrapper_' + _this.questionId + ' .dz-default').show();
 
-                $("#scope_content_iframe_container").trigger('iframeHeightChange'); // Trigger height change for iframe
+                // Trigger height change for iframe
+                $("#scope_content_iframe_container").trigger('iframeHeightChange');
             }
         });
 
@@ -81,23 +46,15 @@ function ApplicantDocumentUpload() {
 
             if (hasConfirmed) {
 
-                var jwt = $('#scope_jwt').length ? $('#scope_jwt').val() : false;
-                var header = {'Content-type': 'application/x-www-form-urlencoded'};
-
-                if (jwt !== false) {
-                    header = {'Authorization': 'Bearer ' + jwt};
-                }
+                let w = window.location;
+                let url = w.protocol + "//" + w.host + '/partials/delete_file.php';
 
                 var fileName = $(this).attr('data-file-name');
                 var documentType = $(this).attr('data-doc-type');
-                var companyLocationId = $(this).attr('data-company-location-job-id');
-                var questionId = $(this).attr('data-question-id');
-                var deleteUrl = $('#scope_delete_url').val() + '/' + companyLocationId + '/' + documentType + '/' + questionId + '/' + fileName;
 
-                resetLabelNumbers();
                 var jThis = $(this);
-                templateHandler.ajaxCall(deleteUrl, {}, false, function (response) {
-                    if (response.success) {
+                templateHandler.ajaxCall(url, {name: fileName, type: documentType}, false, function (response) {
+                    if (response.status === 'success') {
                         jThis.closest('.row').fadeOut().remove();
 
                         if (typeof sendIframeHeight != 'undefined' && typeof sendIframeHeight === 'function') {
@@ -109,14 +66,14 @@ function ApplicantDocumentUpload() {
                     if (response.error && typeof response.error.message !== 'undefined') {
                         console.log(response.error.message);
                     }
-                }, header);
+                });
 
                 resetLabelNumbers();
             }
         });
     }
 
-    this.initDropzone = (questionId, documentType) => {
+    this.initDropzone = (questionId, name, documentType) => {
         var _this = this;
 
         if ($('#' + _this.defaultFormPreId + questionId).length) {
@@ -127,16 +84,16 @@ function ApplicantDocumentUpload() {
             }
 
             if (typeof documentType !== 'undefined' && documentType !== '') {
-
+               
                 var language =  $('#scope_document_type_' + questionId).attr('data-language');
 
                 _this.dropZones[questionId] = new Dropzone('#' + _this.defaultFormPreId + questionId, {
-                    dictDefaultMessage: language === 'de' ? "Dokument reinziehen oder hier klicken" : 'Drag the document or click here',
+                    dictDefaultMessage: "Dokument reinziehen oder hier klicken",
                     dictInvalidFileType: "Dieses Dateiformat wird nicht unterstützt.",
                     dictFileTooBig: "Die Datei ist zu groß.",
                     dictMaxFilesExceeded: "Es sind maximal 20 Dateien erlaubt.",
                     dictRemoveFile: "löschen",
-                    url: _this.uploadUrl + '/' + questionId + '/' + encodeURI(documentType),
+                    url: _this.uploadUrl + '?questionId=' + questionId + '&fieldName=' + encodeURI(name) + '&type=' + encodeURI(documentType),
                     multiple: false,
                     params: _this.params,
                     dictFallbackMessage: "Bitte aktualisieren Sie Ihre Browser Version.",
@@ -158,6 +115,8 @@ function ApplicantDocumentUpload() {
                     },
                     success: function (file, response) {
 
+                        var response = JSON.parse(response);
+
                         $("#scope_document_type_" + questionId).prop("selected", false);
                         $("#scope_document_type_" + questionId + " option:eq(0)").prop("selected", true);
 
@@ -177,7 +136,7 @@ function ApplicantDocumentUpload() {
                             '</div>' +
                             '</div>' +
                             '</div>' +
-                            '<input type="hidden" name="data[Question][' + questionId + '][has_uploaded]" value="1"' +
+                            '<input type="hidden" name="has_uploaded" value="1"' +
                             '</div>'
                         );
 

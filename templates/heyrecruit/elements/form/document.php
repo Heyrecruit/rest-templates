@@ -1,8 +1,22 @@
+<?php
+/** @var string $answer */
+/** @var string $fieldValue */
+/** @var string $fieldName */
+/** @var string $questionId */
+/** @var string $uniqueFieldId */
+/** @var string $language */
+?>
+
 <div class="customSelect">
 	<select class="form-control scope_document_type" name="<?=$fieldName?>" id="scope_document_type_<?=$questionId?>" data-question-id="<?=$questionId?>">
-		<option value="">Bitte wählen</option>
+        <option value=""><?=$language != 'de' ? 'Please select' : 'Bitte wählen'?></option>
 		<?php
-			foreach(explode(";", $fieldValue) as $k => $v) {
+			
+			$fieldValues = str_contains($fieldValue, ';')
+				? explode(";", $fieldValue)
+				: explode(",", $fieldValue);
+    
+			foreach($fieldValues as $k => $v) {
 				$optionVal = $v;
 
 				switch($v) {
@@ -23,7 +37,7 @@
 						break;
 				}
 
-				echo '<option value="' . $optionVal . '">' . $v . '</option>';
+				echo '<option value="' . $optionVal . '">' . HeyUtility::h($v) . '</option>';
 			}
 		?>
 	</select>

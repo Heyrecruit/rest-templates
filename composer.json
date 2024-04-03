@@ -1,9 +1,16 @@
 {
+    "config": {
+        "platform": {
+            "php": "7.4.0"
+        }
+    },
+
     "require": {
         "vlucas/phpdotenv": "^3.3",
-        "werbeagentur_artrevolver/scope-php-sdk": ">=1.7",
+        "werbeagentur_artrevolver/scope-php-sdk": "^2.0",
         "twbs/bootstrap": "4.4.1",
-        "nesbot/carbon": "^2.47",
-        "php": "7.4.*"
+        "symfony/deprecation-contracts": "^2.5.2",
+        "symfony/translation": "^5.4.24",
+        "nesbot/carbon": "^2.67.0"
     }
 }

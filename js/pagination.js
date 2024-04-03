@@ -34,6 +34,7 @@ function setPagination() {
             $('.cp-job-list .row').css('opacity', '0').hide().slice(startItem, endItem).css('display', 'flex').animate({
                 opacity: 1
             }, 300);
+            interactPaginationEventListener(); // dataLayerPusher
         });
     }else{
         $('.btn-outline-info:not(.active)').hide();

@@ -1,24 +1,20 @@
 <?php
-$images = json_decode($jobSectionElement['text'], true)['detail'];
-$sliderClass = count($images) > 1 ? ' slider-wrap' : '';
+	/** @var array $jobSectionElement */
+	
+	$images = json_decode($jobSectionElement['job_section_element_strings'][0]['text'], true);
+	$sliderClass = count($images) > 1 ? ' slider-wrap' : '';
 ?>
-<div class='scope-img-wrap<?= $sliderClass ?>'>
-   <div id="header-overlay"></div>
-   <?php
-   $bgImageSnippet = 'background-image: ';
-   $imageContent = '';
+<div class='scope-img-wrap<?= $sliderClass ?>
 
-   foreach ($images as $key => $value) {
+<?= isset($headerImage) && $headerImage === true ? " header-img-wrap" : "" ?>
 
-      $alt = isset($value['alt']) ? $value['alt'] : '';
-
-      $value['host'] = !empty($value['host']) ? $value['host'] : 'https://www.scope-recruiting.de';
-
-      $imageUrl = $value['host'] . DS . $value['rel_path'] . DS . $value['name'];
-
-      $imageContent = '<img src="' . $imageUrl . '" alt="' . $alt . '"/>';
-
-      echo $imageContent;
-
-   } ?>
+<?= isset($companyInfoSection) && $companyInfoSection === true ? " company-img-wrap" : "" ?>'>
+	<?php
+		$bgImageSnippet = 'background-image: ';
+		$imageContent = '';
+		
+		foreach ($images as $imageUrl) {
+			echo '<img src="' . $imageUrl . '" />';
+		}
+	?>
 </div>

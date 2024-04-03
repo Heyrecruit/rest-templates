@@ -1,4 +1,3 @@
-
 function TemplateHandler(addEventHandler) {
 
     this.scopeOuterContainerTag = 'div[data-scope-outer-container="true"]';
@@ -9,7 +8,7 @@ function TemplateHandler(addEventHandler) {
         }
         this.sendIframeHeight();
 
-        if (this.inIframe()){
+        if (this.inIframe()) {
             $('body').addClass('scope-inside-iframe');
         }
     };
@@ -30,13 +29,18 @@ function TemplateHandler(addEventHandler) {
             $(this).parents('.mobile_nav').siblings('ul:not(.cta_nav)').slideToggle();
         });
 
+        $(document).on('change', '#scope-location-select', function () {
+            window.location.href = _this.updateQueryStringParameter(window.location.href, 'location', $(this).val());
+        });
+
+
         // Animated scrolling -> Click of every a with an beginning hash tag and not .scope_open_modal class.
         $(document).on('click', 'a[href^=\\#]:not(.scope_open_modal)', function (e) {
             e.preventDefault();
 
             var href = $(this).attr('href');
 
-            if (href !== '#' && typeof href !== 'undefined' && $(href).length){
+            if (href !== '#' && typeof href !== 'undefined' && $(href).length) {
 
                 $('html, body').animate({
                     scrollTop: $(href).offset().top - 100
@@ -48,18 +52,18 @@ function TemplateHandler(addEventHandler) {
         // On click of job detail url inside iframe
         $(document).on('click', 'a[href*="location="]', function (e) {
 
-           if(window.name === 'scopeFrame' && $(this).attr('target') !== '_parent' && $(this).attr('target') !== '_blank'){
-               e.preventDefault();
-               _this.sendJobDetailParams($(this));
-           }
+            if (window.name === 'scopeFrame' && $(this).attr('target') !== '_parent' && $(this).attr('target') !== '_blank') {
+                e.preventDefault();
+                _this.sendJobDetailParams($(this));
+            }
         });
 
         // Switch language
         $(document).on('click', '#lang a', function (e) {
             e.preventDefault();
-
-            var language = $(this).attr('data-language');
-            var url = _this.updateURLParameter(window.location.href, 'language', language);
+            let language = $(this).attr('data-language');
+            sendLanguage(language)  // dataLayerPusher
+            let url = _this.updateURLParameter(window.location.href, 'language', language);
             window.location.href = url;
         });
 
@@ -93,26 +97,33 @@ function TemplateHandler(addEventHandler) {
         });
 
         // Filter jobs table -> einstellungsart
-        $(document).off('change', '#einstellungsart').on('change', '#einstellungsart', function () {
+        $(document).off('change', '#einstellungsart').on('change', '#einstellungsart', function (event) {
             _this.filter();
+            const selectedOption = event.target.options[event.target.selectedIndex];
+            const content = selectedOption.textContent.trim();
+            // TODO should it be event.target.value (id), instead?
+            jobTypeFilterEventListener(content)  // dataLayerPusher
         });
 
         // Filter jobs table -> fachabteilung
-        $(document).off('change', '#fachabteilung').on('change', '#fachabteilung', function () {
+        $(document).off('change', '#fachabteilung').on('change', '#fachabteilung', function (event) {
             _this.filter();
+            departmentFilterEventListener(event.target.value)  // dataLayerPusher
         });
 
         // Filter jobs table -> standort
-        $(document).off('change', '#location-list').on('change', '#location-list', function () {
+        $(document).off('change', '#location-list').on('change', '#location-list', function (event) {
             _this.filter();
+            locationFilterEventListener(event.target.value)  // dataLayerPusher
         });
 
         // Filter jobs table -> standort
         var typingTimer;
-        $(document).on('keyup', '#standort', function () {
+        $(document).on('keyup', '#standort', function (event) {
             clearTimeout(typingTimer);
             typingTimer = setTimeout(function doneTyping() {
                 _this.filter();
+                locationInputFilterEventListener(event.target.value) // dataLayerPusher
             }, 1500);
         });
 
@@ -120,12 +131,11 @@ function TemplateHandler(addEventHandler) {
 
         $(document).on('click', '.locationTriggerLi', function (e) {
             e.preventDefault();
-
-           window.location.href = _this.updateURLParameter(window.location.href, 'location', $(this).attr('data-location-id'));
+            window.location.href = _this.updateURLParameter(window.location.href, 'location', $(this).attr('data-location-id'));
         });
     };
 
-    this.sendIframeHeight = function() {
+    this.sendIframeHeight = function () {
         var height = $(this.scopeOuterContainerTag).innerHeight();
         var postMessageHeight = {
             iframe_height: height + 95
@@ -147,6 +157,16 @@ function TemplateHandler(addEventHandler) {
             });
         }
     };
+
+    this.updateQueryStringParameter = function(uri, key, value) {
+        var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
+        var separator = uri.indexOf('?') !== -1 ? "&" : "?";
+        if (uri.match(re)) {
+            return uri.replace(re, '$1' + key + "=" + value + '$2');
+        } else {
+            return uri + separator + key + "=" + value;
+        }
+    }
 
     this.sendJobDetailParams = function ($element) {
 
@@ -235,12 +255,12 @@ function TemplateHandler(addEventHandler) {
         let locationType = 'search';
 
         let locationQuery = '';
-        if(typeof $('#standort').val() !== 'undefined'){
+        if (typeof $('#standort').val() !== 'undefined') {
             locationQuery = $('#standort').val();
         }
 
         if (typeof location !== 'undefined' && location !== null) {
-            if($('#standort').length){
+            if ($('#standort').length) {
                 $('#standort').val(location)
             }
             locationQuery = location;
@@ -259,58 +279,54 @@ function TemplateHandler(addEventHandler) {
             locationQuery = location;
         }
 
-        if (locationType === 'list'){
-            searchParams += '?location=' + encodeURIComponent(locationQuery) + '&locationType=' + locationType;
-        }else{
+        if (locationType === 'list') {
+            searchParams += '?company_location_ids=' + encodeURIComponent(locationQuery) + '&locationType=' + locationType;
+        } else {
             searchParams += '?address=' + encodeURIComponent(locationQuery) + '&locationType=' + locationType;
         }
-
-
 
         if (typeof areaSearchDistance !== 'undefined') {
             searchParams += '&area_search_distance=' + encodeURIComponent(areaSearchDistance);
         }
 
-        if (typeof $('#einstellungsart option:selected').val() !== 'undefined') {
+        if (typeof $('#einstellungsart option:selected').val() !== 'undefined' && $('#einstellungsart option:selected').val() !== 'all') {
             if (typeof employment !== 'undefined' && employment !== null) {
                 $('#einstellungsart').val(employment)
             }
             searchParams += searchParams.indexOf('?') !== -1 ? '&' : '?';
-            searchParams += 'employment=' + encodeURIComponent($('#einstellungsart option:selected').val());
+            searchParams += 'employments=' + encodeURIComponent($('#einstellungsart option:selected').val());
         }
 
-        if (typeof $('#fachabteilung option:selected').val() !== 'undefined') {
-            if (typeof department !== 'undefined' &&  department !== null) {
+        if (typeof $('#fachabteilung option:selected').val() !== 'undefined' && $('#fachabteilung option:selected').val() !== 'all') {
+            if (typeof department !== 'undefined' && department !== null) {
                 $('#fachabteilung').val(department)
             }
             searchParams += searchParams.indexOf('?') !== -1 ? '&' : '?';
-            searchParams += 'department=' + encodeURIComponent($('#fachabteilung option:selected').val());
+            searchParams += 'departments=' + encodeURIComponent($('#fachabteilung option:selected').val());
         }
 
         var $jobsContainer = $('*[data-jobs-container="true"]').length ? $('*[data-jobs-container="true"]') : $('#scope_jobs_table');
 
-
-        if (_this.findGetParameter('language') !== null){
+        if (_this.findGetParameter('language') !== null) {
             searchParams += searchParams.indexOf('?') !== -1 ? '&' : '?';
             searchParams += 'language=' + _this.findGetParameter('language');
         }
 
-        $jobsContainer.load(url + 'elements/jobs_table.php' + searchParams, function () {
-            if(typeof makeAutomatedTranslation=="function") {
+        url += $jobsContainer.find('.table-location-wrapped').length ? 'elements/jobs_table_locations_wrapped.php' : 'elements/jobs_table.php';
+
+        $jobsContainer.load(url + searchParams, function () {
+            if (typeof makeAutomatedTranslation == "function") {
                 makeAutomatedTranslation();
             }
             _this.sendIframeHeight();
 
-
-            if (typeof setPagination !== 'undefined'){
+            if (typeof setPagination !== 'undefined') {
                 setPagination();
             }
-
         });
-
     };
 
-    this.inIframe = function() {
+    this.inIframe = function () {
         try {
             return window.self !== window.top;
         } catch (e) {
@@ -359,7 +375,7 @@ function TemplateHandler(addEventHandler) {
         return false;
     };
 
-    this.empty = function(mixedVar) {
+    this.empty = function (mixedVar) {
 
         var undef
         var key
@@ -412,7 +428,7 @@ function TemplateHandler(addEventHandler) {
             for (var i = 0; i < split.length; i++) {
                 var name_value = split[i].split("=");
                 name_value[0] = name_value[0].replace(/^ /, '');
-                cookies[decodeURIComponent(name_value[0])] = decodeURIComponent(name_value[1]);
+                cookies[decodeURIComponent(name_value[0])] = decodeURIComponent(name_value[1].replace(/%(?![0-9][0-9a-fA-F]+)/g, '%25'));
             }
         }
 
@@ -463,7 +479,7 @@ function TemplateHandler(addEventHandler) {
         return result;
     };
 
-    this.secondIndexOf = function(Val, Str) {
+    this.secondIndexOf = function (Val, Str) {
         var Fst = Str.indexOf(Val);
         var Snd = Str.indexOf(Val, Fst + 1);
         return Snd;
@@ -479,3 +495,31 @@ if (typeof templateHandler == 'undefined') {
     templateHandler = new TemplateHandler(false);
 }
 
+
+// job click
+window.HeyJobID = "";
+window.HeyJobTitle = "";
+window.HeyJobLocationID = "";
+window.HeyJobLocationTitle = "";
+window.HeyJobIndustry = "";
+window.HeyJobCareerLevel = "";
+window.HeyJobFunction = "";
+window.HeyJobDepartment = "";
+window.HeyJobType = "";
+window.HeyJobHomeoffice = "";
+
+// dataLayerPusher
+window.onload = () => {
+    languageEventListener();
+    externalLinkEventListener();
+    clickSendApplicationButtonEventListener();
+    viewAllJobsEventListener();
+    nameFormInteractionEventListener();
+    emailFormInteractionEventListener();
+    shareJobEventListener();
+    galleryInteraction();
+
+    if(typeof cookieBanner !== 'undefined') {
+        cookieBanner.init();
+    }
+};

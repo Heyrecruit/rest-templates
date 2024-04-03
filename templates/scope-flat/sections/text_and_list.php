@@ -1,9 +1,9 @@
-<section class="scope-jobs-list-section">
+<section id="section<?=$jobSection['id']?>" class="scope-jobs-list-section">
 	<div class="container">
 		<div class="row">
 			<div class="col-12 col-md-9">
 				<?php
-					foreach($jobSection['JobSectionElement'] as $key => $value) {
+					foreach($jobSection['job_section_elements'] as $key => $value) {
 
 						if(file_exists(__DIR__ . DS . '../elements' . DS . $value['element_type'] . '.php')) {
 

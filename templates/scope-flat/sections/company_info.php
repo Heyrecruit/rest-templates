@@ -1,12 +1,27 @@
-<section id="scope-job-about-section">
+<?php
+	$hasCompanyImage = false;
+	foreach($jobSection['job_section_elements'] as $key => $value) {
+		if($value['element_type'] === 'image'){
+			$hasCompanyImage = true;
+			break;
+		}
+	}
+
+	$imageClass = $hasCompanyImage ? 'col-lg-6' : '';
+	$imageClass2 = $hasCompanyImage ? 'col-12' : 'col-md-9';
+	$containerClass = $hasCompanyImage ? 'half-container' : 'container';
+	$paddingClass = $hasCompanyImage ? 'pl-lg-5 ' : '';
+?>
+
+<section id="section<?=$jobSection['id']?>" class="scope-job-about-section">
 	<div class="row no-gutters">
-		<div class="col-12 col-lg-6 order-first order-lg-last">
-			<div class="half-container">
+		<div class="col-12 <?=$imageClass?> order-first order-lg-last">
+			<div class="<?=$containerClass?>">
 				<div class="row no-gutters">
-					<div class="col-12">
-						<div class="pt-5 pr-0 pr-lg-3 pl-0 pl-lg-5 pb-5">
+					<div class="<?=$imageClass2?>">
+						<div class="pt-5 pr-0 pr-lg-3 pl-0 <?=$paddingClass?> pb-5">
 							<?php
-								foreach($jobSection['JobSectionElement'] as $key => $value) {
+								foreach($jobSection['job_section_elements'] as $key => $value) {
 
 									if($value['element_type'] !== 'image' && file_exists(__DIR__ . DS . '../elements' . DS . $value['element_type'] . '.php')) {
 										$jobSectionElement = $value;
@@ -35,17 +50,24 @@
 				</div>
 			</div>
 		</div>
-      <div class="col-12 col-lg-6 order-last order-lg-first">
-         <?php
-         foreach ($jobSection['JobSectionElement'] as $key => $value) {
-            if ($value['element_type'] === 'image' && file_exists(__DIR__ . DS . '../elements' . DS . $value['element_type'] . '.php')) {
-               $jobSectionElement = $value;
-               ob_start();
-               include __DIR__ . DS . '../elements' . DS . $value['element_type'] . '.php';
-               echo ob_get_clean();
-            }
-         }
-         ?>
-      </div>
+
+		<?php
+			if($hasCompanyImage){
+		?>
+				<div class="col-12 col-lg-6 order-last order-lg-first">
+					<?php
+						foreach($jobSection['job_section_elements'] as $key => $value) {
+							if($value['element_type'] === 'image' && file_exists(__DIR__ . DS . '../elements' . DS . $value['element_type'] . '.php')) {
+								$jobSectionElement = $value;
+								ob_start();
+								include __DIR__ . DS . '../elements' . DS . $value['element_type'] . '.php';
+								echo ob_get_clean();
+							}
+						}
+					?>
+				</div>
+		<?php
+			}
+		?>
 	</div>
 </section>

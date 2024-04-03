@@ -1,6 +1,7 @@
 @import "_vars";
 @import "_mixin";
 @import "_base";
+@import "../../../font/open-sans/open-sans";
 
 
 .white-color {
@@ -16,7 +17,7 @@
   background: white !important;
 }
 
-p, a, span, ul, ol, li, table, tr, td, input, textarea, button, label, select, strong{
+p, a, span, ul, ol, li, table, tr, td, input, textarea, button, label, select, strong, .alert {
   font-family: "Open Sans";
   font-size: 16px;
   line-height: 32px;
@@ -209,6 +210,7 @@ body{
 
               &:hover, &.active {
                 background: @primary;
+                color: @light;
               }
             }
           }
@@ -229,6 +231,21 @@ body{
           right: 0;
           width: 100%;
           transition: height 0.3s;
+
+          li, a, ul {
+            font-size: 14px;
+            line-height: 22px;
+           }
+          a {
+            display: inline-block;
+            width: 100%;
+            padding-top: 10px;
+            padding-bottom: 10px;
+          }
+          li {
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+          }
 
           .translate(0,0);
           box-shadow:0 10px 10px rgba(0,0,0,0.3);
@@ -495,7 +512,7 @@ body{
       #scope-jobs-list-section-filter{
         margin-bottom: 15px;
         .col-12 {
-          padding: 0 30px;
+          //padding: 0 30px;
         }
         label {
           text-transform: uppercase;
@@ -692,7 +709,7 @@ body{
         }
       }
     }
-    &#scope-job-about-section{
+    &.scope-job-about-section{
       h2{
         font-weight: 400;
         color: @primary;
@@ -744,6 +761,44 @@ body{
     }
     &.scope-jobs-list-section{
       padding: 70px 0;
+
+
+
+      .youtube-embed-container {
+        position: relative;
+        padding-bottom: 56.25%;
+        height: 0;
+        overflow: hidden;
+        max-width: 100%;
+        border-radius: 10px;
+        margin-bottom: 2rem;
+
+        iframe, object, embed {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          border: none;
+        }
+      }
+
+      .vimeo-embed-container {
+        padding: 56.25% 0 0 0;
+        position: relative;
+        margin-bottom: 2rem;
+        background: #e6e6e6;
+        border-radius: 10px;
+        iframe {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          border: none;
+          border-radius: 10px;
+        }
+      }
 
       &:nth-of-type(odd){
         background: @secondary;
@@ -875,7 +930,7 @@ body{
         }
       }
     }
-    &#scope-job-form-block{
+    &.jp-section-form{
       padding: 70px 0;
       h2 {
         font-weight: 400;
@@ -1701,4 +1756,25 @@ section{
       }
     }
   }
+}
+
+
+
+.hey-form-row {
+  .row {
+    margin-bottom: 10px;
+  }
+  margin-bottom: 10px;
+
+  select, input[type="text"] {
+    width: 100% !important;
+    border-radius: 5px;
+    box-sizing: border-box;
+    border: none;
+    outline: none;
+    padding: 5px 5px 5px 10px;
+    height: 50px;
+    color: gray;
+  }
+
 }

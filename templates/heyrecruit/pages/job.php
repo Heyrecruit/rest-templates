@@ -1,237 +1,157 @@
 <?php
-
-if (!isset($job)) {
-    include __DIR__ . DS . "../../../partials/get_job.php";
-}
-
-// Job not found -> redirect to error page defined in .env
-if ($job['status_code'] === 404) {
-    $URL = $_ENV['BASE_PATH'] . '?page=' . $_ENV['ERROR_PAGE'] . '&code=' . $job['status_code'];
-    if (headers_sent()) {
-        echo("<script>window.location.href='$URL'</script>");
-    } else {
-        header("Location: $URL");
-    }
-    exit;
-}
-
-$job = $job['data'];
-
-$formattedJobLocation = $scope->getFormattedAddress($job, true, true, true);
-
-$applicantId = !empty($applicantId) ? $applicantId : $job['Form']['applicant_id'];
-
-include __DIR__ . DS . '../sections' . DS . "nav.php";
-
-
-$logoUrl = '';
-if (!empty($company) && isset($company['Company']['logo'])) {
-    $logoUrl = $company['Company']['logo'];
-}
-
-$cities = [];
-
-if (!empty($job)) {
-    foreach ($job['AllCompanyLocationJob'] as $key => $value) {
-        if (!empty($value['CompanyLocationJob'])) {
-            if (!in_array($value['CompanyLocation']['city'], $cities) && $locationId !== $value['CompanyLocation']['id']) {
-                $cities[$value['CompanyLocation']['id']] = $value['CompanyLocation']['city'];
-            }
-        }
-    }
-}
-
-if (!empty($job['JobSection'])) {
-    foreach ($job['JobSection'] as $key => $value) {
-        if (file_exists(__DIR__ . DS . '../sections' . DS . $value['section_type'] . '.php') && $value['section_type'] === 'header') {
-            $jobSection = $value;
-            $headerImageIncluded = true;
-            ob_start();
-            include __DIR__ . DS . '../sections' . DS . $value['section_type'] . '.php';
-            echo ob_get_clean();
-        }
-    }
-} ?>
+    /** @var array $job */
+    /** @var array $company */
+    /** @var int $locationId */
+    /** @var string $language */
+    /** @var string $template */
+    /** @var HeyUtility $utility */
+	HeyUtility::redirectIfJobNotFound($job);
+	
+	$formattedJobLocation = HeyUtility::getFormattedAddress($job['company_location_jobs'][0]);
+	$language = $job['language']['shortcut'];
+	$company['language_id'] = $job['language']['id'];
+	$logoUrl = $company['logo'];
+    
+    include CURRENT_SECTION_PATH . "nav.php";
+    
+    $logoUrl = $company['logo'];
+    
+    $vars = [
+        'include_header_image' => true,
+        'formatted_job_location' => $formattedJobLocation,
+        'job' => $job,
+        'company' => $company,
+        'language' => $language,
+    ];
+    
+    HeyUtility::includeSections($job['job_sections'], ['header'], $vars);
+?>
 
 <style>
     .jp-section-list h2 {
-        color: <?=$company['CompanyTemplate']['key_color']?>;
+        color: <?=$company['company_templates']['key_color']?>;
     }
 </style>
 
 <div class="container">
     <div class="row">
+
+        <?php
+            require(CURRENT_SECTION_PATH . "vacancy_offline.php");
+        ?>
+
         <div id="jp-column-left" class="col-12 col-lg-7">
-            <section id="jp-section-job-info">
+            <section id="jp-section-job-info" >
                 <div class="row">
                     <div class="col-12">
                         <div>
-                            <?php
-/*                            print("<pre>".print_r($job['JobSection'],true)."</pre>");
-                            */?>
+                           
                             <div>
                                 <a href="/?page=jobs" id="logo" class="jp-logo">
-                                    <img src="<?= $logoUrl ?>" alt="<?= $company['Company']['name'] ?> Logo">
+                                    <img src="<?=$logoUrl?>" alt="<?=HeyUtility::h($company['name'])?> Logo">
                                 </a>
                                 <div>
                                     <?php
-                                    if (isset($job['Job']['last_modification'])) {
-                                       if ($language != 'de') {
-                                          $refreshText = 'updated ' . Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $job['Job']['last_modification'])->locale('en_US')->diffForHumans();
-                                       } else {
-                                          $refreshText = Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $job['Job']['last_modification'])->locale('de_DE')->diffForHumans() . ' aktualisiert';
-                                       }
-                                    } else {
-                                       $refreshText = NULL;
-                                    }
-
-                                    $jobIdText = $language != 'de' ? 'job id' : 'Job-ID';
+                                        if (isset($job['last_modification'])) {
+                                           if ($language != 'de') {
+                                              $refreshText = 'updated ' . Carbon\Carbon::parse(
+                                                  $job['last_modification']
+                                              )->locale('en_US')->diffForHumans();
+                                           } else {
+                                              $refreshText = Carbon\Carbon::parse(
+                                                  $job['last_modification']
+                                              )->locale('de_DE')->diffForHumans() . ' aktualisiert';
+                                           }
+                                        } else {
+                                           $refreshText = null;
+                                        }
                                     ?>
-                                    <span><a href="/?page=jobs"><?= $company['Company']['name'] ?></a></span>
-                                    <?= $refreshText !== NULL ? '<span><i class="fal fa-clock"></i>' . $refreshText . '</span>' : '' ?>
-                                    <span><i class="fal fa-barcode"></i><?= $jobIdText . ' ' . $job['Job']['id'] ?></span>
+                                    <span><a href="/?page=jobs"><?=HeyUtility::h($company['name'])?></a></span>
+                                    <?= $refreshText !== null ? '<span><i class="fal fa-clock"></i>' . $refreshText . '</span>' : '' ?>
+                                    <span><i class="fal fa-barcode"></i><?= 'Job-ID' . ' ' . $job['id'] ?></span>
                                 </div>
                             </div>
                         </div>
                         <div>
                             <?php
-                            if (!empty($job['JobSection'])) {
-                                foreach ($job['JobSection'] as $key => $value) {
-                                    if (file_exists(__DIR__ . DS . '../sections' . DS . $value['section_type'] . '.php') && $value['section_type'] === 'header') {
-                                        $jobSection = $value;
-                                        $headerImageIncluded = false;
-                                        ob_start();
-                                        include __DIR__ . DS . '../sections' . DS . $value['section_type'] . '.php';
-                                        echo ob_get_clean();
-                                    }
-                                }
-                            } ?>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <?php
-            if (!empty($job['JobSection'])) {
-
-                foreach ($job['JobSection'] as $key => $value) {
-                    if (
-                    		file_exists(__DIR__ . DS . '../sections' . DS . $value['section_type'] . '.php') &&
-		                    in_array($value['section_type'], ['text_and_list', 'media', 'company_info', 'contact_person'])) {
-
-                        $jobSection = $value;
-                        ob_start();
-                        include __DIR__ . DS . '../sections' . DS . $value['section_type'] . '.php';
-
-                        echo ob_get_clean();
-                    }
-                }
-
-            }
-            ?>
-            <section id="jp-section-more-jobs">
-                <div class="row">
-                    <div class="col-12">
-                        <h2 class="primary-color"><?= $language != 'de' ? 'More vacancies' : 'Weitere offene Stellen' ?></h2>
-                        <div class="job-list" data-jobs-container="true">
-                            <?php
-                            $moreJobsSection = true;
-                            require(__DIR__ . "/../elements/jobs_table.php")
+	                            $vars['include_header_image'] = false;
+                                HeyUtility::includeSections($job['job_sections'], ['header'], $vars);
                             ?>
                         </div>
-                        <button id="all-vacancies-button" class="btn btn-primary">
-                            <a href="/?page=jobs#cp-section-jobs"><?= $language != 'de' ? 'All vacancies' : 'Alle offenen Stellen' ?></a>
-                        </button>
+                    </div>
+                    <div class="col-12 cta-mobile">
+                        <?php
+	                        $applyText = $language !== 'de' ? 'Apply now' : 'Jetzt bewerben';
+                        ?>
+                      <a href="#job-form-wrapper" class="btn btn-primary mt-4"><?=$applyText?></a>
                     </div>
                 </div>
             </section>
 
-            <!-- Initiativbewerbung-Section -->
-            <!--<section id="jp-section-initiative">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="initiative-tile">
-                            <h2 class="primary-color"><?/*= $language != 'de' ? 'Didn’t find a matching job?' : 'Keine passende Stelle gefunden?' */?></h2>
-                            <p>
-                                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-                                invidunt ut labore et dolore magna aliquyam erat
-                            </p>
-                            <button class="btn btn-primary">
-                                <i class="fal fa-paper-plane"></i><?/*= $language != 'de' ? 'Apply on your own initiative' : 'Jetzt initiativ bewerben' */?>
-                            </button>
-                        </div>
-                    </div>
+            <?php
+	            HeyUtility::includeSections(
+		            $job['job_sections'],
+		            ['text_and_list', 'media', 'company_info', 'contact_person'],
+		            $vars
+	            );
+            ?>
+
+
+          <section id="jp-section-more-jobs">
+            <div class="row">
+              <div class="col-12">
+
+                <div class="job-list" data-jobs-container="true">
+                  <?php
+                      require(CURRENT_SECTION_PATH . "more_jobs.php");
+                  ?>
                 </div>
-            </section>-->
-
-
+              </div>
+            </div>
+          </section>
         </div>
         <div id="jp-column-right" class="col-12 col-lg-5">
             <?php
-            if (!empty($job['JobSection'])) {
-
-                foreach ($job['JobSection'] as $key => $value) {
-
-                    if (file_exists(__DIR__ . DS . '../sections' . DS . $value['section_type'] . '.php') && $value['section_type'] === 'form') {
-
-                        $jobSection = $value;
-                        ob_start();
-                        include __DIR__ . DS . '../sections' . DS . $value['section_type'] . '.php';
-
-                        echo ob_get_clean();
-                    }
-                }
-            }
+          
+            HeyUtility::includeSections(
+                $job['job_sections'],
+                ['form'],
+                $vars
+            );
             ?>
-
-            <!-- Status-prüfen-Section -->
-            <!--<section id="jp-section-check-status">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="grey-container">
-                            <h2 class="primary-color"><?/*= $language != 'de' ? 'You already applied?' : 'Bereits beworben?' */?></h2>
-                            <button class="btn btn-primary">
-                                <?/*= $language != 'de' ? 'Check status' : 'Status prüfen' */?>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </section>-->
-
-            <!-- Später-bewerben-Section -->
-            <!--<section id="jp-section-apply-later">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="grey-container">
-                            <h2 class="primary-color"><?/*= $language != 'de' ? 'Apply later' : 'Später bewerben' */?></h2>
-                            <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-                                invidunt ut labore et dolore magna aliquyam erat</p>
-                            <form class="apply-later-form">
-                                <input type="email" name="email" placeholder="E-Mail-Adresse">
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fal fa-paper-plane"></i>
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </section>-->
 
             <section id="jp-section-share-job">
                 <div class="row">
                     <div class="col-12">
                         <div class="grey-container">
-                            <h2 class="primary-color"><?= $language != 'de' ? 'Share job ad' : 'Stellenanzeige teilen' ?></h2>
-                            <div class="social-links">
-                                <a class="primary-color" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2F<?="$_SERVER[HTTP_HOST]"?>%2F%3Fpage%3Djob%26id%3D<?=$job['Job']['id']?>%26location%3D<?=$job['CompanyLocation']['id']?>" target="_blank"><i
-                                            class="fab fa-facebook primary-color" aria-hidden="true"></i></a>
-                                <a class="primary-color" href="https://twitter.com/intent/tweet?url=<?="$_SERVER[HTTP_HOST]"?>%2F%3Fpage%3Djob%26id%3D<?=$job['Job']['id']?>%26location%3D<?=$job['CompanyLocation']['id']?>" target="_blank"><i class="fab fa-twitter primary-color"
-                                                                                    aria-hidden="true"></i></a>
-                                <a class="primary-color" href="" target="_blank"><i
-                                            class="fab fa-facebook-messenger primary-color" aria-hidden="true"></i></a>
-                                <a class="primary-color" href="" target="_blank"><i
-                                            class="fas fa-envelope primary-color" aria-hidden="true"></i></a>
-                                <a class="primary-color" href="" target="_blank"><i
-                                            class="fas fa-share-alt primary-color" aria-hidden="true"></i></a>
+                            <h2 class="primary-color"><?= $language !== 'de' ? 'Share job ad' : 'Stellenanzeige teilen' ?></h2>
+                            <div class="social-links" id="job-share-links">
+                                <?php
+                                $pageUrl = "https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+                                ?>
+                                <a class="primary-color" data-type="xing/share" href="https://www.xing.com/spi/shares/new?url=<?=urlencode($pageUrl)?>" target="_blank">
+                                    <i class="fab fa-xing primary-color"></i>
+                                </a>
+
+                                <a class="primary-color" href="https://www.linkedin.com/sharing/share-offsite/?url=<?=urlencode($pageUrl)?>" target="_blank">
+                                    <i class="fab fa-linkedin primary-color"></i>
+                                </a>
+
+                                <a class="primary-color" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2F<?="$_SERVER[HTTP_HOST]"?>%2F%3Fpage%3Djob%26id%3D<?=$job['id']?>%26location%3D<?=$job['company_location_jobs'][0]['id']?>" target="_blank">
+                                    <i class="fab fa-facebook primary-color" aria-hidden="true"></i>
+                                </a>
+
+                                <a class="primary-color" href="https://twitter.com/intent/tweet?url=<?="$_SERVER[HTTP_HOST]"?>%2F%3Fpage%3Djob%26id%3D<?=$job['id']?>%26location%3D<?=$job['company_location_jobs'][0]['id']?>" target="_blank">
+                                    <i class="fab fa-twitter primary-color" aria-hidden="true"></i>
+                                </a>
+
+                                <a class="primary-color" href="mailto:?subject=<?= $company['name'] ?> sucht <?=$job["job_strings"][0]["title"]?>&body=Ich habe ein Jobangebot entdeckt, das Dich Interessieren könnte.%0D%0A%0D%0ASchau Dir die Stellenanzeige gleich unter folgendem Link an:%0D%0A <?=urlencode($pageUrl)?>" target="_blank">
+                                    <i class="fas fa-envelope primary-color" aria-hidden="true"></i>
+                                </a>
+
+                                <a class="primary-color mobile" href="whatsapp://send?text=Ich habe ein Jobangebot entdeckt, das Dich Interessieren könnte. <?=urlencode($pageUrl)?>" target="_blank">
+                                    <i class="fab fa-whatsapp primary-color"></i>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -241,17 +161,13 @@ if (!empty($job['JobSection'])) {
     </div>
 </div>
 
-<?php
-$pageUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-$pageUrl .= "&utm_campaign=scope-social-share&utm_medium=scope-social-share";
-?>
-
-<script src="<?= $_ENV['BASE_PATH'] ?>/templates/<?= $template ?>/js/reset-form-data.js"></script>
-
 <script>
     $(document).ready(function () {
 
         //Set page title and description
-        templateHandler.setMetaDescriptionAndTitle('Wir suchen ab sofort: <?=$job["Job"]["title"]?>', '<?=$job["Job"]["title"]?> | <?=$company['Company']['name']?>');
+        templateHandler.setMetaDescriptionAndTitle(
+            'Wir suchen ab sofort: <?=HeyUtility::h($job["job_strings"][0]["title"])?>',
+            '<?=HeyUtility::h($job["job_strings"][0]["title"])?> | <?=HeyUtility::h($company['name'])?>'
+        );
     });
 </script>

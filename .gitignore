@@ -9,6 +9,5 @@ out
 gen
 .idea/
 *.env
-vendor
-*.nginx
-composer.lock
+vendor/*
+conf.nginx

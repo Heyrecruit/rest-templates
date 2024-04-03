@@ -260,20 +260,22 @@ function JobsMap(mapId) {
 
     this.setAllJobMarkers = function () {
         var _this = this;
-        this.getJobData(null, function (jobs) {
-            _this.allJobs = jobs;
-            _this.createMarkersFromJobs(jobs, true)
+        this.getJobData(null, function (data) {
+            _this.allJobs = data.jobs;
+            _this.createMarkersFromJobs(data.jobs, true)
         });
     };
 
     this.getJobData = function (searchParams, callback) {
-        var url = typeof searchParams !== 'undefined' && searchParams != null ? '../../partials/get_jobs_json.php' + searchParams : '../../partials/get_jobs_json.php';
+        var url = typeof searchParams !== 'undefined' && searchParams != null
+            ? '../../partials/get_jobs_json.php' + searchParams
+            : '../../partials/get_jobs_json.php';
 
-        templateHandler.ajaxCall(url, {}, true, function (response) {
+        templateHandler.ajaxCall(url, {}, true, function (result) {
 
-            if (response.success) {
+             if (result.status_code === 200) {
                 if (typeof callback  !== 'undefined'){
-                    callback(response.data);
+                    callback(result.response.data);
                 }
             }
         });
@@ -284,31 +286,31 @@ function JobsMap(mapId) {
         var setCluster = typeof cluster !== 'undefined' ? cluster : false;
 
         $.each(jobs, function (key, value) {
+          
+            if (!templateHandler.empty(value.company_location_jobs)) {
 
-            if (!templateHandler.empty(value['CompanyLocationJob'])) {
-
-                $.each(value['CompanyLocationJob'], function (k, v) {
+                $.each(value.company_location_jobs, function (k, v) {
 
                     if (
-                        !templateHandler.inArray(v['CompanyLocation']['id'], Object.keys(_this.currentMarkerOnMap)) &&
-                        !templateHandler.empty(v['CompanyLocation']['lat']) &&
-                        !templateHandler.empty(v['CompanyLocation']['lng'])
+                        !templateHandler.inArray(v.company_location.id, Object.keys(_this.currentMarkerOnMap)) &&
+                        !templateHandler.empty(v.company_location.lat) &&
+                        !templateHandler.empty(v.company_location.lng)
                     ) {
 
-                        var contentString = v['CompanyLocation']['city'];
+                        var contentString = v.company_location.city;
 
-                        if (!templateHandler.empty(v['CompanyLocation']['street'])) {
-                            contentString += ', ' + v['CompanyLocation']['street'];
+                        if (!templateHandler.empty(v.company_location.street)) {
+                            contentString += ', ' + v.company_location.street;
                         }
 
-                        if (!templateHandler.empty(v['CompanyLocation']['street_number'])) {
-                            contentString += ' ' + v['CompanyLocation']['street_number'];
+                        if (!templateHandler.empty(v.company_location.street_number)) {
+                            contentString += ' ' + v.company_location.street_number;
                         }
 
-                        _this.contentStrings[v['CompanyLocation']['id']] = contentString;
+                        _this.contentStrings[v.company_location.id] = contentString;
 
                         var infoWindow = new google.maps.InfoWindow({
-                            content: _this.contentStrings[v['CompanyLocation']['id']]
+                            content: _this.contentStrings[v.company_location.id]
                         });
 
                         google.maps.event.addListener(infoWindow, 'closeclick', function () {
@@ -319,17 +321,17 @@ function JobsMap(mapId) {
                             }
                         });
 
-                        _this.infoWindows[v['CompanyLocation']['id']] = infoWindow;
+                        _this.infoWindows[v.company_location.id] = infoWindow;
 
                         var markerLatLng = {
-                            lat: parseFloat(v['CompanyLocation']['lat']),
-                            lng: parseFloat(v['CompanyLocation']['lng'])
+                            lat: parseFloat(v.company_location.lat),
+                            lng: parseFloat(v.company_location.lng)
                         };
 
 
                         var marker = new google.maps.Marker({
                             position: markerLatLng,
-                            title: value["Job"]["title"],
+                            title: value.job_strings[0].title,
                             icon: new google.maps.MarkerImage(_this.getGoogleMarkerInlineSvg(_this.defaultKeyColor), null, null, null, new google.maps.Size(40, 30)),
                         });
 
@@ -339,16 +341,16 @@ function JobsMap(mapId) {
                                 value.close();
                             });
 
-                            _this.infoWindows[v['CompanyLocation']['id']].open(_this.googleMap, marker);
+                            _this.infoWindows[v.company_location.id].open(_this.googleMap, marker);
                             if (typeof templateHandler !== 'undefined' && typeof templateHandler.filter !== 'undefined') {
-                                templateHandler.filter(v['CompanyLocation']['id'], null, null, 1);
+                                templateHandler.filter(v.company_location.id, null, null, 1);
                             }
 
                         }.bind(_this));
 
                         marker.setMap(_this.googleMap);
 
-                        _this.currentMarkerOnMap[v['CompanyLocation']['id']] = marker;
+                        _this.currentMarkerOnMap[v.company_location.id] = marker;
                     }
                 });
             }
@@ -396,14 +398,14 @@ function JobsMap(mapId) {
 
         var _this = this;
         $.each(this.allJobs, function (key, value) {
-            $.each(value['CompanyLocationJob'], function (k, v) {
+            $.each(value.company_location_jobs, function (k, v) {
                 if (
-                    !templateHandler.inArray(v['CompanyLocation']['id'], keepAliveCompanyLocationIds) &&
-                    templateHandler.inArray(v['CompanyLocation']['id'], Object.keys(_this.currentMarkerOnMap))
+                    !templateHandler.inArray(v.company_location.id, keepAliveCompanyLocationIds) &&
+                    templateHandler.inArray(v.company_location.id, Object.keys(_this.currentMarkerOnMap))
                 )
                 {
-                    _this.currentMarkerOnMap[v['CompanyLocation']['id']].setMap(null);
-                    delete _this.currentMarkerOnMap[v['CompanyLocation']['id']];
+                    _this.currentMarkerOnMap[v.company_location.id].setMap(null);
+                    delete _this.currentMarkerOnMap[v.company_location.id];
                 }
             });
         });

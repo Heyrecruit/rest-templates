@@ -1,4 +1,6 @@
 <?php
+	/** @var array $company */
+ 
 	if(!isset($scope)) {
 		include __DIR__ . '/../../../ini.php';
 	}
@@ -18,7 +20,7 @@
             "elementType": "labels.text.fill",
             "stylers": [
                 {
-                    "color": "<?=str_replace(' ', '', $company['CompanyTemplate']['key_color'])?>"
+                    "color": "<?=str_replace(' ', '', $company['company_templates']['key_color'])?>"
                 },
                 {
                     "saturation": 36

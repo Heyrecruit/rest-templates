@@ -1,13 +1,12 @@
 <?php
 	if(isset($job)){
-		$job = isset($job['data']) ? $job['data'] : $job;
-		if(!empty($job) && $job['Google4Jobs']['active']) {
+		
+		if(!empty($job) && $job['google_for_jobs']['active']) {
 ?>
 			<script type="application/ld+json">
 				<?php
-					echo json_encode($job['Google4Jobs']['structured_data']);
+					echo json_encode($job['google_for_jobs']['structured_data']);
 				?>
-
 			</script>
 <?php
 		}

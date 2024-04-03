@@ -8,7 +8,7 @@
 				</a>
 			</div>
 			<div class="modal-body">
-				<p><?=nl2br($company['Company']['imprint'])?></p>
+				<p><?=nl2br($company['imprint'])?></p>
 			</div>
 			<div class="modal-footer">
 			</div>
@@ -25,7 +25,7 @@
 				</a>
 			</div>
 			<div class="modal-body">
-				<p><?=nl2br($company['Company']['data_protection'])?></p>
+				<p><?=nl2br($company['data_protection'])?></p>
 			</div>
 			<div class="modal-footer">
 			</div>

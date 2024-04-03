@@ -1,67 +1,60 @@
 <?php
-
-	if(isset($_GET['job']) && isset($_GET['applicant']) && isset($_GET['location']) && $_GET['xing']){
-		header('Location: ?page=job&id='. $_GET['job'] .'&location=' . $_GET['location'] . '&applicant=' . $_GET['applicant'] . '&xing=1#xingSuccess');
-		exit;
+	/** @var array $jobs */
+	/** @var array $page */
+	/** @var array $company */
+	/** @var string $language */
+	
+	$employmentList = $jobs['employment_type_list'];
+	$departmentList = $jobs['department_list'];
+	
+	$includeNav = !isset($_GET['stand_alone_site']) || $_GET['stand_alone_site'];
+	$hideElements = isset($_GET['stand_alone_site']) && !$_GET['stand_alone_site'] && $page == 'jobs';
+	
+	if ($includeNav) {
+		include CURRENT_SECTION_PATH . "nav.php";
 	}
-
-	if(!isset($jobs)) {
-		$jobs = $scope->getJobs($company['Company']['id']);
-
-		if($jobs['status_code'] == 200) {
-			$jobs    = $jobs['data'];
-		}
-	}
-
-	$employmentList = $scope->getEmploymentTypeList($jobs);
-	$departmentList = isset($jobs['departments']) ? $jobs['departments'] : [];
-
-	$hideElements = '';
-
-	if(!isset($_GET['stand_alone_site']) || (isset($_GET['stand_alone_site']) && $_GET['stand_alone_site'])){
-		include __DIR__ . DS . '../sections' . DS . "nav.php";
-	}
-
-	if(isset($_GET['stand_alone_site']) && !$_GET['stand_alone_site'] && $page == 'jobs') {
-		$hideElements = 'style="display:none;"';
-	}
+	
+	$hideElementsAttribute = $hideElements ? 'style="display:none;"' : '';
+	
+	
+	$companyEmployeeNumber = HeyUtility::getFormattedEmployeeNumber($company['employee_number']);
 
 ?>
 
 
-<section id="scope-jobs-intro-section" class="row no-gutters mb-3" <?=$hideElements?>>
+<section id="scope-jobs-intro-section" class="row no-gutters mb-3" <?=$hideElementsAttribute?>>
 	<div class="col-12">
 		<div id="scope-jobs-intro-section-hl-wrap">
-			<h2><?=$company['OverviewPage']['title']?></h2>
+			<h2><?=HeyUtility::h($company['overview_page']['overview_page_strings'][0]['title'])?></h2>
 			<div id="scope-jobs-intro-section-hl-line"></div>
-			<h1><?=$company['OverviewPage']['subtitle']?></h1>
+			<h1><?=HeyUtility::h($company['overview_page']['overview_page_strings'][0]['subtitle'])?></h1>
 		</div>
 
 
 		<?php
 			$imageUrl = 'https://www.scope-recruiting.de/img/scope_default_job_header_image.png';
 
-			if(!empty($company) && isset($company['Company']['overview_header_picture'])) {
-				$imageUrl = $company['Company']['overview_header_picture'];
+			if(!empty($company) && isset($company['overview_header_picture'])) {
+				$imageUrl = $company['overview_header_picture'];
 			}
 		?>
 		<div id="scope-jobs-intro-section-overlay"></div>
 		<div class="scope-img-wrap">
-			<img src="<?=$imageUrl?>" alt="Head Hintergrund  <?=$company['Company']['name']?>" />
+			<img src="<?=$imageUrl?>" alt="Head Hintergrund  <?=HeyUtility::h($company['name'])?>" />
 		</div>
 	</div>
 </section>
 <?php
-	if($company['OverviewPage']['show_description']) {
+	if($company['overview_page']['show_description']) {
 
 ?>
 		<section id="scope-jobs-table-description-section" class="mb-3">
 			<div class="container">
 				<div class="row">
 					<div class="col-12">
-						<h2 class="mt-5 mb-2 primary-color"><?=$company['Company']['name']?></h2>
+						<h2 class="mt-5 mb-2 primary-color"><?=HeyUtility::h($company['name'])?></h2>
 						<?php
-							echo $company['OverviewPage']['description'];
+							echo $company['overview_page']['overview_page_strings'][0]['description'];
 						?>
 					</div>
 				</div>
@@ -70,6 +63,8 @@
 <?php
 	}
 ?>
+
+
 
 <section id="scope-jobs-table-intro-section" class="mb-3">
 	<div class="container">
@@ -85,7 +80,7 @@
 </section>
 
 <?php
-	if($company['OverviewPage']['show_map']) {
+	if($company['overview_page']['show_map']) {
 
 ?>
 <section id="scope-jobs-map-section" class="mb-3" data-map-container="true">
@@ -104,8 +99,8 @@
 	<div class="container">
 		<div class="row" id="scope-jobs-list-section-filter">
 			<?php
-				$path = file_exists(ELEMENT_PATH . 'jobs_filter.php')
-					? ELEMENT_PATH . 'jobs_filter.php'
+				$path = file_exists(CURRENT_ELEMENT_PATH . 'jobs_filter.php')
+					? CURRENT_ELEMENT_PATH . 'jobs_filter.php'
 					: ELEMENT_PATH_ROOT . 'jobs_filter.php';
 				require($path)
 			?>

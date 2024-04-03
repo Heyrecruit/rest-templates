@@ -1,103 +1,100 @@
 <?php
-	if(!isset($scope)) {
-		include __DIR__ . '/../../ini.php';
-	}
+	/** @var HeyRestApi $scope */
+	/** @var array $company */
+	/** @var string $template */
+	/** @var string $page */
+	
+	use Heyrecruit\HeyRestApi;
 
-	$googleTagManager = $scope->getGoogleTagCode($company['CompanySetting']['google_tag_public_id']);
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
-	<meta name="google-site-verification" content="eI_MQb_IOqtuvB3AeFpa1W_DtqcePhYYCklaQ7yzK9U" />
-	<style>
-		/* Set class to override the default template color outta scope */
-		.primary-color {
-			color: <?=$company['CompanyTemplate']['key_color']?> !important;
-		}
-
-		.primary-color-hover:hover,
-		.primary-color-hover:hover span,
-		.primary-color-hover:hover i,
-      .dz-message .dz-button,
-      ol li::marker {
-			color: <?=$company['CompanyTemplate']['key_color']?> !important;
-		}
-
-		.primary-bg {
-			background: <?=$company['CompanyTemplate']['key_color']?> !important;
-		}
-
-      .primary-bg-before:before,
-      .primary-bg-before ul li:before,
-      .primary-bg-hover:hover,
-      .scope-img-wrap .dot.active {
-			background: <?=$company['CompanyTemplate']['key_color']?> !important;
-		}
-
-		.secondary-color {
-			color: <?=$company['CompanyTemplate']['secondary_color']?> !important;
-		}
-
-		.secondary-color-hover:hover {
-			color: <?=$company['CompanyTemplate']['secondary_color']?> !important;
-		}
-
-		.secondary-bg {
-			background: <?=$company['CompanyTemplate']['secondary_color']?> !important;
-		}
-
-		.secondary-bg-hover:hover {
-			background: <?=$company['CompanyTemplate']['secondary_color']?> !important;
-		}
-	</style>
+    <meta name="google-site-verification" content="eI_MQb_IOqtuvB3AeFpa1W_DtqcePhYYCklaQ7yzK9U"/>
+    <style>
+        /* Set class to override the default template color outta scope */
+        <?php
+			echo HeyUtility::generateCompanyStyles(
+				$company['company_templates']['key_color'],
+				$company['company_templates']['secondary_color']
+			);
+		?>
+    </style>
 	<?php
-		//echo $googleTagManager['head'];
-
-		if(isset($_GET['page']) && $_GET['page'] === 'job') {
-			include __DIR__ . DS . "../../partials/get_job.php";
+		try {
+			
+			$jobs = $scope->getJobs($company['id']);
+			
+			if($jobs['status_code'] === 200) {
+				$jobs = $jobs['response']['data'];
+			}else{
+				die($jobs['response']['message']);
+			}
+			
+		} catch (Exception $e) {
+			die('Fehler beim Laden der Stellenanzeigen.');
 		}
-
-		include __DIR__ . DS . 'sections' . DS . 'html_head_content.php';
+		
+		if ($page === 'job') {
+			
+			$jobId      = HeyUtility::getJobId($_GET);
+			$locationId = HeyUtility::getLocationId($_GET);
+			
+			try {
+				$job = $scope->getJob($company['id'], $jobId, $locationId);
+				HeyUtility::redirectIfJobNotFound($job['response']['data'] ?? null);
+				
+				if($job['status_code'] === 200) {
+					$job = $job['response']['data'];
+				}else{
+					die($job['response']['message']);
+				}
+				
+			} catch (Exception $e) {
+				die('Stellenanzeige nicht gefunden.');
+			}
+		}
+		
+		include CURRENT_SECTION_PATH . 'html_head_content.php';
 	?>
 </head>
+
 <?php
-
-	echo "<body data-base-path=\"{$_ENV['BASE_PATH']}/templates/$template\"
-	            data-domain=\"{$_SERVER['SERVER_NAME']}\"
-	            data-company-name=\"{$company['Company']['name']}\"
-	            data-key-color=\"{$company['CompanyTemplate']['key_color']}\"
-	            data-gtm-id=\"{$company['CompanySetting']['google_tag_public_id']}\"
-	            data-gtm-property-id=\"_gat_{$company['CompanySetting']['google_analytics_property_id']}\"
-	            data-datenschutz-url=\"#scope_datenschutz\"
-	            data-language=\"{$language}\"
-	            data-datenschutz-class=\"\">";
-
-	//		echo $googleTagManager['body'];
+$bodyData = HeyUtility::getBodyDataAttributes(
+		$_ENV['BASE_PATH'],
+		$template,
+		$_SERVER['SERVER_NAME'],
+		$company['name'],
+		$company['company_templates']['key_color'],
+		$measurementId,
+		$propertyId
+	);
+	
+	echo '<body ' . $bodyData . '>';
 ?>
 
-<div id="page" data-scope-outer-container="true">
+<div id="page" class="<?= $page == 'jobs' ? "careerpage" : "" ?>" data-scope-outer-container="true">
 	<?php
 		include __DIR__ . DS . 'pages' . DS . "$page.php";
-	?>
-
-	<?php
+		
 		$displayFooter = '';
-		if(isset($_GET['stand_alone_site']) && !$_GET['stand_alone_site'] && $page == 'jobs') {
+		if (isset($_GET['stand_alone_site']) && !$_GET['stand_alone_site'] && $page == 'jobs') {
 			$displayFooter = 'style="display:none"';
 		}
 	?>
-	<footer <?=$displayFooter?>>
+    <footer <?= $displayFooter ?>>
 		<?php
-			include __DIR__ . DS . 'sections' . DS . 'footer.php';
+			include CURRENT_SECTION_PATH . 'footer.php';
 		?>
-	</footer>
+    </footer>
 
 </div>
 <?php
-	include __DIR__ . DS . 'pages' . DS . "impressum.php";
-
-	include __DIR__ . DS . '../../partials/google_4_jobs.php';
+	if($displayFooter !== 'style="display:none"') {
+		include CURRENT_PAGE_PATH . "impressum.php";
+	}
+	
+	include ROOT . 'partials/google_4_jobs.php';
 ?>
 </body>
 </html>

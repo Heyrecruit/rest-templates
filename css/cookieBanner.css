@@ -28,8 +28,8 @@
   right: 0;
   bottom: 0;
   background-color: #aaa;
-  -webkit-transition: .4s;
-  transition: .4s;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
 }
 .cookie .switch .slider:before {
   border-radius: 50%;
@@ -40,8 +40,8 @@
   left: 3px;
   bottom: 3px;
   background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
 }
 .cookie .switch input {
   opacity: 0;
@@ -66,7 +66,7 @@
   margin: 0 10px;
   border: 1px solid #333;
   background: transparent;
-  font-size: .9em;
+  font-size: 0.9em;
   transition: all 0.2s;
   -webkit-transition: all 0.2s;
 }
@@ -155,7 +155,7 @@
   margin-bottom: 10px;
 }
 .cookie .cookieHinweisWrapper p {
-  font-size: .8em;
+  font-size: 0.8em;
   line-height: 1.2em;
 }
 .cookie .cookieHinweisWrapper .cookieSettingsWrapper {
@@ -193,7 +193,7 @@
 .cookie .cookieHinweisWrapper .cookieSettingsWrapper > div span {
   float: left;
   line-height: 1.5em;
-  font-size: .9em;
+  font-size: 0.9em;
   padding-left: 10px;
 }
 .cookie .cookieHinweisWrapper .cookieControls {
@@ -207,7 +207,7 @@
   text-decoration: none;
 }
 .cookie .cookieHinweisWrapper .cookieControls .button.settings {
-  font-size: .8em;
+  font-size: 0.8em;
   text-decoration: underline;
 }
 .cookie .cookieModal {
@@ -241,7 +241,7 @@
   margin-bottom: 10px;
 }
 .cookie .cookieModal p {
-  font-size: .9em;
+  font-size: 0.9em;
   color: black;
   margin-bottom: 1rem;
 }
@@ -273,7 +273,7 @@
 }
 .cookie .cookieModal .descrption .h3Container h3 {
   display: inline-block;
-  margin: 0 0 .8rem 0;
+  margin: 0 0 0.8rem 0;
   font-weight: 400;
 }
 .cookie .cookieModal .descrption .h3Container div {
@@ -287,20 +287,20 @@
   height: 0;
 }
 .cookie .cookieModal .descrption .h3Container div span.info {
-  font-size: .8em;
+  font-size: 0.8em;
   color: #333;
 }
 .cookie .cookieModal .descrption p {
-  font-size: .8em;
+  font-size: 0.8em;
 }
 .cookie .cookieModal .descrption .infoTrigger {
   cursor: pointer;
   color: #333;
-  font-size: .8em;
+  font-size: 0.8em;
   text-decoration: underline;
 }
 .cookie .cookieModal .descrption .cookieTable table {
-  font-size: .8em;
+  font-size: 0.8em;
   padding: 0;
   margin-top: 10px;
   width: 100%;

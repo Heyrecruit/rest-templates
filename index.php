@@ -1,35 +1,35 @@
 <?php
-
+	/** @var array $company */
+	/** @var string $template */
+	/** @var string $language */
+	
 	if(!isset($scope)) {
 		include __DIR__ . '/ini.php';
 	}
+ 
+	$googleTagManager4 = HeyUtility::env('GOOGLE_TAG_MANAGER');
+	$measurementId     = $company['google_account']['measurementId'] ?? '';
+	$propertyId        = $company['google_account']['propertyId'] ?? null;
+ 
+ 
+	setcookie("ga4MeasurementId", $measurementId);
+ 
+	$page = HeyUtility::getCurrentPage($_GET);
+	$meta = HeyUtility::getPageMetadata($page, $company);
+	
+	unset($_SESSION['files']);
 
-	$page = !isset($_GET['page']) ? 'jobs' : $_GET['page'];
+	include CURRENT_TEMPLATE_PATH . 'index.php';
+?>
+<script src="<?=$_ENV['BASE_PATH']?>/js/dataLayerPusher.js"></script>
+<script>
+    initializeDataLayerOnPageLoad(
+      <?php echo json_encode($page); ?>,
+      <?php echo json_encode($company); ?>,
+      <?php echo json_encode($language); ?>,
+      <?php echo isset($job) ? json_encode($job) : '{}'; ?>
+    );
 
-	$page = strtolower(preg_replace("/[^a-zA-Z0-9_äüö-]/", "", $page));
-
-
-	$metadata = [
-		'jobs' => [
-			'title'       => 'Karriere bei ' . $company['Company']['name'],
-			'description' => 'Das Karriereportal der ' . $company['Company']['name'] . '. Alle offenen Stellen der ' . $company['Company']['name'] . ' auf einem Blick.'
-		],
-		'job'  => [
-			'title'       => 'Karriere bei ' . $company['Company']['name'],
-			'description' => 'Das Karriereportal der ' . $company['Company']['name'] . '. Alle offenen Stellen der ' . $company['Company']['name'] . ' auf einem Blick.'
-		]
-	];
-
-	if(isset($metadata[$page]) && is_array($metadata[$page])) {
-		$meta = $metadata[$page];
-	} else {
-		$meta = [
-			'title'       => 'Karriereportal - ' . $company['Company']['name'],
-			'description' => 'Geh deinen Weg mit uns'
-		];
-	}
-
-
-
-	include __DIR__ . '/templates/' . $template . '/index.php';
-
+    const gtm4IdGlobal = '<?php echo $googleTagManager4; ?>';
+</script>
+<script type="text/javascript" src="<?=$_ENV['BASE_PATH']?>/js/googleTagManager.js"></script>

@@ -1,8 +1,8 @@
-<section class="jp-section-list">
+<section class="jp-section-list col-12">
 		<div class="row">
 			<div class="col-12">
 				<?php
-					foreach($jobSection['JobSectionElement'] as $key => $value) {
+					foreach($jobSection['job_section_elements'] as $key => $value) {
 
 						if(file_exists(__DIR__ . DS . '../elements' . DS . $value['element_type'] . '.php')) {
 

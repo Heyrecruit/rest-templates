@@ -3,8 +3,9 @@ var cookieBanner = {
      * load cookieBanner init function
      */
     init: function cookieBanner() {
+
         var bodyData = document.querySelector('body').dataset,
-            gtaId = bodyData.gtmId,
+            ga4MeasurementId = bodyData.ga4MeasurementId,
             gtmPropertyId = bodyData.gtmPropertyId,
             domain = bodyData.domain,
             companyName = bodyData.companyName,
@@ -75,8 +76,18 @@ var cookieBanner = {
                                     type: 'HTTP Cookie'
                                 }
                             }
-                        }
-
+                        },
+                        'ga4MeasurementId': {
+                            active: true,
+                            cookies: {
+                                'ga4MeasurementId': {
+                                    company: 'Google',
+                                    infoText: 'Enthält die GA4-Mess-ID',
+                                    expires: 'Wird beim Schließen des Browsers gelöscht.',
+                                    type: 'HTTP-Session'
+                                }
+                            }
+                        },
                     }
                 },
                 statisticsCookies: {
@@ -88,7 +99,7 @@ var cookieBanner = {
                         gtm: {
                             active: true,
                             groupName: 'Google Tag Manager',
-                            containerId: gtaId,
+                            containerId: ga4MeasurementId,
                             loadGtmIframe: true,
                             loadIframe: true,
                             activeCookie: function () {
@@ -290,6 +301,7 @@ var cookieBanner = {
                             var cboGroup = cboGroups[groupKey];
                             if (cboGroup.active) {
                                 cboGroup.activeCookie();
+
                             }
                         });
                     } else {
@@ -315,6 +327,18 @@ var cookieBanner = {
                     groupPath = cboGroup.path ? cboGroup.path : '',
                     groupDomain = cboGroup.domain ? cboGroup.domain : '';
                 deleteCookie(groupKey, groupPath, groupDomain);
+
+                if (groupKey === '_ga') {
+                    gtag('consent', 'update', {
+                        ad_storage: 'denied',
+                        analytics_storage: 'denied'
+                    });
+
+                    window.dataLayer.push({
+                        'event': 'consent_update'
+                    })
+                }
+
             });
         }
 
@@ -905,19 +929,18 @@ var cookieBanner = {
             var gtmUrl = 'https://www.googletagmanager.com/gtm.js?id=';
             var gtmContainerId = cbo.statisticsCookies.group.gtm.containerId;
             if (!isScriptLoaded(gtmUrl + gtmContainerId)) {
-                var gtmLoad = {
-                    init: function (w, d, s, l, i) {
-                        w[l] = w[l] || [];
-                        w[l].push({'gtm.start': new Date().getTime(), event: 'gtm.js'});
-                        var f = d.getElementsByTagName(s)[0], j = d.createElement(s),
-                            dl = l !== 'dataLayer' ? '&l=' + l : '';
-                        j.async = false;
-                        j.src = gtmUrl + i + dl;
-                        f.parentNode.insertBefore(j, f);
-                    }
-                };
-                gtmLoad.init(window, document, 'script', 'dataLayer', gtmContainerId);
-                loadGtmIframe();
+
+                if (!cbCookie || (cbCookie && !cbCookieJson.statisticsCookies)) {
+
+                    gtag('consent', 'update', {
+                        ad_storage: 'granted',
+                        analytics_storage: 'granted'
+                    });
+
+                    window.dataLayer.push({
+                        'event': 'consent_update'
+                    })
+                }
             }
         }
 
@@ -939,13 +962,17 @@ var cookieBanner = {
             }
         }
 
+        /**
+         * gtag
+         *
+         * push the permission to google
+         */
+        function gtag() {
+            window.dataLayer.push(arguments);
+        }
+
         // ### end Google Tag Manager ###
 
         // ### end Cookie specific function ###
     }
-};
-
-// load cookieBanner on window load
-window.onload = function () {
-    cookieBanner.init();
 };

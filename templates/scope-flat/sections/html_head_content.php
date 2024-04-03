@@ -2,12 +2,12 @@
 <title><?php echo $meta['title']; ?></title>
 <?php
 	if(isset($_GET['page']) && $_GET['page'] === 'job' && isset($job['status_code']) && $job['status_code'] === 200) {
-		$description = !empty($job['data']['Job']['description']) ? $job['data']['Job']['description'] : $job['data']['Job']['subtitle'] . ' ' . $job['data']['Job']['title'];
+		$description = !empty($job['response']['data']['Job']['description']) ? $job['response']['data']['Job']['description'] : $job['response']['data']['Job']['subtitle'] . ' ' . $job['response']['data']['Job']['title'];
 		?>
 
 		<meta name="description" content="<?=strip_tags($description)?>"/>
 		<meta property="og:type" content="website"/>
-		<meta property="og:title" content="<?=strip_tags($job['data']['Job']['title'])?>"/>
+		<meta property="og:title" content="<?=strip_tags($job['response']['data']['Job']['title'])?>"/>
 		<meta property="og:description" content='<?=strip_tags($description)?>'/>
 		<?php
 	}
@@ -19,7 +19,10 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <!-- start cookieBanner -->
 <link rel="stylesheet" type="text/css" href="/css/cookieBanner.css?version=<?=VERSION?>">
-<?php if(is_file($_ENV['BASE_PATH'] . '/templates/' . $template . '/css/cookieBanner.css')) { ?>
+<?php
+	$basePath = !empty($_ENV['BASE_PATH']) ? $_ENV['BASE_PATH'] : __DIR__;
+?>
+<?php if(is_file($basePath . '/templates/' . $template . '/css/cookieBanner.css')) { ?>
 	<link rel="stylesheet" type="text/css"
 	      href="<?=$_ENV['BASE_PATH']?>/templates/<?=$template?>/css/cookieBanner.css?version=<?=VERSION?>">
 <?php } ?>
@@ -28,21 +31,21 @@
     /* Set class to override the default CookieBanner */
 
     .cookie h1, .cookie h2, .cookie h3, span.info, .cookie .cookieModal .descrption .infoTrigger {
-        color: <?=$company['CompanyTemplate']['key_color']?> !important;
+        color: <?=$company['company_templates']['key_color']?> !important;
     }
 
     .cookie .cookieModal .switch input:checked + .slider {
-        background-color: <?=$company['CompanyTemplate']['key_color']?> !important;
+        background-color: <?=$company['company_templates']['key_color']?> !important;
     }
 
     .cookie .button.color {
-        background: <?=$company['CompanyTemplate']['key_color']?> !important;
-        border-color: <?=$company['CompanyTemplate']['key_color']?> !important;
+        background: <?=$company['company_templates']['key_color']?> !important;
+        border-color: <?=$company['company_templates']['key_color']?> !important;
     }
 
     .cookie .button.color:hover {
         background: white !important;
-        color: <?=$company['CompanyTemplate']['key_color']?> !important;
+        color: <?=$company['company_templates']['key_color']?> !important;
     }
 
     .cookie p, .cookie td, .cookie a, .cookie span {
@@ -51,7 +54,7 @@
     }
 
     #scope_datenschutz a {
-        color: <?=$company['CompanyTemplate']['key_color']?> !important;
+        color: <?=$company['company_templates']['key_color']?> !important;
     }
 </style>
 <!-- end cookieBanner -->
@@ -115,7 +118,7 @@
 
 <!-- Facebook Pixel -->
 <?php
-	switch($company['Company']['id']){
+	switch($company['id']){
 		case 135:
 ?>
 			<!-- Facebook Pixel Code -->
