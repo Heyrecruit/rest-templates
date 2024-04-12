@@ -1,25 +1,50 @@
 <?php
     /** @var array $vars */
     /** @var array $jobSection */
+	
+	$jobId      = HeyUtility::getJobId($_GET);
+	$locationId = HeyUtility::getLocationId($_GET);
 ?>
 <section id="jp-section-form">
-
-
-
     <div class="row">
         <div class="col-12">
-
-
             <div id="job-form-wrapper" class="grey-container">
 
                 <?php if(!$vars['job']['company_location_jobs'][0]['active'] && (empty($_GET['preview']))) {?>
                     <div class="disabledCont"></div>
                 <?php }?>
 
+                <!-- Hier Dynamic -->
                 <?php
-                 
-	                $jobId      = HeyUtility::getJobId($_GET);
-	                $locationId = HeyUtility::getLocationId($_GET);
+                    if(count($vars['job']['active_company_location_jobs']) > 1) {
+	                    $locationText = $vars['language'] != 'de' ? 'Select location' : 'Standort wählen';
+                ?>
+                        <h2 class="primary-color"><?=$locationText?></h2>
+                        <div class="hey-form-row mb-5 ">
+                            <div>
+                                <div class="customSelect">
+                                    <select class="form-control" name="standort" id="scope-location-select">
+					                    <?php
+						                    foreach ($vars['job']['active_company_location_jobs'] as $k => $v) {
+							                    $formattedLocation = HeyUtility::getFormattedAddress($v);
+							                    
+							                    if ($locationId == $v['company_location_id']) {
+								                    echo '<option value="' . $v['company_location_id'] . '" selected>' . HeyUtility::h($formattedLocation) . '</option>';
+							                    } else {
+								                    echo '<option value="' . $v['company_location_id'] . '">' . HeyUtility::h($formattedLocation) . '</option>';
+							                    }
+						                    }
+					                    ?>
+                                    </select>
+                                    <i class="far fa-angle-down"></i>
+                                </div>
+                            </div>
+                        </div>
+                <?php
+                    }
+                ?>
+
+                <?php
                  
 	                $language   = $vars['language'];
 	

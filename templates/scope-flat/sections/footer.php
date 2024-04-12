@@ -24,6 +24,9 @@
             <?php } else { ?>
                 <a href="<?=$company['data_protection']?>" target="_blank" class="primary-color"><?= $company['language_id'] !== 1 ? 'Privacy policy' : 'Datenschutz' ?></a>
             <?php }  ?>
+            <a href="javascript:void(0)" class="primary-color" id="openCookieInfoModal">
+                <?= $company['language_id'] !== 1 ? 'Cookie settings' : 'Cookie-Einstellungen' ?>
+            </a>
         </div>
 		<div class="col-12 col-sm-6">
 			<?php
@@ -41,24 +44,33 @@
 <script src="<?=$_ENV['BASE_PATH']?>/js/jobs-map.js?version=<?=VERSION?>"></script>
 <script src="<?=$_ENV['BASE_PATH']?>/js/add-applicant.js?version=<?=VERSION?>"></script>
 <script src="<?=$_ENV['BASE_PATH']?>/js/upload-document.js?version=<?=VERSION?>"></script>
-<!-- Block Google Fonts loaded by Google Maps -->
-<script>
-   let head = document.getElementsByTagName('head')[0];
 
-   // Save the original method
-   let insertBefore = head.insertBefore;
 
-   // Replace it!
-   head.insertBefore = function (newElement, referenceElement) {
+<?php if ($company['overview_page']['show_map']) {?>
+    <!-- Block Google Fonts loaded by Google Maps -->
+    <script>
+        let head = document.getElementsByTagName('head')[0];
 
-      if (newElement.href && newElement.href.indexOf('https://fonts.googleapis.com/css?family=Roboto') === 0) {
-         return;
-      }
+        // Save the original method
+        let insertBefore = head.insertBefore;
 
-      insertBefore.call(head, newElement, referenceElement);
-   };
-</script>
-<script src="https://maps.googleapis.com/maps/api/js?key=<?=$_ENV['MAPS_API_KEY']?>"></script>
-<script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js?version=<?=VERSION?>"></script>
+        // Replace it!
+        head.insertBefore = function (newElement, referenceElement) {
+
+            if (newElement.href && newElement.href.indexOf('https://fonts.googleapis.com/css?family=Roboto') === 0) {
+                return;
+            }
+
+            insertBefore.call(head, newElement, referenceElement);
+        };
+    </script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=<?= $_ENV['MAPS_API_KEY'] ?>"></script>
+    <script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js?version=<?= VERSION ?>"></script>
+    <?php
+}
+?>
+
+
 <link rel="stylesheet" type="text/css" href="<?=$_ENV['BASE_PATH']?>/css/fa-pro-all.min.css">
 

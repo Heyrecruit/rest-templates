@@ -34,6 +34,9 @@ $(document).ready(function () {
     $('.datepicker').datepicker({
         dateFormat: 'dd.mm.yy',
         firstDay: 1,
+        changeMonth: true,
+        changeYear: true,
+        yearRange: "-70:+20",
         dayNamesMin: ['So', 'Mo','Di','Mi','Do','Fr','Sa'],
         monthNames: ['Januar','Februar','März','April','Mai','Juni',
             'Juli','August','September','Oktober','November','December']

@@ -758,6 +758,20 @@ body{
           display: block;
         }
       }
+
+      .scope-img-wrap {
+        height: 100% !important;
+        //.slider {
+        //  height: 100% !important;
+        //}
+        > img {
+          height: auto;
+          width: 100% !important;
+          object-fit: contain;
+        }
+      }
+
+
     }
     &.scope-jobs-list-section{
       padding: 70px 0;
@@ -991,6 +1005,14 @@ body{
         line-height: 22px;
         font-weight: 400;
         margin-bottom: 5px;
+        @media (max-width: 575px) {
+          display: block;
+        }
+        a {
+          font-size: 14px;
+          color: @primary;
+          text-decoration: underline;
+        }
       }
 
       input:not([type="checkbox"]), select, textarea {
@@ -1021,6 +1043,9 @@ body{
           width: 20px;
           padding: 0;
           float: left;
+          @media (min-width: 768px) {
+            margin: 9px 5px 0 0;
+          }
           margin: 5px 5px 0 0;
         }
 
@@ -1777,4 +1802,35 @@ section{
     color: gray;
   }
 
+}
+
+
+select.ui-datepicker-month, select.ui-datepicker-year {
+  background: #F4F5F9;
+  margin: 0 2px !important;
+  border-color: #e6e6e6;
+  border-radius: .25rem;
+  padding: 3px;
+  font-size: 15px !important;
+  option {
+    font-weight: 400 !important;
+    background: #fff !important;
+  }
+}
+
+#scope-jobs-table-description-section {
+  font-family: "Open Sans";
+}
+#pagination {
+  text-align: center;
+  width: 100%;
+  button {
+    background: transparent;
+    border: 0;
+    font-size: 15px;
+    cursor: pointer;
+    &.active{
+
+    }
+  }
 }

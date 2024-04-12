@@ -926,6 +926,14 @@ body section.scope-job-about-section #scope-job-about-section-facts strong,
 body section.scope-job-about-section #scope-job-about-section-facts span {
   display: block;
 }
+body section.scope-job-about-section .scope-img-wrap {
+  height: 100% !important;
+}
+body section.scope-job-about-section .scope-img-wrap > img {
+  height: auto;
+  width: 100% !important;
+  object-fit: contain;
+}
 body section.scope-jobs-list-section {
   padding: 70px 0;
 }
@@ -1189,6 +1197,18 @@ body section.jp-section-form .label {
   font-weight: 400;
   margin-bottom: 5px;
 }
+@media (max-width: 575px) {
+  body section.jp-section-form .formText,
+  body section.jp-section-form .label {
+    display: block;
+  }
+}
+body section.jp-section-form .formText a,
+body section.jp-section-form .label a {
+  font-size: 14px;
+  color: #20A8D8;
+  text-decoration: underline;
+}
 body section.jp-section-form input:not([type="checkbox"]),
 body section.jp-section-form select,
 body section.jp-section-form textarea {
@@ -1215,6 +1235,11 @@ body section.jp-section-form .customCheckbox input[type="checkbox"] {
   padding: 0;
   float: left;
   margin: 5px 5px 0 0;
+}
+@media (min-width: 768px) {
+  body section.jp-section-form .customCheckbox input[type="checkbox"] {
+    margin: 9px 5px 0 0;
+  }
 }
 body section.jp-section-form .customCheckbox.checkbox-with-modal input[type="checkbox"] {
   margin: 10px 5px 0 0;
@@ -1971,4 +1996,31 @@ section#form:nth-of-type(odd) {
   padding: 5px 5px 5px 10px;
   height: 50px;
   color: gray;
+}
+select.ui-datepicker-month,
+select.ui-datepicker-year {
+  background: #F4F5F9;
+  margin: 0 2px !important;
+  border-color: #e6e6e6;
+  border-radius: 0.25rem;
+  padding: 3px;
+  font-size: 15px !important;
+}
+select.ui-datepicker-month option,
+select.ui-datepicker-year option {
+  font-weight: 400 !important;
+  background: #fff !important;
+}
+#scope-jobs-table-description-section {
+  font-family: "Open Sans";
+}
+#pagination {
+  text-align: center;
+  width: 100%;
+}
+#pagination button {
+  background: transparent;
+  border: 0;
+  font-size: 15px;
+  cursor: pointer;
 }

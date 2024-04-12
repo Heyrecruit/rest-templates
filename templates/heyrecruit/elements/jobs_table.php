@@ -16,7 +16,6 @@ if(!isset($jobs)) {
 	}
 }
 
-$count = 1;
 if(!empty($jobs)) {
  
 	foreach ($jobs['jobs'] as $key => $value) {
@@ -24,13 +23,12 @@ if(!empty($jobs)) {
 		if (!empty($value['company_location_jobs'])) {
 			
 			foreach ($value['company_location_jobs'] as $k => $v) {
-				if(!isset($limit) || ($count <= $limit)) {
-     
-					$url = "?page=job&id=" . $value['id'] . "&location=" . $v['company_location_id'];// . "&language=" . HeyUtility::h($language);
-					require(CURRENT_ELEMENT_PATH . "jobs_table_row.php");
-					$count++;
-				}
+				$url = "?page=job&id=" . $value['id'] . "&location=" . $v['company_location_id'];
+				require(CURRENT_ELEMENT_PATH . "jobs_table_row.php");
+				break;
 			}
 		}
 	}
 }
+
+require(ELEMENT_PATH_ROOT . "pagination.php");

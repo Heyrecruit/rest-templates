@@ -17,6 +17,9 @@
 <meta name="keywords" content="E-Recruiting">
 <meta name="viewport" content="width=device-width">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<?php
+include ELEMENT_PATH_ROOT . "canonical.php";
+?>
 <!-- start cookieBanner -->
 <link rel="stylesheet" type="text/css" href="/css/cookieBanner.css?version=<?=VERSION?>">
 <?php

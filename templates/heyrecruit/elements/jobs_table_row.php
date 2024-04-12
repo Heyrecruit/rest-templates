@@ -5,6 +5,7 @@
 	/** @var string $url */
 	/** @var string $language */
 	/** @var HeyUtility $utility */
+	
 ?>
 
 <div class="row">
@@ -21,14 +22,31 @@
 					?>
 							<span>
 								<?php
+									$moreLocationsText = $language !== 'de' ? 'more' : ' weitere';
+         
 									$formattedAddress = HeyUtility::getFormattedAddress(
-										$v, false, true, false
+										$v, false, true, false, false
 									);
 									
 									if (empty($formattedAddress)) {
 										$formattedAddress = HeyUtility::getFormattedAddress($v);
 									}
-									
+         
+									if(count($value['company_location_jobs']) == 2){
+										$formattedAddressTwo = HeyUtility::getFormattedAddress(
+											$value['company_location_jobs'][1], false, true, false, false
+										);
+										
+										if (empty($formattedAddressTwo)) {
+											$formattedAddressTwo = HeyUtility::getFormattedAddress($value['company_location_jobs'][1]);
+										}
+										
+										$formattedAddress .= ', ' . $formattedAddressTwo;
+                                    
+                                    }elseif(count($value['company_location_jobs']) > 2){
+										$formattedAddress .= ', ' . (count($value['company_location_jobs'])-1) . ' ' .$moreLocationsText;
+									}
+										
 									if (!empty($formattedAddress)) {
 										echo '<i class="fal fa-map-marker-alt"></i>' .
 											HeyUtility::h($formattedAddress);

@@ -39,6 +39,40 @@
                         <input type="hidden" name="job_id" value="<?= $jobId ?>" id="JobId">
                         <input type="hidden" name="company_location_id" value="<?= $locationId ?>" id="scope_company_location_id">
                         <input type="hidden" name="company_id" value="<?=$vars['company']['id']?>" id="scope_company_id">
+                        
+                        <?php
+                        if(count($vars['job']['active_company_location_jobs']) > 1) {
+                            $locationText = $vars['language'] != 'de' ? 'Select location' : 'Standort wählen';
+                            ?>
+                            <h3 class="primary-color"><?=$locationText?></h3>
+                            <div class="hey-form-row ">
+                                <div class="row">
+                                    <div class="col-12 col-sm-6 col-md-5">
+                                        <span class="formText">Standort</span>
+                                    </div>
+                                    <div class="col-12 col-sm-6 col-md-7">
+                                        <div class="customSelect">
+                                            <select class="form-control" name="standort" id="scope-location-select">
+                                                <?php
+                                                foreach ($vars['job']['active_company_location_jobs'] as $k => $v) {
+                                                    $formattedLocation = HeyUtility::getFormattedAddress($v);
+
+                                                    if ($locationId == $v['company_location_id']) {
+                                                        echo '<option value="' . $v['company_location_id'] . '" selected>' . HeyUtility::h($formattedLocation) . '</option>';
+                                                    } else {
+                                                        echo '<option value="' . $v['company_location_id'] . '">' . HeyUtility::h($formattedLocation) . '</option>';
+                                                    }
+                                                }
+                                                ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        <?php
+                        }
+                        ?>
                       
                 <?php
 

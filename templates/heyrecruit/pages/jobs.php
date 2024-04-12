@@ -274,13 +274,8 @@
 </section>-->
 
 <section id="cp-section-jobs" class="no-p">
-    <?php
-        if (!$company['overview_page']['show_map']) {
-   ?>
-            <h1><?= $language != 'de' ? 'Vacancies' : 'Offene Stellen' ?></h1>
-   <?php
-        }
 
+   <?php
         if ($company['overview_page']['show_map']) {
    ?>
             <div id="map-wrapper" data-map-container="true">

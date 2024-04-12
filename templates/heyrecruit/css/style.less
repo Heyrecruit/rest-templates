@@ -247,6 +247,7 @@ h3 {
 .error {
     margin-top: 8px !important;
     font-size: .9em;
+    color:#c70000 !important;
 }
 
 //modal
@@ -1379,6 +1380,8 @@ body {
                         top: 50%;
                         transform: translateY(-50%);
                         right: 15px;
+                        background: white;
+                        padding: 0 2px;
                     }
                 }
 
@@ -1540,32 +1543,36 @@ body {
                         border: 1px solid #e6e6e6;
                         border-radius: 5px;
                         padding: 10px 15px;
-                        display: grid;
-                        grid-template-columns: auto min-content;
-                        grid-template-rows: 1fr 1fr;
-                        align-items: center;
-                        grid-gap: 5px;
+                        //display: grid;
+                        //grid-template-columns: auto min-content;
+                        //grid-template-rows: 1fr 1fr;
+                        //align-items: center;
+                        //grid-gap: 5px;
                         margin-top: 10px;
-
+                        position: relative;
+                        padding-right: 2.75rem;
+                        .documentDelete {
+                            position: absolute;
+                            right: 1rem;
+                            top: 1rem;
+                        }
                         > span {
                             font-weight: 700;
                             margin: 0;
                             line-height: 1;
-                            grid-area: 1 e("/") 1 e("/") 2 e("/") 2;
                             overflow: hidden;
+                            white-space: nowrap;
                             text-overflow: ellipsis;
-                            display: -webkit-box;
-                            -webkit-line-clamp: 1;
-                            -webkit-box-orient: vertical;
                         }
-
                         > label {
                             line-height: 1;
-                            grid-area: 2 e("/") 1 e("/") 3 e("/") 2;
+                            display: block;
+                            margin-bottom: 7px;
                         }
-
+                        > i {
+                            float:left;
+                        }
                         > div {
-                            grid-area: 1 e("/") 2 e("/") 3 e("/") 3;
 
                             i {
                                 color: #4d4d4d;
@@ -1902,5 +1909,19 @@ body {
                 }
             }
         }
+    }
+}
+
+
+select.ui-datepicker-month, select.ui-datepicker-year {
+    background: #F4F5F9;
+    margin: 0 2px !important;
+    border-color: #e6e6e6;
+    border-radius: .25rem;
+    padding: 3px;
+    font-size: 15px !important;
+    option {
+        font-weight: 400 !important;
+        background: #fff !important;
     }
 }

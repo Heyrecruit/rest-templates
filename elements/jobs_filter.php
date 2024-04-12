@@ -72,10 +72,21 @@
 				<?php
 					foreach($employmentList as $key => $value) {
 						?>
-						<option value="<?=$key?>"><?=$value?></option>
+                        <option value="<?=HeyUtility::h($key)?>">
+                            <?php
+                            if($company['language_id'] !== 1) {
+                                echo HeyUtility::h($value['en']);
+                            }else{
+                                echo HeyUtility::h($value['de']);
+                            }
+                            ?>
+                        </option>
 						<?php
 					}
 				?>
+
+
+
 			</select>
 		</div>
 		<?php

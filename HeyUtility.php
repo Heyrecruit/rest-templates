@@ -111,7 +111,7 @@
 			define("CURRENT_PAGE_PATH", CURRENT_TEMPLATE_PATH . 'pages' . DS);
 			define("ELEMENT_PATH_ROOT", ROOT . 'elements' . DS);
 			define("FONT_PATH_ROOT", ROOT . 'font' . DS);
-			define("VERSION", '2.0');
+			define("VERSION", '2.1');
 		}
 		
 		/**

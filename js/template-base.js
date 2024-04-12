@@ -33,6 +33,16 @@ function TemplateHandler(addEventHandler) {
             window.location.href = _this.updateQueryStringParameter(window.location.href, 'location', $(this).val());
         });
 
+        $(document).on('click', '.hey_pagination button', function (e) {
+            e.preventDefault();
+
+            if (!$(this).hasClass('active')) {
+                $('.btn-outline-info').removeClass('active');
+                $(this).addClass('active');
+                _this.filter()
+            }
+        });
+
 
         // Animated scrolling -> Click of every a with an beginning hash tag and not .scope_open_modal class.
         $(document).on('click', 'a[href^=\\#]:not(.scope_open_modal)', function (e) {
@@ -238,10 +248,16 @@ function TemplateHandler(addEventHandler) {
             error: function (response) {
 
                 if (typeof response.responseText !== 'undefined') {
-                    var responseText = JSON.parse(response.responseText);
-
-                    if (typeof error !== 'undefined') {
-                        error(responseText);
+                    try {
+                        var responseText = JSON.parse(response.responseText);
+                        if (typeof error !== 'undefined') {
+                            error(responseText);
+                        }
+                    } catch (e) {
+                        console.error("JSON parsing error:", e);
+                        if (typeof error !== 'undefined') {
+                            error(response);
+                        }
                     }
                 }
             }
@@ -253,6 +269,7 @@ function TemplateHandler(addEventHandler) {
         let url = this.getBaseUrl();
         let searchParams = '';
         let locationType = 'search';
+        let page = $('.btn-outline-info').length ?  parseInt($('.btn-outline-info.active').attr('data-rel')) : 1;
 
         let locationQuery = '';
         if (typeof $('#standort').val() !== 'undefined') {
@@ -314,7 +331,7 @@ function TemplateHandler(addEventHandler) {
 
         url += $jobsContainer.find('.table-location-wrapped').length ? 'elements/jobs_table_locations_wrapped.php' : 'elements/jobs_table.php';
 
-        $jobsContainer.load(url + searchParams, function () {
+        $jobsContainer.load(url + searchParams + '&page='+page, function () {
             if (typeof makeAutomatedTranslation == "function") {
                 makeAutomatedTranslation();
             }

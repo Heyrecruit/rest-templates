@@ -109,9 +109,11 @@ function keysToUnderscore(obj) {
     return deepMapKeys(obj, camelToUnderscoreKey);
 }
 
-function addApplicant(data) {
-    let w = window.location;
-    let url = w.protocol + "//" + w.host;
+var applyErrorCount = 0;
+function addApplicant(data, userDomainOnly = false) {
+    let url = new URL(window.location.href);
+    let domain = `${url.protocol}//${url.hostname}`;
+    let desiredURL = !userDomainOnly ? url.origin + url.pathname : domain;
 
     grecaptcha.ready(function() {
 
@@ -119,7 +121,7 @@ function addApplicant(data) {
 
             data += '&re_captcha=' + token;
 
-            templateHandler.ajaxCall(url +  '/partials/apply.php', data, false, function (response) {
+            templateHandler.ajaxCall(desiredURL +  '/partials/apply.php', data, false, function (response) {
 
                 if (response.status === 'success' && typeof response.data.applicant_job_id != 'undefined') {
 
@@ -129,7 +131,7 @@ function addApplicant(data) {
                     if(typeof response.data.redirect_url != 'undefined' && response.data.redirect_url !== '') {
                         window.location.href = response.data.redirect_url;
                     } else {
-                        window.location.href = url + "/?page=danke&job=" + response.data.job_id + "&location=" + response.data.company_location_id ;
+                        window.location.href = desiredURL + "/?page=danke&job=" + response.data.job_id + "&location=" + response.data.company_location_id ;
                     }
                 }else{
                     applicationFailed();
@@ -144,6 +146,11 @@ function addApplicant(data) {
 
                 if (typeof templateHandler != 'undefined' && typeof templateHandler.sendIframeHeight === 'function') {
                     templateHandler.sendIframeHeight();
+                }
+            }, function (){
+                if(applyErrorCount < 1) {
+                    applyErrorCount++;
+                    addApplicant(data, true);
                 }
             });
         });
