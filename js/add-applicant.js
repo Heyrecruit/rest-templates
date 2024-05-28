@@ -121,7 +121,7 @@ function addApplicant(data, userDomainOnly = false) {
 
     grecaptcha.ready(function() {
 
-        grecaptcha.execute('6Lc0GBgoAAAAAKFu__B4Hi73ScrRoUG2GqpvSTT1', {action: 'submit'}).then(function(token) {
+        grecaptcha.execute('your_recaptcha_site_key', {action: 'submit'}).then(function(token) {
 
             data += '&re_captcha=' + token;
 
