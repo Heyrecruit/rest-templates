@@ -1,24 +1,8 @@
 <meta charset="utf-8">
 <title><?php echo $meta['title']; ?></title>
 <?php
-	if(isset($_GET['page']) && $_GET['page'] === 'job' && isset($job['status_code']) && $job['status_code'] === 200) {
-		$description = !empty($job['response']['data']['Job']['description']) ? $job['response']['data']['Job']['description'] : $job['response']['data']['Job']['subtitle'] . ' ' . $job['response']['data']['Job']['title'];
-		?>
-
-		<meta name="description" content="<?=strip_tags($description)?>"/>
-		<meta property="og:type" content="website"/>
-		<meta property="og:title" content="<?=strip_tags($job['response']['data']['Job']['title'])?>"/>
-		<meta property="og:description" content='<?=strip_tags($description)?>'/>
-		<?php
-	}
-?>
-<meta name="author" content="SCOPE Recruiting">
-<meta name="copyright" content="SCOPE Recruiting 2021">
-<meta name="keywords" content="E-Recruiting">
-<meta name="viewport" content="width=device-width">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<?php
 include ELEMENT_PATH_ROOT . "canonical.php";
+include ELEMENT_PATH_ROOT . "meta.php";
 ?>
 <!-- start cookieBanner -->
 <link rel="stylesheet" type="text/css" href="/css/cookieBanner.css?version=<?=VERSION?>">

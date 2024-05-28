@@ -79,14 +79,14 @@
                     !empty($company['overview_page']['show_description'])
                 ) {
             ?>
-                    <div class="company-description">
-                      <?php
-                          echo strip_tags(
-                              $company['overview_page']['overview_page_strings'][0]['description'],
-                              ['p', 'b', 'span', 'a', 'ul', 'li', 'ol', 'a', 'u']
-                          );
-                      ?>
-                    </div>
+                <div class="company-description">
+                    <?php
+                        echo strip_tags(
+                          $company['overview_page']['overview_page_strings'][0]['description'],
+                          ['p', 'b', 'span', 'a', 'ul', 'li', 'ol', 'a', 'u', 'strong']
+                        );
+                    ?>
+                </div>
             <?php
                  }
                 

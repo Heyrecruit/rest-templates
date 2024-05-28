@@ -5,51 +5,18 @@
     /** @var array $job */
     /** @var array $fonts */
     /** @var array $company */
-?>
-<meta charset="utf-8">
-<title><?=strip_tags($meta['title'])?></title>
-<?php
-	if($page === 'job' && !empty($job)) {
-    
-        if(!empty($job['job_strings'][0]['description'])) {
-	        $description = $job['job_strings'][0]['description'];
-        }else{
-            $description = $job['job_strings'][0]['subtitle'] . ' ' .
-                $job['job_strings'][0]['title'];
-        }
-?>
-		<meta name="description" content="<?=strip_tags($description)?>"/>
-		<meta property="og:type" content="website"/>
-		<meta property="og:title" content="<?=strip_tags($job['job_strings'][0]['title'])?>"/>
-		<meta property="og:description" content='<?=strip_tags($description)?>'/>
-<?php
-        
-        $images = HeyUtility::getSectionElementImages($job);
-        
-        if (!empty($images)) {
-            foreach ($images as $imageUrl) {
-?>
-            <meta property="og:image" content="<?=strip_tags($imageUrl)?>"/>
-<?php
-		    }
-	    }
-	}
-	
-	if ($page === 'jobs' && !empty($company['overview_header_picture'])) {
-?>
-        <meta property="og:image" content="<?=strip_tags($company['overview_header_picture'])?>"/>
-<?php
-	}
+
+$jobId      = HeyUtility::getJobId($_GET);
+$locationId = HeyUtility::getLocationId($_GET);
+
 ?>
 
-<meta name="author" content="Heyrecruit">
-<meta name="copyright" content="Heyrecruit 2022">
-<meta name="keywords" content="E-Recruiting">
-<meta name="viewport" content="width=device-width">
-<meta name="apple-mobile-web-app-capable" content="yes">
+<meta charset="utf-8">
+<title><?=strip_tags($meta['title'])?></title>
 
 <?php
     include ELEMENT_PATH_ROOT . "canonical.php";
+    include ELEMENT_PATH_ROOT . "meta.php";
 ?>
 
 <link rel="stylesheet" type="text/css" href="/css/cookieBanner.css?version=<?=VERSION?>">

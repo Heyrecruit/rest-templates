@@ -19,7 +19,7 @@ function setPagination() {
         for (i = 0; i < numPages; i++) {
             var pageNum = i + 1;
             /*$('#pagination').append('<a href="#" class="btn-outline-info" rel="' + i + '">&emsp;' + pageNum + '&emsp;</a> ');*/
-            $('#pagination').append('<button class="btn-outline-info" rel="' + i + '">' + pageNum + '</button>');
+            $('#pagination').append('<button class="btn-outline-info" data-rel="' + i + '">' + pageNum + '</button>');
         }
         $('.cp-job-list .row').hide();
         $('.cp-job-list .row').slice(0, rowsShown).show();
@@ -28,7 +28,7 @@ function setPagination() {
             e.preventDefault();
             $('#pagination button').removeClass('active');
             $(this).addClass('active');
-            var currPage = $(this).attr('rel');
+            var currPage = $(this).attr('data-rel');
             var startItem = currPage * rowsShown;
             var endItem = startItem + rowsShown;
             $('.cp-job-list .row').css('opacity', '0').hide().slice(startItem, endItem).css('display', 'flex').animate({

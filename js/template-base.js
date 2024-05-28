@@ -254,7 +254,7 @@ function TemplateHandler(addEventHandler) {
                             error(responseText);
                         }
                     } catch (e) {
-                        console.error("JSON parsing error:", e);
+                       //console.log("JSON parsing error:", e);
                         if (typeof error !== 'undefined') {
                             error(response);
                         }
@@ -313,7 +313,9 @@ function TemplateHandler(addEventHandler) {
             searchParams += searchParams.indexOf('?') !== -1 ? '&' : '?';
             searchParams += 'employments=' + encodeURIComponent($('#einstellungsart option:selected').val());
         }
-
+        if (typeof $('#einstellungsart option:selected').val() !== 'undefined' && $('#einstellungsart option:selected').val() === 'allTraining') {
+            searchParams += '&employments=6&employments=7';
+        }
         if (typeof $('#fachabteilung option:selected').val() !== 'undefined' && $('#fachabteilung option:selected').val() !== 'all') {
             if (typeof department !== 'undefined' && department !== null) {
                 $('#fachabteilung').val(department)
@@ -502,6 +504,29 @@ function TemplateHandler(addEventHandler) {
         return Snd;
     };
 
+    this.getGaSessionId = function () {
+        var sessionId = false;
+        var cookieName = $('body').attr('data-ga4-measurement-id');
+
+        if (cookieName && cookieName.length > 0) {
+            // Entferne die ersten beiden Zeichen
+            cookieName = cookieName.slice(2);
+
+            var cookie = "_ga_" + cookieName;
+            var pattern = new RegExp(cookie + "=GS1\\.1\\.(\\d+)\\.\\d+\\.\\d+\\.\\d+\\.\\d+\\.\\d+\\.\\d+");
+            var match = document.cookie.match(pattern);
+            sessionId = match && match[1];
+
+        }
+
+        if (!sessionId) {
+            console.log("Session ID not found");
+            return;
+        }
+
+        return sessionId;
+    };
+
     this.init(addEventHandler);
 }
 
@@ -540,3 +565,4 @@ window.onload = () => {
         cookieBanner.init();
     }
 };
+

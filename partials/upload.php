@@ -11,28 +11,31 @@
 	try {
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			
-			$documentType = $_GET['type'];
-			$fieldName    = $_GET['questionId'];
-		
-			$file = $utility->processUploadedFiles($documentType, $fieldName, $_FILES);
-			
-			if(!empty($file)) {
-				$files[] = $file;
-				$_SESSION['files'] = $files;
+			if(!empty($_GET['type']) && !empty($_GET['questionId'])) {
 				
-				$response = [
-					'status' => 'success',
-					'message' => 'The file has been uploaded successfully',
-					'data' => $file,
-				];
-			}else{
-				$response = [
-					'status' => 'error',
-					'message' => 'The file could not be uploaded',
-				];
+				$documentType = $_GET['type'];
+				$fieldName    = $_GET['questionId'];
+				
+				$file = $utility->processUploadedFiles($documentType, $fieldName, $_FILES);
+				
+				if(!empty($file)) {
+					$files[] = $file;
+					$_SESSION['files'] = $files;
+					
+					$response = [
+						'status' => 'success',
+						'message' => 'The file has been uploaded successfully',
+						'data' => $file,
+					];
+				}else{
+					$response = [
+						'status' => 'error',
+						'message' => 'The file could not be uploaded',
+					];
+				}
+				
+				echo json_encode($response);
 			}
-			
-			echo json_encode($response);
 		}
 	} catch (Exception $e) {
 		die('Es ist ein Fehler aufgetreten.');

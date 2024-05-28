@@ -160,14 +160,3 @@
         </div>
     </div>
 </div>
-
-<script>
-    $(document).ready(function () {
-
-        //Set page title and description
-        templateHandler.setMetaDescriptionAndTitle(
-            'Wir suchen ab sofort: <?=HeyUtility::h($job["job_strings"][0]["title"])?>',
-            '<?=HeyUtility::h($job["job_strings"][0]["title"])?> | <?=HeyUtility::h($company['name'])?>'
-        );
-    });
-</script>

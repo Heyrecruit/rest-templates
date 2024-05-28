@@ -116,7 +116,7 @@ if (!isset($jobs)) {
                                         }
                                         ?>
                                     </td>
-                                    <td>
+                                    <td class="employment-td">
                                         <?php
                                         if (str_contains($company['overview_page']['job_table_categories'], 'department')) {
                                             ?>

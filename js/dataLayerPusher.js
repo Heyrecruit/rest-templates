@@ -6,7 +6,6 @@ const initializeDataLayerOnPageLoad = (page, company, language, job) => {
     window.currentPage = page;
 
     if (page === "job" && job) {
-        console.log(job)
         const location = getLocation(job)
         const heyData = {
             HeyPageType: "stellenanzeige",
@@ -21,12 +20,6 @@ const initializeDataLayerOnPageLoad = (page, company, language, job) => {
 
             HeyJobLocationID: location?.id ?? "",
             HeyJobLocationTitle: location?.address ?? "",
-
-            // TODO MISSING
-            // HeyClientStatus: company["Company"]["is_test"] === true ? "Test" : "Kunde",
-            // HeyJobIndustry: job["Job"]["industry"] ?? "",
-            // HeyJobCareerLevel: job["Job"]["seniority"] ?? "",
-            // HeyJobFunction: job["Job"]["function"] ?? "",
         }
 
         localStorage.setItem("heyData", JSON.stringify(heyData));
@@ -216,7 +209,6 @@ const jobClickEventListener = (job) => {
     HeyJobLocationTitle = location?.address ?? "";
     HeyJobDepartment = job['job_strings'][0]['department'] ?? "";
     HeyJobType = job['job_strings'][0]['employment'] ?? "";
-    console.log(window);
 
     dataLayer.push({
         'event': currentPage === "job" ? 'related_job_click' : 'job_click',

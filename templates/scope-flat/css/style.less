@@ -561,6 +561,16 @@ body{
 
           tbody {
             tr {
+
+              td.employment-td {
+                max-width: 200px;
+                span {
+                  max-width: 100%;
+                  text-overflow: ellipsis;
+                  overflow: hidden;
+                  display: block;
+                }
+              }
               &:nth-child(odd) {
                 background-color: @light;
               }
@@ -1824,13 +1834,20 @@ select.ui-datepicker-month, select.ui-datepicker-year {
 #pagination {
   text-align: center;
   width: 100%;
+  margin-top: 30px;
   button {
     background: transparent;
     border: 0;
-    font-size: 15px;
+    font-size: 16px;
     cursor: pointer;
+    margin: 0 3px;
+    border-radius: 100%;
+    width: 34px;
+    height: 34px;
     &.active{
-
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
   }
 }

@@ -755,6 +755,15 @@ body section#scope-jobs-list-section #scope-jobs-table-desktop-wrap #scope-jobs-
 body section#scope-jobs-list-section #scope-jobs-table-desktop-wrap #scope-jobs-table-desktop thead tr th:last-of-type {
   display: none;
 }
+body section#scope-jobs-list-section #scope-jobs-table-desktop-wrap #scope-jobs-table-desktop tbody tr td.employment-td {
+  max-width: 200px;
+}
+body section#scope-jobs-list-section #scope-jobs-table-desktop-wrap #scope-jobs-table-desktop tbody tr td.employment-td span {
+  max-width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: block;
+}
 body section#scope-jobs-list-section #scope-jobs-table-desktop-wrap #scope-jobs-table-desktop tbody tr:nth-child(odd) {
   background-color: #fff;
 }
@@ -2017,10 +2026,20 @@ select.ui-datepicker-year option {
 #pagination {
   text-align: center;
   width: 100%;
+  margin-top: 30px;
 }
 #pagination button {
   background: transparent;
   border: 0;
-  font-size: 15px;
+  font-size: 16px;
   cursor: pointer;
+  margin: 0 3px;
+  border-radius: 100%;
+  width: 34px;
+  height: 34px;
+}
+#pagination button.active {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }

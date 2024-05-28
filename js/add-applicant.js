@@ -36,6 +36,8 @@ $(document).ready(function (e) {
                 const storedHeyData = localStorage.getItem("heyData");
                 const heyData = storedHeyData ? JSON.parse(storedHeyData) : {};
 
+                var sessionId = templateHandler.getGaSessionId();
+
                 const dataLayer = {
                     hey_source: getUTMParameterByName('utm_source'),
                     hey_medium: getUTMParameterByName('utm_medium'),
@@ -47,10 +49,12 @@ $(document).ready(function (e) {
                     vq_campaign: getUTMParameterByName('vq_campaign')
                 };
 
+                if(typeof sessionId !== 'undefined') {
+                    dataLayer['session_id'] = sessionId;
+                }
+
                 let dataLayerQueryString = new URLSearchParams(dataLayer).toString();
                 let heyDataQueryString = new URLSearchParams(heyData).toString();
-
-                //applicant["dataLayer"]['ga_client_id'] = getGAClientId();
 
                 if(dataLayer.vq_source && dataLayer.vq_campaign) {
                     dataLayerQueryString += `hey_source=${dataLayer.vq_campaign + '/' + dataLayer.vq_source}`;
@@ -61,7 +65,7 @@ $(document).ready(function (e) {
         });
 });
 
-function getGAClientId() {
+/*function getGAClientId() {
     let gaCookie = document.cookie.split('; ').find(row => row.startsWith('_ga='));
     if (gaCookie) {
         let clientId = gaCookie.split('=')[1];
@@ -69,7 +73,7 @@ function getGAClientId() {
     } else {
         return null;
     }
-}
+}*/
 
 // Diese Funktion liest den jeweiligen UTM-Parameter aus der URL
 function getUTMParameterByName(name) {
@@ -80,7 +84,7 @@ function getUTMParameterByName(name) {
 }
 
 // convert camelcase to underscore
-function keysToUnderscore(obj) {
+/*function keysToUnderscore(obj) {
     const deepMapKeys = (obj, mapFn) => {
         return Array.isArray(obj)
             ? obj.map((val) => deepMapKeys(val, mapFn))
@@ -107,7 +111,7 @@ function keysToUnderscore(obj) {
             .toLowerCase();
 
     return deepMapKeys(obj, camelToUnderscoreKey);
-}
+}*/
 
 var applyErrorCount = 0;
 function addApplicant(data, userDomainOnly = false) {
@@ -122,6 +126,7 @@ function addApplicant(data, userDomainOnly = false) {
             data += '&re_captcha=' + token;
 
             templateHandler.ajaxCall(desiredURL +  '/partials/apply.php', data, false, function (response) {
+                applyErrorCount = 0;
 
                 if (response.status === 'success' && typeof response.data.applicant_job_id != 'undefined') {
 
@@ -131,7 +136,7 @@ function addApplicant(data, userDomainOnly = false) {
                     if(typeof response.data.redirect_url != 'undefined' && response.data.redirect_url !== '') {
                         window.location.href = response.data.redirect_url;
                     } else {
-                        window.location.href = desiredURL + "/?page=danke&job=" + response.data.job_id + "&location=" + response.data.company_location_id ;
+                        window.location.href = desiredURL + "?page=danke&job=" + response.data.job_id + "&location=" + response.data.company_location_id ;
                     }
                 }else{
                     applicationFailed();

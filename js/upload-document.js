@@ -14,12 +14,28 @@ function ApplicantDocumentUpload() {
     this.dropZones = [];
 
     this.init = () => {
-        let w = window.location;
-        let url = w.protocol + "//" + w.host;
-        this.uploadUrl =  url + '/partials/upload.php';
-
+        this.setUploadUrl();
         this.setEventHandler();
     };
+
+    this.setUploadUrl = () => {
+        let url = new URL(window.location.href);
+        let domain = `${url.protocol}//${url.hostname}`;
+        let desiredURL = url.origin + url.pathname;
+
+        if (desiredURL.endsWith("/")) {
+            desiredURL = desiredURL.slice(0, -1);
+        }
+
+        let _this = this;
+        desiredURL += '/partials/upload.php'
+
+        templateHandler.ajaxCall(desiredURL, {}, false, function (response) {
+            _this.uploadUrl = desiredURL;
+        }, function (){
+            _this.uploadUrl = domain + '/partials/upload.php';
+        });
+    }
 
     this.setEventHandler = () => {
         var _this = this;
