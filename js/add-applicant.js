@@ -119,48 +119,41 @@ function addApplicant(data, userDomainOnly = false) {
     let domain = `${url.protocol}//${url.hostname}`;
     let desiredURL = !userDomainOnly ? url.origin + url.pathname : domain;
 
-    grecaptcha.ready(function() {
+    data += '&re_captcha=' + token;
 
-        grecaptcha.execute('your_recaptcha_site_key', {action: 'submit'}).then(function(token) {
+    templateHandler.ajaxCall(desiredURL +  '/partials/apply.php', data, false, function (response) {
+        applyErrorCount = 0;
 
-            data += '&re_captcha=' + token;
+        if (response.status === 'success' && typeof response.data.applicant_job_id != 'undefined') {
 
-            templateHandler.ajaxCall(desiredURL +  '/partials/apply.php', data, false, function (response) {
-                applyErrorCount = 0;
+            applicationSentEventListener();
+            alert("Ihre Bewerbung war erfolgreich");
 
-                if (response.status === 'success' && typeof response.data.applicant_job_id != 'undefined') {
+            if(typeof response.data.redirect_url != 'undefined' && response.data.redirect_url !== '') {
+                window.location.href = response.data.redirect_url;
+            } else {
+                window.location.href = desiredURL + "?page=danke&job=" + response.data.job_id + "&location=" + response.data.company_location_id ;
+            }
+        }else{
+            applicationFailed();
+            if (response.detail === 'Validation error') {
+                handleErrors(response);
+            }else if(response.detail === 'Conflict'){
+                alert(response.errors);
+            }else if(response.detail === 'Not Found') {
+                alert('Stellenanzeige ist nicht mehr aktiv.');
+            }
+        }
 
-                    applicationSentEventListener();
-                    alert("Ihre Bewerbung war erfolgreich");
-
-                    if(typeof response.data.redirect_url != 'undefined' && response.data.redirect_url !== '') {
-                        window.location.href = response.data.redirect_url;
-                    } else {
-                        window.location.href = desiredURL + "?page=danke&job=" + response.data.job_id + "&location=" + response.data.company_location_id ;
-                    }
-                }else{
-                    applicationFailed();
-                    if (response.detail === 'Validation error') {
-                        handleErrors(response);
-                    }else if(response.detail === 'Conflict'){
-                        alert(response.errors);
-                    }else if(response.detail === 'Not Found') {
-                        alert('Stellenanzeige ist nicht mehr aktiv.');
-                    }
-                }
-
-                if (typeof templateHandler != 'undefined' && typeof templateHandler.sendIframeHeight === 'function') {
-                    templateHandler.sendIframeHeight();
-                }
-            }, function (){
-                if(applyErrorCount < 1) {
-                    applyErrorCount++;
-                    addApplicant(data, true);
-                }
-            });
-        });
+        if (typeof templateHandler != 'undefined' && typeof templateHandler.sendIframeHeight === 'function') {
+            templateHandler.sendIframeHeight();
+        }
+    }, function (){
+        if(applyErrorCount < 1) {
+            applyErrorCount++;
+            addApplicant(data, true);
+        }
     });
-
 }
 
 function serialize(element, fields = []) {
