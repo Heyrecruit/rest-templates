@@ -1,8 +1,8 @@
-# SCOPE Recruiting Templates
+# Heyrecruit Templates
 
-A collection of public SCOPE Recruiting templates implementing the REST API with PHP.
-To use this code you need an account at www.scope-recruiting.de.
-Scope-Recruiting is a top-level recruitment management software.
+A collection of public Heyrecruit templates implementing the REST API with PHP.
+To use this code you need an account at www.heyrecruit.de.
+Heyrecruit is a top-level recruitment management software.
 
 
 ## System requirements:
