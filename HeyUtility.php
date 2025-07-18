@@ -111,7 +111,7 @@
 			define("CURRENT_PAGE_PATH", CURRENT_TEMPLATE_PATH . 'pages' . DS);
 			define("ELEMENT_PATH_ROOT", ROOT . 'elements' . DS);
 			define("FONT_PATH_ROOT", ROOT . 'font' . DS);
-			define("VERSION", '2.1');
+			define("VERSION", '3.0');
 		}
 		
 		/**
@@ -134,12 +134,12 @@
 			$subDomain = explode('.', $_SERVER['HTTP_HOST'])[0];
 			
 			try {
+			
 				$company = $this->scope->getCompanyDetailBySubDomain($subDomain);
 				
 				if ($company['status_code'] !== 200) {
 					$company = $this->scope->getCompanyDetail((int) $_ENV['SCOPE_CLIENT_ID']);
 				}
-				
 				if ($company['status_code'] !== 200) {
 					$message = $company['response']['errors'] ?? 'Es ist ein Fehler aufgetreten.';
 					die($message);
@@ -189,7 +189,13 @@
 			$data = [
 				'applicant' => $applicant,
 				'analytics' => [
-					'referrer' => $_SESSION['referrer'] ?? $this->getCurrentPageUrl()
+					'referrer' => $_SESSION['referrer'] ?? $this->getCurrentPageUrl(),
+					'session_id' => $applicant['session_id'] ?? null,
+					'vq_campaign' => $applicant['vq_campaign'] ?? null,
+					'vq_source' => $applicant['vq_source'] ?? null,
+					'utm_source' => $applicant['hey_source'] ?? null,
+					'utm_medium' => $applicant['hey_medium'] ?? null,
+					'utm_campaign' => $applicant['hey_campaign'] ?? null,
 				]
 			];
 			
@@ -212,10 +218,10 @@
 		{
 			$processedFiles = [];
 			
-			$uploadedFile = $file['file'];
+			$uploadedFile = $file['file'] ?? false;
 			
 			// Ensure the file upload didn't encounter any errors.
-			if ($uploadedFile['error'] === UPLOAD_ERR_OK) {
+			if ($uploadedFile !== false && $uploadedFile['error'] === UPLOAD_ERR_OK) {
 				// Retrieve file information.
 				$fileName = $uploadedFile['name'];
 				$contentType = mime_content_type($uploadedFile['tmp_name']);
@@ -252,7 +258,7 @@
 			if (!empty($data)) {
 				foreach ($data as $value) {
 					
-					if(isset($value[$field]) && $value['language_id'] == $languageId && !empty($value[$field])){
+					if($value['language_id'] == $languageId && !empty($value[$field])){
 						$string = $value[$field];
 					}
 					
@@ -313,42 +319,59 @@
 			bool $country = true,
 			bool $title = true
 		): string {
+			if (empty($companyLocation['company_location'])) {
+				return '';
+			}
 			
-			$address = '';
-			$hasAddress = false;
+			// Für kürzeren Zugriff
+			$location = $companyLocation['company_location'];
 			
-			if (!empty($companyLocation)) {
-				
-				if($title && !empty($companyLocation['company_location']['title'])) {
-					return $companyLocation['company_location']['title'];
-				}
-				
-				if ($street) {
-					$address .= $companyLocation['company_location']['street'] ?? '';
-					$address .= ' ' . ($companyLocation['company_location']['street_number'] ?? '');
-					$hasAddress = !empty(trim($address));
-				}
-				
-				if ($city) {
-					$address .= $hasAddress ? ', ' : '';
-					$address .= $companyLocation['company_location']['city'] ?? '';
-					$hasAddress = !empty(trim($address));
-				}
-				
-				if ($state) {
-					$address .= $hasAddress ? ', ' : '';
-					$address .= $companyLocation['company_location']['state'] ?? '';
-					$hasAddress = !empty(trim($address));
-				}
-				
-				if ($country) {
-					$address .= $hasAddress ? ', ' : '';
-					$address .= $companyLocation['company_location']['country'] ?? '';
+			// Wenn ein Titel vorhanden ist und genutzt werden soll, direkt zurückgeben
+			if ($title && !empty($location['title'])) {
+				return $location['title'];
+			}
+			
+			// Liste der nicht-leeren Adressteile
+			$addressParts = [];
+			
+			// Straße + Hausnummer
+			if ($street) {
+				$streetAddress = trim(
+					($location['street'] ?? '') . ' ' . ($location['street_number'] ?? '')
+				);
+				if (!empty($streetAddress)) {
+					$addressParts[] = $streetAddress;
 				}
 			}
 			
-			return $address;
+			// Stadt
+			if ($city) {
+				$cityValue = trim($location['city'] ?? '');
+				if (!empty($cityValue)) {
+					$addressParts[] = $cityValue;
+				}
+			}
+			
+			// Bundesland / State
+			if ($state) {
+				$stateValue = trim($location['state'] ?? '');
+				if (!empty($stateValue)) {
+					$addressParts[] = $stateValue;
+				}
+			}
+			
+			// Land
+			if ($country) {
+				$countryValue = trim($location['country'] ?? '');
+				if (!empty($countryValue)) {
+					$addressParts[] = $countryValue;
+				}
+			}
+			
+			// Durch Kommata getrennt zusammenfügen
+			return implode(', ', $addressParts);
 		}
+
 		
 		/**
 		 * Convert a hexadecimal color code to RGB(A) format.
@@ -434,6 +457,66 @@
 			}
 			
 			return $meta;
+		}
+		
+		/**
+		 * Wandelt die Ergebniszeilen aus tracking_settings in ein komplettes
+		 * TRACKING_SETTINGS-Array um (fehlende Plattformen ⇒ false).
+		 *
+		 * @param array<int, array<string,mixed>> $rows Ergebnis von fetchAll(PDO::FETCH_ASSOC)
+		 * @return array<string, mixed>                  Fertige Struktur für JSON-Export
+		 * @throws JsonException
+		 */
+		public static function buildTrackingSettings(array $rows): array
+		{
+			// 1. Grundgerüst – alles auf false
+			$settings = [
+				'google_ga4'       => false,
+				'google_ads'       => false,
+				'matomo'           => false,
+				'meta_pixel'       => false,
+				'linkedin_insight' => false,
+				'tiktok_pixel'     => false,
+			];
+			
+			foreach ($rows as $row) {
+				$platform   = $row['platform']   ?? '';
+				$identifier = $row['identifier'] ?? '';
+				$extraJson  = $row['extra_json'] ?? '{}';
+				
+				// extra_json kann String oder Array sein → immer als Array haben
+				$extra = is_array($extraJson)
+					? $extraJson
+					: (json_decode($extraJson, true, flags: JSON_THROW_ON_ERROR) ?: []);
+				
+				switch ($platform) {
+					case 'google_ga4':
+						$settings['google_ga4'] = [
+							'measurementId' => $identifier,
+						];
+						break;
+					
+					case 'google_ads':
+						$settings['google_ads'] = [
+							'awId'  => $identifier,
+							'label' => $extra['label'] ?? null,
+						];
+						break;
+					case 'meta_pixel':
+						$settings['meta_pixel'] = ['id' => $identifier];
+						break;
+					
+					case 'linkedin_insight':
+						$settings['linkedin_insight'] = ['partnerId' => $identifier];
+						break;
+					
+					case 'tiktok_pixel':
+						$settings['tiktok_pixel'] = ['id' => $identifier];
+						break;
+				}
+			}
+			
+			return $settings;
 		}
 		
 		/**
@@ -601,11 +684,13 @@
 	            .btn:hover,
 	            .btn.btn-primary,
 	            .dz-upload,
+	            body section#scope-jobs-list-section #pagination button.active,
 	            body section#cp-section-jobs #pagination button.active {
 	                background: $keyColor;
 	            }
 	
 	            .initiative-tile,
+	            body section#scope-jobs-list-section #pagination button:not(.active):hover,
 	            body section#cp-section-jobs #pagination button:not(.active):hover,
 	            .flexbox-badges span,
 	            body section .social-links a:hover {
@@ -674,6 +759,7 @@
 		 * @param string $keyColor The key color value.
 		 * @param string|null $gtmId The Google Tag Manager ID value.
 		 * @param string|null $gtmPropertyId The Google Analytics property ID value.
+         * @param string $mapStatus Google Maps Status Value
 		 * @return string The generated data attributes.
 		 */
 		public static function getBodyDataAttributes(
@@ -683,23 +769,25 @@
 			string $companyName,
 			string $keyColor,
 			?string $gtmId = null,
-			?string $gtmPropertyId = null
+			?string $gtmPropertyId = null,
+			?string $mapStatus = null
 		): string {
 			
 			$gtmId = empty($gtmId) ? '' : $gtmId;
 			$gtmPropertyId = empty($gtmPropertyId) ? '' : $gtmPropertyId;
 			
 			return sprintf(
-				'data-base-path="%s/templates/%s" data-domain="%s" data-company-name="%s" data-key-color="%s" ' .
+				'data-base-path="%s/templates/%s" data-domain="%s" data-company-name="%s" data-key-color="%s"' .
 				'data-ga4-measurement-id="%s" data-gtm-property-id="_gat_%s" data-datenschutz-url="#scope_datenschutz"' .
-				'data-datenschutz-class=""',
+				'data-datenschutz-class="" data-map-status="%s" ',
 				$basePath,
 				$template,
 				$domain,
 				$companyName,
 				$keyColor,
 				$gtmId,
-				$gtmPropertyId
+				$gtmPropertyId,
+                $mapStatus
 			);
 		}
 		
@@ -741,12 +829,12 @@
 			}
 		}
 		
-		public static function env(string $key){
+		public static function env(string $key, mixed $default = false){
 			
 			if($_ENV[$key]){
 				return $_ENV[$key];
 			}
 			
-			return false;
+			return $default;
 		}
 	}

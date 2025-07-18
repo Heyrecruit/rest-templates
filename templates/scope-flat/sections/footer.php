@@ -20,7 +20,7 @@
 
             <?php if ($dataProtectionLink !== true) { ?>
                 <a href="#scope_datenschutz" class="primary-color scope_open_modal" data-toggle="modal"
-                   data-target="#scope_impressum"><?= $company['language_id'] !== 1 ? 'Privacy policy' : 'Datenschutz' ?></a>
+                   data-target="#scope_datenschutz"><?= $company['language_id'] !== 1 ? 'Privacy policy' : 'Datenschutz' ?></a>
             <?php } else { ?>
                 <a href="<?=$company['data_protection']?>" target="_blank" class="primary-color"><?= $company['language_id'] !== 1 ? 'Privacy policy' : 'Datenschutz' ?></a>
             <?php }  ?>
@@ -40,13 +40,15 @@
 <script src="https://www.google.com/recaptcha/api.js?render=<?=HeyUtility::env('RECAPTCHA_SITE_KEY')?>"></script>
 <script src="<?=$_ENV['BASE_PATH']?>/templates/<?=$template?>/js/nav.js?version=<?=VERSION?>"></script>
 <script src="<?=$_ENV['BASE_PATH']?>/templates/<?=$template?>/js/slide.js?version=<?=VERSION?>"></script>
+<script src="<?= $_ENV['BASE_PATH'] ?>/js/bootstrap.bundle.4.4.1.js?version=<?= VERSION ?>"></script>
+<script src="<?= $_ENV['BASE_PATH'] ?>/js/bootstrap-multiselect.js?version=<?= VERSION ?>"></script>
 <script src="<?=$_ENV['BASE_PATH']?>/js/template-base.js?version=<?=VERSION?>"></script>
-<script src="<?=$_ENV['BASE_PATH']?>/js/jobs-map.js?version=<?=VERSION?>"></script>
 <script src="<?=$_ENV['BASE_PATH']?>/js/add-applicant.js?version=<?=VERSION?>"></script>
 <script src="<?=$_ENV['BASE_PATH']?>/js/upload-document.js?version=<?=VERSION?>"></script>
-
+<script src="<?=$_ENV['BASE_PATH']?>/js/whatsapp-application.js?version=<?=VERSION?>"></script>
 
 <?php if ($company['overview_page']['show_map']) {?>
+    <script src="<?=$_ENV['BASE_PATH']?>/js/jobs-map.js?version=<?=VERSION?>"></script>
     <!-- Block Google Fonts loaded by Google Maps -->
     <script>
         let head = document.getElementsByTagName('head')[0];

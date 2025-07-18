@@ -4,20 +4,69 @@
 	
 	$jobId      = HeyUtility::getJobId($_GET);
 	$locationId = HeyUtility::getLocationId($_GET);
+	
+	$language                  = $vars['language'];
+    $activeCompanyLocationJobs = $vars['job']['active_company_location_jobs'];
+    
+	$locationText              = $language !== 'de' ? 'Select location' : 'Standort wählen';
+	$applyText                 = $language !== 'de' ? 'Apply now' : 'Bewerbung abschicken';
+	
+	$applyOnMultiLocationsEnabled = $vars['job']['form_settings']['apply_on_multi_locations'] ?? false;
 ?>
 <section id="jp-section-form">
     <div class="row">
         <div class="col-12">
             <div id="job-form-wrapper" class="grey-container">
-
-                <?php if(!$vars['job']['company_location_jobs'][0]['active'] && (empty($_GET['preview']))) {?>
-                    <div class="disabledCont"></div>
-                <?php }?>
-
-                <!-- Hier Dynamic -->
                 <?php
-                    if(count($vars['job']['active_company_location_jobs']) > 1) {
-	                    $locationText = $vars['language'] != 'de' ? 'Select location' : 'Standort wählen';
+                    if($vars['job']['company_id'] == 135 && $vars['job']['job_strings'][0]['department'] == 'Fahrer') {
+                ?>
+                        <!-- Talk n Jobs Integration CCG -->
+                        <script>
+                            document.addEventListener('DOMContentLoaded', () => {
+    
+                                function getQueryParams(url) {
+                                    const params = new URL(url).searchParams;
+                                    return {
+                                        id: params.get('id'),
+                                        location: params.get('location')
+                                    };
+                                }
+    
+                                const currentUrl = window.location.href;
+                                const result = getQueryParams(currentUrl);
+    
+                                const id = result.id;
+                                const location = result.location;
+    
+                                const tag = `<a class="btn btn-primary" href="https://app.talk-n-job.de/chat/2000734_${id}:${location}/ccg">Jetzt mit Sprachbewerbung bewerben</a>`;
+                                const container = document.getElementById('talknjob');
+                                if (container) {
+                                    container.innerHTML = tag;
+                                }
+                            });
+                        </script>
+                        <style>
+                            #jp-section-form #job-form-wrapper #talknjob {
+                                text-align: center;
+                                margin-bottom: 20px;
+                            }
+                            #jp-section-form #job-form-wrapper #talknjob>a {
+                                margin: 0 auto 10px auto;
+                                display: inline-block;
+                                font-size: 1rem;
+                                line-height: 45px;
+                                text-align: center;
+                            }
+                        </style>
+                        <div id="talknjob"></div>
+                <?php
+                    }
+               
+                    if(!$vars['job']['company_location_jobs'][0]['active'] && empty($_GET['preview'])) {
+                        echo '<div class="disabledCont"></div>';
+                    }
+               
+                    if(count($activeCompanyLocationJobs) > 1) {
                 ?>
                         <h2 class="primary-color"><?=$locationText?></h2>
                         <div class="hey-form-row mb-5 ">
@@ -25,7 +74,7 @@
                                 <div class="customSelect">
                                     <select class="form-control" name="standort" id="scope-location-select">
 					                    <?php
-						                    foreach ($vars['job']['active_company_location_jobs'] as $k => $v) {
+						                    foreach ($activeCompanyLocationJobs as $k => $v) {
 							                    $formattedLocation = HeyUtility::getFormattedAddress($v);
 							                    
 							                    if ($locationId == $v['company_location_id']) {
@@ -42,138 +91,127 @@
                         </div>
                 <?php
                     }
-                ?>
-
-                <?php
-                 
-	                $language   = $vars['language'];
-	
+                    
 	                foreach ($jobSection['job_section_elements'] as $key => $value) {
                         
                         if ($value['element_type'] !== 'form' && file_exists( CURRENT_ELEMENT_PATH . $value['element_type'] . '.php')) {
                             $jobSectionElement = $value;
-                            ob_start();
                             include CURRENT_ELEMENT_PATH . $value['element_type'] . '.php';
-                            echo ob_get_clean();
                         } elseif ($value['element_type'] === 'form') {
                             
                             $form = json_decode($value['job_section_element_strings'][0]['text'], true);
-
-                ?>
-                        <input type="hidden" name="job_id" value="<?= $jobId ?>" id="JobId">
-                        <input type="hidden" name="company_location_id" value="<?= $locationId ?>" id="scope_company_location_id">
-                        <input type="hidden" name="company_id" value="<?=$vars['company']['id']?>" id="scope_company_id">
-                      
-                <?php
-
-                        if (!empty($form)) {
                             
-                            foreach ($form as $k => $v) {
-                                
-                                $questionCategoryTitle = HeyUtility::getQuestionStringBasedOnLanguage(
-                                    $v['question_category_strings'],
-                                    $vars['company']['language_id'],
-                                    'title'
-                                );
-                                $questionCategorySubtitle = HeyUtility::getQuestionStringBasedOnLanguage(
-	                                $v['question_category_strings'],
-	                                $vars['company']['language_id'],
-	                                'subtitle'
-                                );
-               ?>
-                                <h3><?=HeyUtility::h($questionCategoryTitle)?></h3>
-                
-                                <?php
-                                    echo $questionCategorySubtitle != '' ?
-                                        '<p class="sub-headline">' . HeyUtility::h($questionCategorySubtitle) . '</p>'
-                                        : '';
-                                    
-                                    foreach ($v['questions'] as $a => $b) {
-    
-                                        $path = file_exists(CURRENT_ELEMENT_PATH . 'form' . DS . $b['form_type'] . '.php')
-                                            ? CURRENT_ELEMENT_PATH . 'form' . DS . $b['form_type'] . '.php'
-                                            : ELEMENT_PATH_ROOT . 'form' . DS . $b['form_type'] . '.php';
-    
-                                        if (file_exists($path)) {
+                            if(!empty($form)) {
+                                include ROOT . 'elements/whatsapp_apply_btn.php';
+                ?>
+                                <div class="form-main">
+                                    <input type="hidden" name="job_id" value="<?= $jobId ?>" id="JobId">
+                                    <input type="hidden" name="company_location_id" value="<?= $locationId ?>" id="scope_company_location_id">
+                                    <input type="hidden" name="company_id" value="<?=$vars['company']['id']?>" id="scope_company_id">
+                                    <?php
+                                        foreach ($form as $k => $v) {
                                             
-                                            $answer = '';
+                                            $questionCategoryTitle = HeyUtility::getQuestionStringBasedOnLanguage(
+                                                $v['question_category_strings'],
+                                                $vars['company']['language_id'],
+                                                'title'
+                                            );
+                                            $questionCategorySubtitle = HeyUtility::getQuestionStringBasedOnLanguage(
+                                                $v['question_category_strings'],
+                                                $vars['company']['language_id'],
+                                                'subtitle'
+                                            );
                                             
-                                            $fieldValue = HeyUtility::getQuestionStringBasedOnLanguage(
-	                                            $b['question_strings'],
-	                                            $vars['company']['language_id'],
-	                                            'value'
-                                            );
-                                            $fieldName = HeyUtility::h($b['field_name']);
+                                            if (!empty($v['questions'])) {
+                                                echo "<h3>" . HeyUtility::h($questionCategoryTitle) . "</h3>";
+                                            }
                                             
-                                            $placeholder = HeyUtility::getQuestionStringBasedOnLanguage(
-	                                            $b['question_strings'],
-	                                            $vars['company']['language_id'],
-	                                            'placeholder'
-                                            );
-                                            $uniqueFieldId = uniqid();
-                                            $required = $b['required'] ? '*' : '';
-                                            $questionId = $b['id'];
-                                            $modalValue = HeyUtility::getQuestionStringBasedOnLanguage(
-	                                            $b['question_strings'],
-	                                            $vars['company']['language_id'],
-	                                            'modal_value'
-                                            );
-                                ?>
-                                            <div class="hey-form-row <?= $b['form_type'] == 'document' ? "upload-row" : "" ?>">
-                                                <?php
+                                            echo $questionCategorySubtitle != '' ? '<p class="sub-headline">' . HeyUtility::h($questionCategorySubtitle) . '</p>' : '';
+                                            
+                                            foreach ($v['questions'] as $a => $b) {
+                                                
+                                                $path = file_exists(CURRENT_ELEMENT_PATH . 'form' . DS . $b['form_type'] . '.php')
+                                                    ? CURRENT_ELEMENT_PATH . 'form' . DS . $b['form_type'] . '.php'
+                                                    : ELEMENT_PATH_ROOT . 'form' . DS . $b['form_type'] . '.php';
+                                                
+                                                if (file_exists($path)) {
+                                                    
+                                                    $answer = '';
+                                                    
+                                                    $fieldValue = HeyUtility::getQuestionStringBasedOnLanguage(
+                                                        $b['question_strings'],
+                                                        $vars['company']['language_id'],
+                                                        'value'
+                                                    );
+                                                    $fieldName = HeyUtility::h($b['field_name']);
+                                                    
+                                                    $placeholder = HeyUtility::getQuestionStringBasedOnLanguage(
+                                                        $b['question_strings'],
+                                                        $vars['company']['language_id'],
+                                                        'placeholder'
+                                                    );
+                                                    $uniqueFieldId = uniqid();
+                                                    $required      = $b['required'] ? '*' : '';
+                                                    $questionId    = $b['id'];
+                                                    
+                                                    $modalValue = HeyUtility::getQuestionStringBasedOnLanguage(
+                                                        $b['question_strings'],
+                                                        $vars['company']['language_id'],
+                                                        'modal_value'
+                                                    );
+                                                    
                                                     $title = HeyUtility::getQuestionStringBasedOnLanguage(
                                                         $b['question_strings'],
                                                         $vars['company']['language_id'],
                                                         'title'
                                                     );
-                                                    if ($title !== 'Einverständniserklärung') {
-                                                ?>
-                                                        <span class="formText"><?= HeyUtility::h($title) . $required ?></span>
-                                                        <div>
-                                                <?php
-                                                    } else {
-                                                ?>
-                                                        <div class="extra-margin">
-                                                <?php
-                                                    }
-                                                            ob_start();
-                                                            include $path;
-                                                            echo ob_get_clean();
-                                                ?>
+                                                    
+                                                    $isDocument = ($b['form_type'] === 'document');
+                                                    $isConsent  = ($title === 'Einverständniserklärung');
+                                                    $rowClass   = $isDocument ? 'upload-row' : '';
+                                                    $innerClass = $isConsent  ? 'extra-margin' : '';
+                                    ?>
+                                                    <div class="hey-form-row <?= $rowClass ?>">
+                                                        <?php if (!$isConsent): ?>
+                                                            <span class="formText">
+                                                                <?= HeyUtility::h($title) . $required ?>
+                                                            </span>
+                                                        <?php endif; ?>
+                
+                                                        <div class="<?= $innerClass ?>">
+                                                            <?php include $path; ?>
                                                         </div>
-                                            </div>
-
-                                        <?php
-                                            if ($b['form_type'] == 'document') {
-                                        ?>
-                                                <div id="scope_upload_all_documents_wrapper_<?= $b['id'] ?>"
-                                                     style="display:none" class="uploadOuterWrapper">
-                                                    <div class="scope_upload_error scope_upload_error_<?= $b['id'] ?>"></div>
-                                                    <form method="post" id="scope_dropzone_<?= $b['id'] ?>" class="dropzone"></form>
-                                                </div>
-                                                <div id="scope_list_all_documents_wrapper_<?= $b['id'] ?>"
-                                                     class="documentOuterWrapper">
-                                                </div>
-               <?php
+                                                    </div>
+                                                    
+                                                <?php
+                                                    if ($b['form_type'] == 'document') {
+                                                ?>
+                                                        <div id="scope_upload_all_documents_wrapper_<?= $b['id'] ?>"
+                                                             style="display:none" class="uploadOuterWrapper">
+                                                            <div class="scope_upload_error scope_upload_error_<?= $b['id'] ?>"></div>
+                                                            <form method="post" id="scope_dropzone_<?= $b['id'] ?>" class="dropzone"></form>
+                                                        </div>
+                                                        <div id="scope_list_all_documents_wrapper_<?= $b['id'] ?>"
+                                                             class="documentOuterWrapper">
+                                                        </div>
+                                    <?php
+                                                     
+	                                                    include ROOT . 'elements/form/multi_location_apply_select.php';
+                                                    }
+                                                }
                                             }
                                         }
-                                    }
-                                }
-                            }
-                       
-                            $applyText = $vars['language'] != 'de' ? 'Apply now' : 'Bewerbung abschicken';
-              ?>
-                            <button id="saveApplicant" type="submit" class="btn btn-primary">
-                                <i class="fal fa-paper-plane"></i><?= $applyText ?>
-                            </button>
-              <?php
+                                    ?>
+                                    <button id="saveApplicant" type="submit" class="btn btn-primary">
+                                        <i class="fas fa-paper-plane"></i><?= $applyText ?>
+                                    </button>
+                                </div>
+                <?php
+			                }
+                        }
                     }
-                }
-              ?>
+                ?>
             </div>
         </div>
     </div>
 </section>
-
-<?php
-

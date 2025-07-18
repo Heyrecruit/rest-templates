@@ -14,14 +14,17 @@ if(!empty($modalValue)){
 	if (is_string($modalValue)) {
 		$modalValue = json_decode($modalValue, true);
 	}
-
-    $openModalHtml =
-        '<a class="scope_open_modal primary-color"
-            href="#modal' . $uniqueFieldId . '"
-            data-toggle="modal"
-            data-target="#modal' . $uniqueFieldId . '">' . HeyUtility::h($modalValue['href']) .
-        '</a>';
-
+	
+	$privacyPoliceClass = $fieldName === 'consent_form_accepted' ? 'scope_open_modal primary-color privacy_police' : 'scope_open_modal primary-color';
+	
+	$openModalHtml =
+		'<a class="'.$privacyPoliceClass.'"
+				href="#modal' . $uniqueFieldId . '"
+				data-toggle="modal"
+				data-target="#modal' . $uniqueFieldId . '">' . $modalValue['href'] .
+		'</a>';
+	
+	
 	$tmpValue = str_replace($modalValue['href'], $openModalHtml, $fieldValue);
 ?>
 
@@ -52,7 +55,7 @@ if(!empty($modalValue)){
 					</a>
 				</div>
 				<div class="modal-body">
-					<p><?=HeyUtility::h($modalValue['value'])?></p>
+					<p><?=nl2br(HeyUtility::h($modalValue['value'] ?? ''))?></p>
 				</div>
 				<div class="modal-footer">
 				</div>

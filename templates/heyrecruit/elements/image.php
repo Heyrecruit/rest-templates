@@ -5,14 +5,14 @@
 	$sliderClass = count($images) > 1 ? ' slider-wrap' : '';
 ?>
 <div class='scope-img-wrap<?= $sliderClass ?>
+<?= empty($images) ? " height-0" : "" ?>
 
 <?= isset($headerImage) && $headerImage === true ? " header-img-wrap" : "" ?>
-
 <?= isset($companyInfoSection) && $companyInfoSection === true ? " company-img-wrap" : "" ?>'>
 	<?php
 		$bgImageSnippet = 'background-image: ';
 		$imageContent = '';
-		
+
 		foreach ($images as $imageUrl) {
 			echo '<img src="' . $imageUrl . '" />';
 		}

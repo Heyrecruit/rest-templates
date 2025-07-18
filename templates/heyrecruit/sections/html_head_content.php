@@ -12,6 +12,14 @@ $locationId = HeyUtility::getLocationId($_GET);
 ?>
 
 <meta charset="utf-8">
+
+
+<?php
+if(isset($page) && $page === 'job') {
+    $meta['title'] = HeyUtility::h($job['job_strings'][0]['title']) . ' | Karriere bei ' . HeyUtility::h($company['name']);
+}
+?>
+
 <title><?=strip_tags($meta['title'])?></title>
 
 <?php
@@ -19,6 +27,9 @@ $locationId = HeyUtility::getLocationId($_GET);
     include ELEMENT_PATH_ROOT . "meta.php";
 ?>
 
+<link rel="stylesheet" type="text/css" href="/css/bootstrap.4.4.1.css?version=<?=VERSION?>">
+<link rel="stylesheet" type="text/css" href="/css/apply_on_more_locations.css?version=<?=VERSION?>">
+<link rel="stylesheet" type="text/css" href="/css/whatsapp.css?version=<?=VERSION?>">
 <link rel="stylesheet" type="text/css" href="/css/cookieBanner.css?version=<?=VERSION?>">
 <?php
     $basePath = !empty($_ENV['BASE_PATH']) ? $_ENV['BASE_PATH'] : __DIR__;
@@ -40,7 +51,7 @@ $locationId = HeyUtility::getLocationId($_GET);
 
 	/* Set class to override the default CookieBanner */
 
-	.cookie h1, .cookie h2, .cookie h3, span.info, .cookie .cookieModal .descrption .infoTrigger {
+	.cookie h1, .cookie h2, .cookie h3, span.info, .cookie .cookieModal .descrption .infoTrigger, .fa-times.remove-search:hover {
 		color: <?=$company['company_templates']['key_color']?> !important;
 	}
 
@@ -66,6 +77,25 @@ $locationId = HeyUtility::getLocationId($_GET);
         font-size: 14px !important;
         line-height: 24px !important;
     }
+
+    .company-description a:hover,
+    .text-block a:hover,
+    .social-links .text-block a:hover {
+      background: transparent !important;
+      color: <?=$company['company_templates']['key_color']?> !important;
+    }
+
+    body section#jp-section-form #job-form-wrapper .hey-form-row .multiselect-native-select .btn-group.open button,
+    body section#jp-section-form #job-form-wrapper .hey-form-row .multiselect-native-select .btn-group button:hover,
+    body section#jp-section-form #job-form-wrapper .hey-form-row .multiselect-native-select .btn-group button:focus {
+        border-color:<?=$company['company_templates']['key_color']?> !important;
+    }
+
+      .custom-tooltip > i {
+          color: <?=$company['company_templates']['key_color']?>
+      }
+
+
 </style>
 <!-- end cookieBanner -->
 <!-- Favicon -->

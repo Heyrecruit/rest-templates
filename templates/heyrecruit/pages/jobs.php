@@ -29,7 +29,7 @@
     ?>
     <img id="cp-header-img" src="<?= $imageUrl ?>" alt="Header-Hintergrund <?=HeyUtility::h($company['name']) ?>"/>
     <div id="logo">
-        <img src="<?=$company['logo']?>" alt="<?=$company['name']?> Logo">
+        <img src="<?=$company['logo']?>" alt="<?=HeyUtility::h($company['name'])?> Logo">
     </div>
     <div class="container">
         <div class="row">
@@ -83,7 +83,7 @@
                     <?php
                         echo strip_tags(
                           $company['overview_page']['overview_page_strings'][0]['description'],
-                          ['p', 'b', 'span', 'a', 'ul', 'li', 'ol', 'a', 'u', 'strong']
+                            ['p', 'b', 'span', 'a', 'ul', 'li', 'ol', 'a', 'u', 'strong', 'h3', 'h4', 'h5', 'h6']
                         );
                     ?>
                 </div>
@@ -98,15 +98,25 @@
                             $locationTextSg = $language != 'de' ? 'location' : 'Standort';
                             $locationTextPl = $language != 'de' ? 'locations' : 'Standorte';
                         ?>
-                        <span><i class="fal fa-user"></i><?= $companyEmployeeNumber . " " . $employeeText ?></span>
+
                         <?php
-                             if (count($company['company_locations'])) {
+                        if (!empty($companyEmployeeNumber)) {
+                            ?>
+                            <span><i class="fal fa-user"></i><?= $companyEmployeeNumber . " " . $employeeText ?></span>
+                            <?php
+                        }
+                        ?>
+
+
+                        <?php
+                            $locationCount = $company['all_location_count'] ?? $company['company_location_count'];
+                             if ($locationCount) {
                         ?>
                                  <span>
                                      <i class="fal fa-map-marker-alt"></i>
                                      <?=
-                                         count($company['company_locations']) . " " . (
-                                             count($company['company_locations']) > 1
+	                                     $locationCount . " " . (
+	                                     $locationCount > 1
                                                  ? $locationTextPl
                                                  : $locationTextSg
                                              )
@@ -181,97 +191,6 @@
     }
 ?>
 
-<!-- KPI-Section -->
-<!--<section id="cp-section-kpi">
-    <div class="container">
-        <div class="row">
-            <div class="col-12 col-md-4">
-                <h2 class="primary-color"><span class="primary-color">300</span>Lorem ipsum dolor</h2>
-                <p>Fließende Deutsch- und gute Englischkenntnisse in Wort und Schrift</p>
-            </div>
-            <div class="col-12 col-md-4">
-                <h2 class="primary-color"><span class="primary-color">8.500+</span>Lorem ipsum dolor</h2>
-                <p>Fließende Deutsch- und gute Englischkenntnisse in Wort und Schrift</p>
-            </div>
-            <div class="col-12 col-md-4">
-                <h2 class="primary-color"><span class="primary-color">29</span>Lorem ipsum dolor</h2>
-                <p>Fließende Deutsch- und gute Englischkenntnisse in Wort und Schrift</p>
-            </div>
-        </div>
-    </div>
-</section>-->
-
-<!-- Benefits-Section -->
-<!--<section id="cp-section-benefits">
-    <div class="container">
-        <div class="row">
-            <div class="col-12 col-lg-8 offset-lg-2">
-                <h1>Lorem Ipsum dolor sit</h1>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12 col-md-4">
-                <i class="fal fa-heart primary-color"></i>
-                <h2>Lorem ipsum dolor</h2>
-                <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
-                    labore et dolore magna aliquyam erat, sed diam voluptua.</p>
-            </div>
-            <div class="col-12 col-md-4">
-                <i class="fal fa-cog primary-color"></i>
-                <h2>Lorem ipsum dolor</h2>
-                <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
-                    labore et dolore magna aliquyam erat, sed diam voluptua.</p>
-            </div>
-            <div class="col-12 col-md-4">
-                <i class="fal fa-heart primary-color"></i>
-                <h2>Lorem ipsum dolor</h2>
-                <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
-                    labore et dolore magna aliquyam erat, sed diam voluptua.</p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12 col-md-4">
-                <i class="fal fa-cog primary-color"></i>
-                <h2>Lorem ipsum dolor</h2>
-                <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
-                    labore et dolore magna aliquyam erat, sed diam voluptua.</p>
-            </div>
-            <div class="col-12 col-md-4">
-                <i class="fal fa-heart primary-color"></i>
-                <h2>Lorem ipsum dolor</h2>
-                <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
-                    labore et dolore magna aliquyam erat, sed diam voluptua.</p>
-            </div>
-            <div class="col-12 col-md-4">
-                <i class="fal fa-cog primary-color"></i>
-                <h2>Lorem ipsum dolor</h2>
-                <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
-                    labore et dolore magna aliquyam erat, sed diam voluptua.</p>
-            </div>
-        </div>
-    </div>
-</section>-->
-
-<!-- Testimonials-Section -->
-<!--<section id="cp-section-testimonials">
-    <div class="container">
-        <div class="row">
-            <div class="col-12 col-lg-8 offset-lg-2">
-                <h1 class="primary-color">$language != 'de' ? 'What our employees say' : 'Das sagen unsere Mitarbeiter' */?></h1>
-                <p>
-                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
-                    labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
-                    et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
-                    labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
-                    et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-                </p>
-                <img src="https://snappygoat.com/b/ecea4d95566321eccb3f6264aafed3c39a19d0ad">
-                <span><strong>Max Mustermann</strong>Lagerleiter</span>
-            </div>
-        </div>
-    </div>
-</section>-->
 
 <section id="cp-section-jobs" class="no-p">
 
@@ -301,83 +220,3 @@
 
     </div>
 </section>
-<!-- Initiativbewerbung-Section -->
-<!--<section id="cp-section-initiative" class="no-p">
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <div class="initiative-tile">
-                    <h2 class="primary-color">$language != 'de' ? 'Apply on your own initiative or ask questions' : 'Initiativ bewerben oder Fragen stellen' */?></h2>
-                    <p>
-                        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt
-                        ut labore et dolore magna aliquyam erat
-                    </p>
-                    <button class="btn btn-primary">
-                        <i class="fal fa-paper-plane"></i>$language != 'de' ? 'Send message' : 'Nachricht schreiben' */?>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>-->
-
-<!-- Ansprechpartner- und Später-Bewerben-Section -->
-<!--		<section id="cp-section-contact" class="no-p">
-			<div class="container">
-				<div class="row">
-               <?php
-/*               if($company['overview_page']['has_contact_section'] && $company['overview_page']['show_contact']) {
-               */?>
-					<div class="col-12 col-lg-7">
-						<div>
-							<h2 class="primary-color">$language != 'de' ? 'Contact person' : 'Ansprechpartner' */?></h2>
-							<div>
-								<div class="contact-person">
-									<div>
-										<?php
-/*											if(!empty($company['ContactPerson']['picture'])){
-										*/?>
-												<img src="$company['ContactPerson']['picture']*/?>">
-										<?php
-/*											}else{
-										*/?>
-												<img src="https://snappygoat.com/b/ecea4d95566321eccb3f6264aafed3c39a19d0ad">
-										<?php
-/*											}
-										*/?>
-
-										<span><strong>$company['ContactPerson']['first_name']*/?> $company['ContactPerson']['last_name']*/?></strong>$company['ContactPerson']['division']*/?></span>
-									</div>
-									<div>
-										<a href="tel:01234567890"><i class="fal fa-phone"></i>$company['ContactPerson']['phone_number']*/?></a>
-										<a href="mailto:$company['ContactPerson']['email']*/?>"><i class="fal fa-envelope"></i>$company['ContactPerson']['email']*/?></a>
-									</div>
-                                </div>
-                                <p> $company['ContactPerson']['contact_description'] */?></p>
-                                <a href="mailto: $company['ContactPerson']['email'] */?>">
-                                    <button class="btn btn-primary"><i class="fal fa-paper-plane"></i> $language != 'de' ? 'Send message' : 'Nachricht schreiben' */?></button>
-                                </a>
-                            </div>
-						</div>
-					</div>
-                  <?php
-/*               }
-               */?>
-					<div class="col-12 col-lg-5">
-						<div>
-							<h2 class="primary-color"> $language != 'de' ? 'Apply later' : 'Später bewerben' */?></h2>
-							<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-								invidunt ut labore et dolore magna aliquyam erat</p>
-							<form class="apply-later-form">
-								<input type="email" name="email"
-								       placeholder="$language != 'de' ? 'E-mail address' : 'E-Mail-Adresse'*/?>">
-								<button type="submit" class="btn btn-primary">
-									<i class="fal fa-paper-plane"></i>
-								</button>
-							</form>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
--->

@@ -25,10 +25,10 @@ if($page === 'job' && !empty($job)) {
                 $job['job_strings'][0]['title'];
         }
     }
-
     ?>
     <meta name="description" content="<?=HeyUtility::h(strip_tags($description))?>"/>
-
+    <meta name="stepstone-integration" content="ats:heyrecruit">
+    
     <!-- Facebook -->
     <?php if ($beforeUpdate > $checkDate) { ?>
         <meta property="og:url" content="https://<?=HeyUtility::h($company['company_setting']['rest_sub_domain'])?>.scope-recruiting.de/?page=job&id=<?=HeyUtility::h($jobId)?>&location=<?=HeyUtility::h($locationId)?>">

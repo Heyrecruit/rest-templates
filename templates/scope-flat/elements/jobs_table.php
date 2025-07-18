@@ -24,9 +24,38 @@ if (!isset($jobs)) {
                 <thead>
                 <tr>
                     <th>Offene Stellen</th>
-                    <th>Standort</th>
-                    <th>Einstellungsart</th>
-                    <th>Fachabteilung</th>
+
+                    <th>
+                        <?php
+                            if (str_contains($company['overview_page']['job_table_categories'], 'location')) {
+                        ?>
+                            Standort
+                        <?php
+                            }
+                        ?>
+
+                    </th>
+
+                    <th>
+                        <?php
+                            if (str_contains($company['overview_page']['job_table_categories'], 'employment')) {
+                        ?>
+                            Einstellungsart
+                        <?php
+                            }
+                        ?>
+                    </th>
+                    <th>
+
+                        <?php
+                        if (str_contains($company['overview_page']['job_table_categories'], 'department')) {
+                        ?>
+                        Fachabteilung
+
+                        <?php
+                        }
+                        ?>
+                    </th>
                     <th></th>
                 </tr>
                 </thead>
@@ -101,16 +130,16 @@ if (!isset($jobs)) {
                                             <div>
                                                 <i class="far fa-clock primary-color"></i>
                                                 <span>
-                                    <?php
-                                    if (!empty($value['job_strings'][0]['employment'])) {
-                                        echo HeyUtility::h(
-                                            implode(', ',
-                                                explode(',', $value['job_strings'][0]['employment'])
-                                            )
-                                        );
-                                    }
-                                    ?>
-                                    </span>
+                                                    <?php
+                                                    if (!empty($value['job_strings'][0]['employment'])) {
+                                                        echo HeyUtility::h(
+                                                            implode(', ',
+                                                                explode(',', $value['job_strings'][0]['employment'])
+                                                            )
+                                                        );
+                                                    }
+                                                    ?>
+                                                </span>
                                             </div>
                                             <?php
                                         }

@@ -3,10 +3,10 @@
 /** @var array $jobSectionElement */
 
 foreach (json_decode($jobSectionElement['job_section_element_strings'][0]['text'], true)['detail'] as $key => $value) {
-    
-    if(!isset($value['title'])) {
-        continue;
-    }
+	
+	if(!isset($value['title']) || !isset($value['href'])) {
+		continue;
+	}
     
     if ($value['title'] === 'Kununu') {
         ?>

@@ -16,7 +16,9 @@
 .white-bg-hover:hover {
   background: white !important;
 }
-
+.wa-link-container, .back-to-form-btn, .whatsapp_apply_btn, .whatsapp_apply_btn > * {
+  font-family: "Open Sans";
+}
 p, a, span, ul, ol, li, table, tr, td, input, textarea, button, label, select, strong, .alert {
   font-family: "Open Sans";
   font-size: 16px;
@@ -121,6 +123,8 @@ h2{
 
 body{
   color: @dark;
+  hyphens: auto;
+  word-break: break-word;
 
   header{
     position: fixed;
@@ -189,6 +193,7 @@ body{
           background: @dark;
           padding: 7px 0;
           display: none;
+          min-width: 120px;
 
           &:after {
             width: 10px;
@@ -472,6 +477,9 @@ body{
           height: 100%;
           z-index: 2;
         }
+        .slider {
+          height: 100% !important;
+        }
       }
       img{
         position: relative;
@@ -551,6 +559,7 @@ body{
                 font-weight: 600;
                 padding: 0 15px 10px 15px;
                 text-align: left;
+                word-break: auto-phrase;
 
                 &:last-of-type {
                   display: none;
@@ -1037,6 +1046,15 @@ body{
         color: gray;
       }
 
+      select{
+        padding: 5px 15px 5px 15px;
+        appearance: none;
+        background-image: url("../img/arrow-down.svg");
+        background-repeat: no-repeat;
+        background-size: 10px;
+        background-position: calc(~'100% - 15px') 50%;
+      }
+
       textarea {
         height: unset;
       }
@@ -1363,7 +1381,7 @@ footer{
 }
 //modal
 .modal{
-  z-index: 999;
+  z-index: 9999;
   position: fixed;
   top: 0;
   left: 0;
@@ -1379,21 +1397,22 @@ footer{
   }
 
   .modal-dialog{
-    width: 760px;
-    height: 620px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    .translate(-50%, -50%);
-    background: @light;
-    padding: 0;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    @media(max-width: 767px){
-      width: 100%;
-      height: 100%;
-      padding:30px 15px;
-      border-radius: 0;
-    }
+    max-width: 760px;
+    //width: 760px;
+    //height: 620px;
+    //position: absolute;
+    //top: 50%;
+    //left: 50%;
+    //.translate(-50%, -50%);
+    //background: @light;
+    //padding: 0;
+    //box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    //@media(max-width: 767px){
+    //  width: 100%;
+    //  height: 100%;
+    //  padding:30px 15px;
+    //  border-radius: 0;
+    //}
     .modal-content{
       overflow: auto;
       height: 100%;
@@ -1619,6 +1638,7 @@ section{
       padding: 5px 5px 5px 10px;
       height: 50px;
     }
+
 
     .customCheckbox {
       input[type="checkbox"] {
@@ -1848,6 +1868,125 @@ select.ui-datepicker-month, select.ui-datepicker-year {
       display: inline-flex;
       align-items: center;
       justify-content: center;
+    }
+  }
+}
+
+.location-search {
+  position: relative;
+  #standort {
+    padding-right: 45px !important;
+  }
+  > i {
+    position: absolute;
+    right: 30px;
+    bottom: 30px;
+    margin: auto;
+  }
+}
+
+.fa-times.remove-search {
+  cursor: pointer;
+}
+
+#scope-jobs-table-description-section {
+  h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-top: 1.5rem;
+  }
+  ul {
+    list-style: disc;
+    padding-left: 20px;
+    margin-bottom: 1rem;
+    li {
+      list-style: disc;
+    }
+  }
+  ol {
+    list-style: decimal;
+    padding-left: 20px;
+    margin-bottom: 1rem;
+    li {
+      list-style: decimal;
+    }
+  }
+}
+
+
+
+.form-main {
+  .multi-locations {
+    .custom-tooltip {
+      .custom-tooltip-wrapper {
+        top: 25px;
+      }
+    }
+    .multiselect-native-select .btn-group {
+      .multiselect-container > li > a > label {
+        font-size: 16px;
+        color: #4d4d4d;
+        padding-left: 30px;
+        > input {
+          @media (min-width: 768px) {
+            top: 11px !important;
+          }
+          width: 16px !important;
+          height: 16px !important;
+        }
+      }
+      button {
+        background: #eff3f8;
+        border: none;
+        height: 50px;
+        color: gray;
+        font-size: 16px !important;
+
+        &:focus {
+          color: #495057;
+          background-color: #fff;
+          border-color: #80bdff;
+          outline: 0;
+          box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25) !important;
+        }
+
+        span.multiselect-selected-text {
+          font-size: 16px;
+        }
+      }
+    }
+
+    .hey-form-row {
+      @media (min-width: 576px) {
+        display: flex;
+      }
+      .formText {
+        @media (min-width: 768px) {
+            -ms-flex: 0 0 41.666667%;
+            flex: 0 0 41.666667%;
+            max-width: 41.666667%;
+        }
+        @media (min-width: 576px) and (max-width: 767px) {
+            -ms-flex: 0 0 50%;
+            flex: 0 0 50%;
+            max-width: 50%;
+        }
+      }
+      .multiselect-native-select {
+
+        @media (min-width: 768px) {
+          -ms-flex: 0 0 58.333333%;
+          flex: 0 0 58.333333%;
+          max-width: 58.333333%;
+          padding-left: 15px;
+        }
+        @media (min-width: 576px) and (max-width: 767px) {
+          -ms-flex: 0 0 50%;
+          flex: 0 0 50%;
+          max-width: 50%;
+          padding-left: 15px;
+        }
+      }
     }
   }
 }

@@ -1,9 +1,19 @@
 <meta charset="utf-8">
+<?php
+if(isset($page) && $page === 'job') {
+    $meta['title'] = HeyUtility::h($job['job_strings'][0]['title']) . ' | Karriere bei ' . HeyUtility::h($company['name']);
+}
+?>
+
 <title><?php echo $meta['title']; ?></title>
 <?php
 include ELEMENT_PATH_ROOT . "canonical.php";
 include ELEMENT_PATH_ROOT . "meta.php";
 ?>
+
+<link rel="stylesheet" type="text/css" href="/css/bootstrap.4.4.1.css?version=<?=VERSION?>">
+<link rel="stylesheet" type="text/css" href="/css/apply_on_more_locations.css?version=<?=VERSION?>">
+<link rel="stylesheet" type="text/css" href="/css/whatsapp.css?version=<?=VERSION?>">
 <!-- start cookieBanner -->
 <link rel="stylesheet" type="text/css" href="/css/cookieBanner.css?version=<?=VERSION?>">
 <?php
@@ -17,7 +27,7 @@ include ELEMENT_PATH_ROOT . "meta.php";
 <style>
     /* Set class to override the default CookieBanner */
 
-    .cookie h1, .cookie h2, .cookie h3, span.info, .cookie .cookieModal .descrption .infoTrigger {
+    .cookie h1, .cookie h2, .cookie h3, span.info, .cookie .cookieModal .descrption .infoTrigger, .fa-times.remove-search:hover {
         color: <?=$company['company_templates']['key_color']?> !important;
     }
 
@@ -41,6 +51,16 @@ include ELEMENT_PATH_ROOT . "meta.php";
     }
 
     #scope_datenschutz a {
+        color: <?=$company['company_templates']['key_color']?> !important;
+    }
+    body section#jp-section-form #job-form-wrapper .hey-form-row .multiselect-native-select .btn-group.open button,
+    body section#jp-section-form #job-form-wrapper .hey-form-row .multiselect-native-select .btn-group button:hover,
+    body section#jp-section-form #job-form-wrapper .hey-form-row .multiselect-native-select .btn-group button:focus {
+        border-color:<?=$company['company_templates']['key_color']?> !important;
+    }
+
+    .multi-locations h3,
+    .custom-tooltip > i {
         color: <?=$company['company_templates']['key_color']?> !important;
     }
 </style>

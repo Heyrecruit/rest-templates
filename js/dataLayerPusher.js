@@ -120,6 +120,22 @@ const clickSendApplicationButtonEventListener = () => {
             });
         });
     }
+    const saveApplicantWhatsaAppDesktopButton = document.getElementById("whatsapp_apply_btn_event");
+    if (saveApplicantWhatsaAppDesktopButton) {
+        saveApplicantWhatsaAppDesktopButton.addEventListener("click", function (event) {
+            dataLayer.push({
+                event: "cta_apply_whatsapp_click",
+            });
+        });
+    }
+    const saveApplicantWhatsaAppMobileButton = document.getElementById("whatsapp_apply_btn_mobile");
+    if (saveApplicantWhatsaAppMobileButton) {
+        saveApplicantWhatsaAppMobileButton.addEventListener("click", function (event) {
+            dataLayer.push({
+                event: "cta_apply_whatsapp_click",
+            });
+        });
+    }
 };
 const applicationFailed = () => {
     dataLayer.push({

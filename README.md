@@ -1,12 +1,12 @@
 # Heyrecruit Templates
 
 A collection of public Heyrecruit templates implementing the REST API with PHP.
-To use this code you need an account at www.heyrecruit.de.
+To use this code, you need an account at www.heyrecruit.de.
 Heyrecruit is a top-level recruitment management software.
 
 
 ## System requirements:
-- HTTP Server. For example: Apache. Having mod_rewrite is preferred.
+- HTTP Server. For example, Apache. Having mod_rewrite is preferred.
 - PHP 8.0 or greater.
 
 ## Installation and configuration
@@ -15,12 +15,12 @@ Heyrecruit is a top-level recruitment management software.
 
 You can either download the ZIP file:
 
-https://github.com/SCOPE-Recruiting/rest-templates/archive/master.zip
+https://github.com/Heyrecruit/rest-templates/archive/refs/heads/master.zip
 
-or checkout the code:
+or check out the code:
 
 ```
-https://github.com/SCOPE-Recruiting/rest-templates.git
+https://github.com/Heyrecruit/rest-templates.git
 ```
 
 ### Run composer

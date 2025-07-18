@@ -23,11 +23,6 @@
 	
 	include CURRENT_SECTION_PATH . "nav.php";
 ?>
-<style>
-	#intro_form h2, #intro_form p {
-		color: # <?=$job['Template']['headline_color']?> !important;
-	}
-</style>
 
 <?php
 	HeyUtility::includeSections($job['job_sections'], [], $vars);

@@ -8,7 +8,7 @@
 
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="<?=HeyUtility::h($language)?>">
 <head>
     <meta name="google-site-verification" content="eI_MQb_IOqtuvB3AeFpa1W_DtqcePhYYCklaQ7yzK9U"/>
     <style>
@@ -66,6 +66,7 @@ $bodyData = HeyUtility::getBodyDataAttributes(
 		$_SERVER['SERVER_NAME'],
 		$company['name'],
 		$company['company_templates']['key_color'],
+        $company['overview_page']['show_map'],
 		$measurementId,
 		$propertyId
 	);
@@ -77,8 +78,11 @@ $bodyData = HeyUtility::getBodyDataAttributes(
 	<?php
 		include __DIR__ . DS . 'pages' . DS . "$page.php";
 		
+		$page = HeyUtility::getCurrentPage($_GET);
+		
 		$displayFooter = '';
-		if (isset($_GET['stand_alone_site']) && !$_GET['stand_alone_site'] && $page == 'jobs') {
+		
+		if (isset($_GET['stand_alone_site']) && !filter_var($_GET['stand_alone_site'], FILTER_VALIDATE_BOOLEAN) && $page == 'jobs') {
 			$displayFooter = 'style="display:none"';
 		}
 	?>

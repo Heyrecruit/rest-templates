@@ -11,10 +11,60 @@ function TemplateHandler(addEventHandler) {
         if (this.inIframe()) {
             $('body').addClass('scope-inside-iframe');
         }
+
     };
 
     this.setEventHandler = function () {
         var _this = this;
+
+        $(document).ready(function () {
+
+            let openPrivacyPolice = _this.getParameterByName('open_privacy_police');
+            if (openPrivacyPolice === '1') {
+                $('.privacy_police').click();
+            }
+
+            if ($('#applyOnMoreLocations').length){
+                $('#applyOnMoreLocations').multiselect(
+                    {
+                        enableFiltering: true,
+                        filterPlaceholder: 'Suche ...',
+                        buttonTextAlignment: 'left',
+                        nonSelectedText: 'Standorte auswählen',
+                        nSelectedText: 'x Standorte ausgewählt',
+                        allSelectedText: 'Alle Standorte ausgewählt',
+                        includeSelectAllOption: true,
+                        selectAllValue: 'select-all-value',
+                        selectAllText: 'Alle Standorte auswählen',
+                        maxHeight: 320,
+                        numberDisplayed: 1,
+                        dropUp: false,
+                        templates: {
+                            button: '<button type="button" class="multiselect dropdown-toggle" data-toggle="dropdown"><span class="multiselect-selected-text"></span><i class="far fa-angle-down"></i></button>',
+                            popupContainer: '<div class="multiselect-container dropdown-menu"></div>',
+                            filter: '<div class="multiselect-filter d-flex align-items-center"><i class="fas fa-sm fa-search text-muted"></i><input type="search" class="multiselect-search form-control" /></div>',
+                            buttonGroup: '<div class="multiselect-buttons btn-group" style="display:flex;"></div>',
+                            buttonGroupReset: '<button type="button" class="multiselect-reset btn btn-secondary btn-block"></button>',
+                            option: '<button type="button" class="multiselect-option dropdown-item"></button>',
+                            divider: '<div class="dropdown-divider"></div>',
+                            optionGroup: '<button type="button" class="multiselect-group dropdown-item"></button>',
+                            resetButton: '<div class="multiselect-reset text-center p-2"><button type="button" class="btn btn-sm btn-block btn-outline-secondary"></button></div>'
+                        },
+                        buttonText: function(options, select) {
+                            const total = $('option', select).length;
+                            const selected = options.length;
+
+                            if (selected === 0) {
+                                return 'Kein weiterer Standort ausgewählt';
+                            } else {
+                                return `${selected}/${total} Standorte ausgewählt`;
+                            }
+                        }
+                    }
+                );
+            }
+
+        });
 
         $(window).on("load", function (e) {
             _this.sendIframeHeight();
@@ -131,10 +181,26 @@ function TemplateHandler(addEventHandler) {
         var typingTimer;
         $(document).on('keyup', '#standort', function (event) {
             clearTimeout(typingTimer);
+
+            $(this).siblings('i').addClass('fa-times remove-search');
             typingTimer = setTimeout(function doneTyping() {
                 _this.filter();
                 locationInputFilterEventListener(event.target.value) // dataLayerPusher
             }, 1500);
+
+            if ($(this).val().trim() === '') {
+                $(this).siblings('i').removeClass('fa-times remove-search');
+            }
+
+        });
+        $(document).on('click', '.remove-search', function (event) {
+            $(this).siblings('input').val('');
+
+            _this.filter();
+            locationInputFilterEventListener(event.target.value) // dataLayerPusher
+
+
+            $(this).removeClass('fa-times remove-search');
         });
 
         // Location change
@@ -168,7 +234,7 @@ function TemplateHandler(addEventHandler) {
         }
     };
 
-    this.updateQueryStringParameter = function(uri, key, value) {
+    this.updateQueryStringParameter = function (uri, key, value) {
         var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
         var separator = uri.indexOf('?') !== -1 ? "&" : "?";
         if (uri.match(re)) {
@@ -254,7 +320,7 @@ function TemplateHandler(addEventHandler) {
                             error(responseText);
                         }
                     } catch (e) {
-                       //console.log("JSON parsing error:", e);
+                        //console.log("JSON parsing error:", e);
                         if (typeof error !== 'undefined') {
                             error(response);
                         }
@@ -264,23 +330,29 @@ function TemplateHandler(addEventHandler) {
         });
     };
 
-    this.filter = function (location, employment, department, areaSearchDistance) {
-        let _this = this;
-        let url = this.getBaseUrl();
+    this.getQueryParams = function (location, employment, department, areaSearchDistance, page) {
         let searchParams = '';
         let locationType = 'search';
-        let page = $('.btn-outline-info').length ?  parseInt($('.btn-outline-info.active').attr('data-rel')) : 1;
-
         let locationQuery = '';
         if (typeof $('#standort').val() !== 'undefined') {
             locationQuery = $('#standort').val();
         }
 
+        if (location?.id) {
+            location = location.id
+        }
+
         if (typeof location !== 'undefined' && location !== null) {
-            if ($('#standort').length) {
-                $('#standort').val(location)
+
+            if ($('#standort').length && location?.full_address) {
+                $('#standort').val(location?.full_address);
+
             }
             locationQuery = location;
+
+            $('#standort').siblings('i').addClass('fa-times remove-search');
+
+
         }
 
         if (typeof $('#location-list').val() !== 'undefined') {
@@ -290,7 +362,7 @@ function TemplateHandler(addEventHandler) {
 
         if (typeof location !== 'undefined' && location !== null) {
             if ($('#location-list').length) {
-                $('#location-list').val(location)
+                $('#location-list').val(location.company_location_id);
             }
             locationType = 'list';
             locationQuery = location;
@@ -305,6 +377,10 @@ function TemplateHandler(addEventHandler) {
         if (typeof areaSearchDistance !== 'undefined') {
             searchParams += '&area_search_distance=' + encodeURIComponent(areaSearchDistance);
         }
+
+
+        if(location?.searchType === 'getjobsByCompanyLocationId')
+            searchParams =   '?company_location_ids=' + encodeURIComponent(location.company_location_id)
 
         if (typeof $('#einstellungsart option:selected').val() !== 'undefined' && $('#einstellungsart option:selected').val() !== 'all') {
             if (typeof employment !== 'undefined' && employment !== null) {
@@ -324,23 +400,42 @@ function TemplateHandler(addEventHandler) {
             searchParams += 'departments=' + encodeURIComponent($('#fachabteilung option:selected').val());
         }
 
-        var $jobsContainer = $('*[data-jobs-container="true"]').length ? $('*[data-jobs-container="true"]') : $('#scope_jobs_table');
-
-        if (_this.findGetParameter('language') !== null) {
+        if (this.findGetParameter('language') !== null) {
             searchParams += searchParams.indexOf('?') !== -1 ? '&' : '?';
-            searchParams += 'language=' + _this.findGetParameter('language');
+            searchParams += 'language=' + this.findGetParameter('language');
         }
+
+        if (typeof page === 'undefined' || page === null) {
+            page = $('.btn-outline-info').length ? parseInt($('.btn-outline-info.active').attr('data-rel')) : 1;
+        }
+        searchParams += '&page=' + page;
+
+        return searchParams;
+    };
+
+    this.filter = function (location, employment, department, areaSearchDistance) {
+        let _this = this;
+        let url = this.getBaseUrl();
+
+
+        // Query-Parameter abrufen
+        let searchParams =  this.getQueryParams(location, employment, department, areaSearchDistance);
+
+        var $jobsContainer = $('*[data-jobs-container="true"]').length ? $('*[data-jobs-container="true"]') : $('#scope_jobs_table');
 
         url += $jobsContainer.find('.table-location-wrapped').length ? 'elements/jobs_table_locations_wrapped.php' : 'elements/jobs_table.php';
 
-        $jobsContainer.load(url + searchParams + '&page='+page, function () {
-            if (typeof makeAutomatedTranslation == "function") {
-                makeAutomatedTranslation();
-            }
+        $jobsContainer.load(url + searchParams, function () {
+
             _this.sendIframeHeight();
 
             if (typeof setPagination !== 'undefined') {
                 setPagination();
+            }
+
+            if (typeof jobsMap === 'object') {
+                jobsMap.unsetMarkers([]);
+                jobsMap.setAllJobMarkers(searchParams);
             }
         });
     };
@@ -561,8 +656,20 @@ window.onload = () => {
     shareJobEventListener();
     galleryInteraction();
 
-    if(typeof cookieBanner !== 'undefined') {
+    if (typeof cookieBanner !== 'undefined') {
         cookieBanner.init();
     }
 };
 
+/**
+ * removes the fallback data protection modal if the default exists
+ */
+document.addEventListener('DOMContentLoaded', function () {
+
+    const defaultDataProtectionModal =
+            document.querySelector('.fallback_data_protection_modal#scope_datenschutz'),
+        datenschutzUrlElement = document.querySelector('#scope_datenschutz')
+
+    defaultDataProtectionModal && datenschutzUrlElement &&
+    defaultDataProtectionModal !== datenschutzUrlElement && defaultDataProtectionModal.remove()
+});

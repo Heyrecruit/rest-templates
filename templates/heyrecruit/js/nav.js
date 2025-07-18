@@ -41,19 +41,6 @@ $(document).ready(function () {
         monthNames: ['Januar','Februar','März','April','Mai','Juni',
             'Juli','August','September','Oktober','November','December']
     });
-    // Open modal
-    $(document).on('click', '.scope_open_modal', function (e) {
-        e.preventDefault();
-        var modal = $($.attr(this, 'href'));
-        if (modal.length) {
-            modal.fadeIn();
-        }
-    });
-
-// Close modal
-    $(document).on('click', '.modal .close', function () {
-        $(this).closest('.modal').fadeOut();
-    });
 
     // Locationselect
     $('.locationTrigger').click(function(){

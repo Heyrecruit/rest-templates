@@ -13,7 +13,7 @@ $logoUrl = $company['logo'];
    <img id="ty-background" src="<?= $bgUrl ?>" alt="">
    <section>
       <div id="logo">
-         <img src="<?= $logoUrl ?>" alt="<?= $company['name'] ?> Logo">
+         <img src="<?= $logoUrl ?>" alt="<?= HeyUtility::h($company['name']) ?> Logo">
       </div>
       <h1>Vielen Dank, die Bewerbung war erfolgreich!</h1>
       <h2>Wir werden uns schnellstmöglich melden.</h2>

@@ -4,18 +4,18 @@
 	$colClass    = 'col-md-12';
 
 	if(
-		strpos($company['overview_page']['filter'], 'list') !== false ||
-		strpos($company['overview_page']['filter'], 'location') !== false ||
-		strpos($company['overview_page']['filter'], 'search') !== false
+		str_contains($company['overview_page']['filter'], 'list') ||
+		str_contains($company['overview_page']['filter'], 'location') ||
+		str_contains($company['overview_page']['filter'], 'search')
 	) {
 		$filterCount++;
 	}
 
-	if(strpos($company['overview_page']['filter'], 'employment') !== false) {
+	if(str_contains($company['overview_page']['filter'], 'employment')) {
 		$filterCount++;
 	}
 
-	if(strpos($company['overview_page']['filter'], 'department') !== false) {
+	if(str_contains($company['overview_page']['filter'], 'department')) {
 		$filterCount++;
 	}
 
@@ -32,28 +32,31 @@
 	}
 
 	if(
-		strpos($company['overview_page']['filter'], 'location') !== false ||
-		strpos($company['overview_page']['filter'], 'search') !== false
+		str_contains($company['overview_page']['filter'], 'location') ||
+		str_contains($company['overview_page']['filter'], 'search')
 	) {
 		?>
-		<div class="col-12 <?=$colClass?>">
+		<div class="col-12 location-search <?=$colClass?>">
 			<label for="standort"><?=$language !== 'de' ? 'Location' : 'Standort'?></label>
 			<input id="standort" type="text" placeholder="<?=$language !== 'de' ? 'Postcode/town' : 'PLZ/Ort'?>">
-		</div>
+            <i class="fal fa-search"></i>
+        </div>
 		<?php
 	}
 
-	if(strpos($company['overview_page']['filter'], 'list') !== false) {
+	if(str_contains($company['overview_page']['filter'], 'list')) {
 		?>
 		<div class="col-12 <?=$colClass?>">
 			<label for="location-list"><?=$language !== 'de' ? 'Location' : 'Standort'?></label>
 			<select id="location-list">
-				<option value="all" selected><?=$language !== 'de' ? 'All' : 'Alle'?></option>
+                <option value="all" selected>
+					<?=$company['language_id'] !== 1 ? 'All locations' : 'Alle Standorte'?>
+                </option>
 				<?php
-					foreach($company['CompanyLocation'] as $key => $value) {
-				?>
-						<option value="<?=$key?>"><?=$value?></option>
-				<?php
+					foreach ($company['company_locations'] as $key => $value) {
+						?>
+                        <option value="<?=HeyUtility::h($key)?>"><?=HeyUtility::h($value)?></option>
+						<?php
 					}
 				?>
 			</select>
@@ -63,7 +66,7 @@
 ?>
 
 <?php
-	if(strpos($company['overview_page']['filter'], 'employment') !== false) {
+	if(str_contains($company['overview_page']['filter'], 'employment')) {
 		?>
 		<div class="col-12 <?=$colClass?>">
 			<label for="einstellungsart"><?=$language !== 'de' ? 'Employment type' : 'Einstellungsart'?></label>

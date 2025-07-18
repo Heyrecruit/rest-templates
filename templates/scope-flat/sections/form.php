@@ -1,6 +1,19 @@
 <?php
     /** @var array $vars */
     /** @var array $jobSection */
+
+    $jobId      = HeyUtility::getJobId($_GET);
+    $locationId = HeyUtility::getLocationId($_GET);
+
+    $language   = $vars['language'];
+    $activeCompanyLocationJobs = $vars['job']['active_company_location_jobs'];
+
+    $locationText              = $language !== 'de' ? 'Select location' : 'Standort wählen';
+    $locationLabel              = $language !== 'de' ? 'This job advertisement is advertised at several locations' : 'Diese Stellenanzeige ist an mehreren Standorten ausgeschrieben';
+    $applyText                 = $language !== 'de' ? 'Apply now' : 'Bewerbung abschicken';
+
+    $applyOnMultiLocationsEnabled = $vars['job']['form_settings']['apply_on_multi_locations'] ?? false;
+
 ?>
     <section id="section<?=$jobSection['id']?>" class="jp-section-form">
     <div class="container">
@@ -13,17 +26,41 @@
         <div class="col-12 col-md-9">
             <div id="job-form-wrapper" class="grey-container">
 
-                <?php if(!$vars['job']['company_location_jobs'][0]['active'] && (empty($_GET['preview']))) {?>
-                    <div class="disabledCont"></div>
-                <?php }?>
-
                 <?php
-                 
-	                $jobId      = HeyUtility::getJobId($_GET);
-	                $locationId = HeyUtility::getLocationId($_GET);
-                 
-	                $language   = $vars['language'];
-                 
+                    if(!$vars['job']['company_location_jobs'][0]['active'] && (empty($_GET['preview']))) {
+                       echo '<div class="disabledCont"></div>';
+                    }
+
+                    if(count($activeCompanyLocationJobs) > 1) {
+                ?>
+                        <h2 class="primary-color mb-4"><?=$locationText?></h2>
+                        <div class="hey-form-row mb-5 ">
+                            <div class="row">
+                                <div class="col-12 col-sm-6 col-md-5 col-lg-4 mr-auto">
+                                    <span class="formText"><?=$locationLabel?></span>
+                                </div>
+                                <div class="col-12 col-sm-6 col-md-7">
+                                    <div class="customSelect">
+                                        <select class="form-control" name="standort" id="scope-location-select">
+                                            <?php
+                                            foreach ($vars['job']['active_company_location_jobs'] as $k => $v) {
+                                                $formattedLocation = HeyUtility::getFormattedAddress($v);
+
+                                                if ($locationId == $v['company_location_id']) {
+                                                    echo '<option value="' . $v['company_location_id'] . '" selected>' . HeyUtility::h($formattedLocation) . '</option>';
+                                                } else {
+                                                    echo '<option value="' . $v['company_location_id'] . '">' . HeyUtility::h($formattedLocation) . '</option>';
+                                                }
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                <?php
+                    }
+
 	                foreach ($jobSection['job_section_elements'] as $key => $value) {
                         
                         if ($value['element_type'] !== 'form' && file_exists( CURRENT_ELEMENT_PATH . $value['element_type'] . '.php')) {
@@ -35,45 +72,14 @@
                             
                             $form = json_decode($value['job_section_element_strings'][0]['text'], true);
 
+                            include ROOT . 'elements/whatsapp_apply_btn.php';
+
                 ?>
+
+                    <div class="form-main">
                         <input type="hidden" name="job_id" value="<?= $jobId ?>" id="JobId">
                         <input type="hidden" name="company_location_id" value="<?= $locationId ?>" id="scope_company_location_id">
                         <input type="hidden" name="company_id" value="<?=$vars['company']['id']?>" id="scope_company_id">
-                        
-                        <?php
-                        if(count($vars['job']['active_company_location_jobs']) > 1) {
-                            $locationText = $vars['language'] != 'de' ? 'Select location' : 'Standort wählen';
-                            ?>
-                            <h3 class="primary-color"><?=$locationText?></h3>
-                            <div class="hey-form-row ">
-                                <div class="row">
-                                    <div class="col-12 col-sm-6 col-md-5">
-                                        <span class="formText">Standort</span>
-                                    </div>
-                                    <div class="col-12 col-sm-6 col-md-7">
-                                        <div class="customSelect">
-                                            <select class="form-control" name="standort" id="scope-location-select">
-                                                <?php
-                                                foreach ($vars['job']['active_company_location_jobs'] as $k => $v) {
-                                                    $formattedLocation = HeyUtility::getFormattedAddress($v);
-
-                                                    if ($locationId == $v['company_location_id']) {
-                                                        echo '<option value="' . $v['company_location_id'] . '" selected>' . HeyUtility::h($formattedLocation) . '</option>';
-                                                    } else {
-                                                        echo '<option value="' . $v['company_location_id'] . '">' . HeyUtility::h($formattedLocation) . '</option>';
-                                                    }
-                                                }
-                                                ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        <?php
-                        }
-                        ?>
-                      
                 <?php
 
                         if (!empty($form)) {
@@ -91,8 +97,14 @@
 	                                'subtitle'
                                 );
                ?>
-                                <h3><?=HeyUtility::h($questionCategoryTitle)?></h3>
-                
+
+
+                                <?php if (!empty($v['questions'])) { ?>
+                                    <h3 class="primary-color"><?=HeyUtility::h($questionCategoryTitle)?></h3>
+                                <?php } ?>
+
+
+
                                 <?php
                                     echo $questionCategorySubtitle != '' ?
                                         '<p class="sub-headline">' . HeyUtility::h($questionCategorySubtitle) . '</p>'
@@ -164,6 +176,9 @@
                                                      class="documentOuterWrapper">
                                                 </div>
                <?php
+                                                echo '<div class="multi-locations">';
+                                                include ROOT . 'elements/form/multi_location_apply_select.php';
+                                                echo '</div>';
                                             }
                                         }
                                     }
@@ -184,6 +199,7 @@
                     }
                 }
               ?>
+            </div>
             </div>
         </div>
     </div>

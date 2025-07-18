@@ -301,11 +301,13 @@
     color: @textModal;
     background: @backgroundModal;
     width: 40%;
-    height: 70%;
     position: fixed;
     overflow-y: scroll;
     left: 30%;
     top: 15%;
+    @media (min-width: 769px) {
+      max-height: 70%;
+    }
     .container;
 
     h1, h2, h3 {

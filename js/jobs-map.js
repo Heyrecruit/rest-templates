@@ -1,5 +1,3 @@
-
-
 function JobsMap(mapId) {
     this.googleMap = null;
     this.markerCluster = null;
@@ -229,7 +227,7 @@ function JobsMap(mapId) {
         this.setKeyColors();
         this.setMapStyle();
 
-        if (document.getElementById(id)){
+        if (document.getElementById(id)) {
             this.googleMap = new google.maps.Map(document.getElementById(id), {
                 zoom: this.defaultMapZoom,
                 center: this.defaultMapPosition,
@@ -253,14 +251,17 @@ function JobsMap(mapId) {
 
         if (typeof mapStyle !== 'undefined' && mapStyle !== null) {
             this.defaultMapStyle = JSON.parse(mapStyle);
-        }else{
+        } else {
             this.defaultMapStyle[1]['stylers'][0]['color'] = this.defaultKeyColor;
         }
     };
 
-    this.setAllJobMarkers = function () {
+    this.setAllJobMarkers = function (searchParams = null) {
+
         var _this = this;
-        this.getJobData(null, function (data) {
+
+        var queryParams = searchParams !== null ? searchParams : templateHandler.getQueryParams();
+        this.getJobData(queryParams, function (data) {
             _this.allJobs = data.jobs;
             _this.createMarkersFromJobs(data.jobs, true)
         });
@@ -273,8 +274,8 @@ function JobsMap(mapId) {
 
         templateHandler.ajaxCall(url, {}, true, function (result) {
 
-             if (result.status_code === 200) {
-                if (typeof callback  !== 'undefined'){
+            if (result.status_code === 200) {
+                if (typeof callback !== 'undefined') {
                     callback(result.response.data);
                 }
             }
@@ -286,7 +287,7 @@ function JobsMap(mapId) {
         var setCluster = typeof cluster !== 'undefined' ? cluster : false;
 
         $.each(jobs, function (key, value) {
-          
+
             if (!templateHandler.empty(value.company_location_jobs)) {
 
                 $.each(value.company_location_jobs, function (k, v) {
@@ -343,7 +344,12 @@ function JobsMap(mapId) {
 
                             _this.infoWindows[v.company_location.id].open(_this.googleMap, marker);
                             if (typeof templateHandler !== 'undefined' && typeof templateHandler.filter !== 'undefined') {
-                                templateHandler.filter(v.company_location.id, null, null, 1);
+
+                                templateHandler.filter({
+                                    searchType: 'getjobsByCompanyLocationId',
+                                    company_location_id: v.company_location_id,
+                                    full_address: v.company_location?.full_address,
+                                }, null, null, null);
                             }
 
                         }.bind(_this));
@@ -358,7 +364,7 @@ function JobsMap(mapId) {
 
         // Add a marker clusterer to manage the markers.
         if (typeof MarkerClusterer !== 'undefined' && setCluster) {
-            if(this.markerCluster !== null){
+            if (this.markerCluster !== null) {
                 this.markerCluster.clearMarkers();
             }
 
@@ -397,13 +403,13 @@ function JobsMap(mapId) {
     this.unsetMarkers = function (keepAliveCompanyLocationIds) {
 
         var _this = this;
+
         $.each(this.allJobs, function (key, value) {
             $.each(value.company_location_jobs, function (k, v) {
                 if (
                     !templateHandler.inArray(v.company_location.id, keepAliveCompanyLocationIds) &&
                     templateHandler.inArray(v.company_location.id, Object.keys(_this.currentMarkerOnMap))
-                )
-                {
+                ) {
                     _this.currentMarkerOnMap[v.company_location.id].setMap(null);
                     delete _this.currentMarkerOnMap[v.company_location.id];
                 }
@@ -413,12 +419,12 @@ function JobsMap(mapId) {
 
     this.getGoogleMarkerInlineSvg = function (color) {
         var encoded = window.btoa(
-            '<svg id="Ebene_1" data-name="Ebene 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10.06 11.77">'+
-                '<defs>'+
-                    '<style>.cls-1{fill:' + color + ';}</style>'+
-                '</defs>'+
-                '<title>map_pin_map_icon</title>'+
-                '<path class="cls-1" d="M8.59,1.47A5,5,0,0,0,1.47,8.59l2.92,2.92a.92.92,0,0,0,1.29,0L8.59,8.59A5,5,0,0,0,8.59,1.47Zm-5.15,2a2.26,2.26,0,1,1,0,3.19A2.24,2.24,0,0,1,3.44,3.44Z"/>'+
+            '<svg id="Ebene_1" data-name="Ebene 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10.06 11.77">' +
+            '<defs>' +
+            '<style>.cls-1{fill:' + color + ';}</style>' +
+            '</defs>' +
+            '<title>map_pin_map_icon</title>' +
+            '<path class="cls-1" d="M8.59,1.47A5,5,0,0,0,1.47,8.59l2.92,2.92a.92.92,0,0,0,1.29,0L8.59,8.59A5,5,0,0,0,8.59,1.47Zm-5.15,2a2.26,2.26,0,1,1,0,3.19A2.24,2.24,0,0,1,3.44,3.44Z"/>' +
             '</svg>'
         );
 
@@ -427,13 +433,13 @@ function JobsMap(mapId) {
 
     this.getGoogleClusterInlineSvg = function (color) {
         var encoded = window.btoa(
-            '<svg id="Ebene_1" data-name="Ebene 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10.06 10.06">'+
-                '<defs>'+
-                    '<style>.cls-1,.cls-2{fill:'+ color +';}.cls-1{opacity:0.5;}</style>'+
-                '</defs>'+
-                '<title>map_pin_cluster_icon_small</title>'+
-                '<circle class="cls-1" cx="5.03" cy="5.03" r="5.03"/>'+
-                '<circle class="cls-2" cx="5.03" cy="5.03" r="3.87"/>'+
+            '<svg id="Ebene_1" data-name="Ebene 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10.06 10.06">' +
+            '<defs>' +
+            '<style>.cls-1,.cls-2{fill:' + color + ';}.cls-1{opacity:0.5;}</style>' +
+            '</defs>' +
+            '<title>map_pin_cluster_icon_small</title>' +
+            '<circle class="cls-1" cx="5.03" cy="5.03" r="5.03"/>' +
+            '<circle class="cls-2" cx="5.03" cy="5.03" r="3.87"/>' +
             '</svg>'
         );
 

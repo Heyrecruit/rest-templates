@@ -1,3 +1,3 @@
 
 <?php
-	include __DIR__ . DS . '../../../partials/danke.php';
+	include __DIR__ . DS . '../../../elements/danke.php';

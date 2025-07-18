@@ -24,7 +24,7 @@
 						<div>
 
 							<button class="btn btn-primary" onclick="location.href='mailto:<?=$job['ContactPerson']['email']?>'">
-								<i class="fal fa-paper-plane"></i><?= $language != 'de' ? 'Send message' : 'Nachricht schreiben'?>
+								<i class="fas fa-paper-plane"></i><?= $language != 'de' ? 'Send message' : 'Nachricht schreiben'?>
 							</button>
 						</div>
 				<?php

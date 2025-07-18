@@ -216,7 +216,6 @@
   color: black;
   background: white;
   width: 40%;
-  height: 70%;
   position: fixed;
   overflow-y: scroll;
   left: 30%;
@@ -225,6 +224,11 @@
   /*h3{
       font-family: 'Formata Medium';
     }*/
+}
+@media (min-width: 769px) {
+  .cookie .cookieModal {
+    max-height: 70%;
+  }
 }
 .cookie .cookieModal h1,
 .cookie .cookieModal h2,

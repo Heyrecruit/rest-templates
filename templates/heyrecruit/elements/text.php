@@ -12,4 +12,4 @@
     }
 ?>
 
-<span class="block-span"><?= $text ?></span>
+<span class="block-span text-block"><?= $text ?></span>

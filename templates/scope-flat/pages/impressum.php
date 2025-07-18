@@ -1,6 +1,6 @@
 
 <div id="scope_impressum" class="modal fade">
-	<div class="modal-dialog modal-info" role="document">
+	<div class="modal-info modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h4 class="modal-title">Impressum</h4>
@@ -17,7 +17,7 @@
 	</div>
 </div>
 <div id="scope_datenschutz" class="modal fade">
-	<div class="modal-dialog modal-info" role="document">
+	<div class="modal-info modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h4 class="modal-title">Datenschutz</h4>

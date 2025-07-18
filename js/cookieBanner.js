@@ -11,6 +11,7 @@ var cookieBanner = {
             companyName = bodyData.companyName,
             datenschutzUrl = bodyData.datenschutzUrl,
             datenschutzClass = bodyData.datenschutzClass,
+            mapStatus = bodyData.mapStatus,
             // cookieBanner options object
             cbo = {
                 essentialCookies: {
@@ -145,6 +146,7 @@ var cookieBanner = {
                     group: {}
                 }
             };
+
         var cboc = cbo.essentialCookies.group.cookieBanner,
             cboExpires = cboc.expires,
             cbCookie = getCookie('cb'),
@@ -516,8 +518,13 @@ var cookieBanner = {
             addEvent('#openCookieInfoModal', 'click', loadCbInfoModal);
 
             if (datenschutzUrl === '#scope_datenschutz') {
+
                 addEvent('.scope_open_modal', 'click', function () {
-                    document.querySelector(datenschutzUrl).style.zIndex = '10000';
+
+                    const datenschutzElement = document.querySelector(datenschutzUrl);
+
+                    if (datenschutzElement)
+                        datenschutzElement.style.zIndex = '10000';
                 });
             }
         }
@@ -771,8 +778,10 @@ var cookieBanner = {
                 loadEvents2InfoModal();
             }
 
-            if (datenschutzUrl === '#scope_datenschutz')
-                document.querySelector(datenschutzUrl).style.display = 'none';
+            const datenschutzElement = document.querySelector(datenschutzUrl);
+
+            if (datenschutzElement && datenschutzUrl === '#scope_datenschutz')
+                datenschutzElement.style.display = 'none';
 
             if (celement && getComputedStyle(celement).display === 'none')
                 fadeIn('.cookie');
@@ -804,7 +813,7 @@ var cookieBanner = {
                             '<p>' +
                             cboCategory.info +
                             '</p>' +
-                            '<a class="infoTrigger">Cookie-Information‎</a>' +
+                            '<a class="infoTrigger">Cookie-Information</a>' +
                             '<div class="cookieTable">' +
                             loadGroupTemplate(cboGroups) +
                             '</div>' +
@@ -864,41 +873,47 @@ var cookieBanner = {
             var cookieTemplate = '';
             Object.keys(cboCookies).forEach(function (key) {
                 var cboCookie = cboCookies[key];
-                cookieTemplate +=
-                    '<table style="border-spacing: 0;">' +
-                    '<tbody>' +
-                    '<tr>' +
-                    '<td>Name:</td>' +
-                    '<td>' +
-                    key.replace('Google_UA_ID', gtmPropertyId) +
-                    '</td>' +
-                    '</tr>' +
-                    '<tr>' +
-                    '<td>Anbieter:</td>' +
-                    '<td>' +
-                    cboCookie.company +
-                    '</td>' +
-                    '</tr>' +
-                    '<tr>' +
-                    '<td>Zweck:</td>' +
-                    '<td>' +
-                    cboCookie.infoText +
-                    '</td>' +
-                    '</tr>' +
-                    '<tr>' +
-                    '<td>Ablauf:</td>' +
-                    '<td>' +
-                    cboCookie.expires +
-                    '</td>' +
-                    '</tr>' +
-                    '<tr>' +
-                    '<td>Typ</td>' +
-                    '<td>' +
-                    cboCookie.type +
-                    '</td>' +
-                    '</tr>' +
-                    '</tbody>' +
-                    '</table>'
+
+                if (!(key === 'NID' && mapStatus === '')) {
+                    cookieTemplate +=
+                        '<table style="border-spacing: 0;">' +
+                        '<tbody>' +
+                        '<tr>' +
+                        '<td>Name:</td>' +
+                        '<td>' +
+                        key.replace('Google_UA_ID', gtmPropertyId) +
+                        '</td>' +
+                        '</tr>' +
+                        '<tr>' +
+                        '<td>Anbieter:</td>' +
+                        '<td>' +
+                        cboCookie.company +
+                        '</td>' +
+                        '</tr>' +
+                        '<tr>' +
+                        '<td>Zweck:</td>' +
+                        '<td>' +
+                        cboCookie.infoText +
+                        '</td>' +
+                        '</tr>' +
+                        '<tr>' +
+                        '<td>Ablauf:</td>' +
+                        '<td>' +
+                        cboCookie.expires +
+                        '</td>' +
+                        '</tr>' +
+                        '<tr>' +
+                        '<td>Typ</td>' +
+                        '<td>' +
+                        cboCookie.type +
+                        '</td>' +
+                        '</tr>' +
+                        '</tbody>' +
+                        '</table>'
+                }
+
+
+
             });
             return cookieTemplate;
         }

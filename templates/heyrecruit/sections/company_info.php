@@ -49,23 +49,31 @@
                          $vars['language']
                      );
                  ?>
-                 <span>
-                     <i class="fal fa-user"></i><?= $companyEmployeeNumberText . " " . $employeeText ?></span>
+                <?php
+                    if (!empty($companyEmployeeNumberText)) {
+                ?>
+                    <span>
+                        <i class="fal fa-user"></i><?= $companyEmployeeNumberText . " " . $employeeText ?>
+                    </span>
+                <?php
+                    }
+                ?>
+
                   <span>
                       <i class="fal fa-map-marker-alt"></i>
-                      <?=count($vars['company']['company_locations']) . " " . $locationText?>
+                      <?=$locationText?>: <?=$vars['company']['company_location_count']?>
                   </span>
-                 <?php
+                <?php
                     
                      if (!empty($vars['company']['industry'])) {
                          $industry =  $vars['company']['language_id'] === 1
                              ? $vars['company']['industry']['name_de']
                              :$vars['company']['industry']['name_en'];
-                 ?>
+                ?>
                         <span><i class="fal fa-industry"></i><?=HeyUtility::h($industry)?></span>
-                 <?php
+                <?php
                      }
-                 ?>
+                ?>
               </div>
               <div class="social-links" id="social-links">
                  <?php
