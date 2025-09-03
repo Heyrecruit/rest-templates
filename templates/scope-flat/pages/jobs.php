@@ -19,13 +19,19 @@
 	
 	$companyEmployeeNumber = HeyUtility::getFormattedEmployeeNumber($company['employee_number']);
 
+
+    $ariaLabelIntro = $language != 'de' ? 'Career page intro' : 'Karriereseite Intro';
+    $ariaLabelCompanyDesc = $language != 'de' ? 'Company description' : 'Unternehmensbeschreibung';
+    $ariaLabelCompanyJobsFilter = $language != 'de' ? 'Filter jobs' : 'Filter Stellenanzeigen';
+
+
 ?>
 
 
-<section id="scope-jobs-intro-section" class="row no-gutters mb-3" <?=$hideElementsAttribute?>>
+<section id="scope-jobs-intro-section" class="row no-gutters mb-3" <?=$hideElementsAttribute?> aria-labelledby="introHeadline">
 	<div class="col-12">
 		<div id="scope-jobs-intro-section-hl-wrap">
-			<h2><?=HeyUtility::h($company['overview_page']['overview_page_strings'][0]['title'])?></h2>
+			<h2 id="introHeadline"><?=HeyUtility::h($company['overview_page']['overview_page_strings'][0]['title'])?></h2>
 			<div id="scope-jobs-intro-section-hl-line"></div>
 			<h1><?=HeyUtility::h($company['overview_page']['overview_page_strings'][0]['subtitle'])?></h1>
 		</div>
@@ -48,7 +54,7 @@
 	if($company['overview_page']['show_description']) {
 
 ?>
-		<section id="scope-jobs-table-description-section" class="mb-3">
+		<section id="scope-jobs-table-description-section" class="mb-3" aria-label="<?=$ariaLabelCompanyDesc?>">
 			<div class="container">
 				<div class="row">
 					<div class="col-12">
@@ -97,7 +103,7 @@
 ?>
 <section id="scope-jobs-list-section" class="">
 	<div class="container">
-		<div class="row" id="scope-jobs-list-section-filter">
+		<div class="row" id="scope-jobs-list-section-filter" role="region" aria-label="<?=$ariaLabelCompanyJobsFilter?>">
 			<?php
 				$path = file_exists(CURRENT_ELEMENT_PATH . 'jobs_filter.php')
 					? CURRENT_ELEMENT_PATH . 'jobs_filter.php'

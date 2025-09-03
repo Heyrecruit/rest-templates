@@ -10,7 +10,7 @@
 
 <div class="row">
 	<div class="col-12">
-		<div class="job-tile">
+		<div class="job-tile" role="listitem">
 			<div class="job-info-wrap">
 				<a target="_blank" href="<?=$url?>"
 				   onclick="jobClickEventListener(<?php echo htmlspecialchars(json_encode($value)); ?>)">

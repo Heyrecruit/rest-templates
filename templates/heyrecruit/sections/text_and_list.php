@@ -1,21 +1,20 @@
-<section class="jp-section-list col-12">
-		<div class="row">
-			<div class="col-12">
-				<?php
-					foreach($jobSection['job_section_elements'] as $key => $value) {
+<section class="jp-section-list col-12" aria-labelledby="section-headline-<?=HeyUtility::h($jobSection['id'])?>">
+    <div class="row">
+        <div class="col-12">
+            <?php
+                foreach($jobSection['job_section_elements'] as $key => $value) {
+                    if(file_exists(__DIR__ . DS . '../elements' . DS . $value['element_type'] . '.php')) {
 
-						if(file_exists(__DIR__ . DS . '../elements' . DS . $value['element_type'] . '.php')) {
+                        $jobSectionElement = $value;
 
-							$jobSectionElement = $value;
+                        ob_start();
+                        include __DIR__ . DS . '../elements' . DS . $value['element_type'] . '.php';
 
-							ob_start();
-							include __DIR__ . DS . '../elements' . DS . $value['element_type'] . '.php';
+                        echo ob_get_clean();
+                    }
 
-							echo ob_get_clean();
-						}
-
-					}
-				?>
-			</div>
-		</div>
+                }
+            ?>
+        </div>
+    </div>
 </section>

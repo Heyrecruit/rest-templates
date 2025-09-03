@@ -41,7 +41,7 @@
 						}
 				?>
 						<li class="border-left">
-							<a class="primary-color-hover" href="/"><i class="fas fa-home"></i></a>
+							<a class="primary-color-hover" href="/" aria-label="Zur Startseite"><i class="fas fa-home"></i></a>
 						</li>
 				<?php
 					}

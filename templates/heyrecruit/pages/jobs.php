@@ -3,26 +3,29 @@
     /** @var array $page */
     /** @var array $company */
     /** @var string $language */
-    
+
 	$employmentList = $jobs['employment_type_list'];
 	$departmentList = $jobs['department_list'];
- 
+
 	$includeNav = !isset($_GET['stand_alone_site']) || $_GET['stand_alone_site'];
 	$hideElements = isset($_GET['stand_alone_site']) && !$_GET['stand_alone_site'] && $page == 'jobs';
-	
+
 	if ($includeNav) {
 		include CURRENT_SECTION_PATH . "nav.php";
 	}
-	
+
 	$hideElementsAttribute = $hideElements ? 'style="display:none;"' : '';
-	
+
 	$companyEmployeeNumber = HeyUtility::getFormattedEmployeeNumber($company['employee_number'], $language);
+
+$ariaLabelCompanyInfoMain = $language != 'de' ? 'Company information' : 'Unternehmensinformationen';
+$ariaLabelCompanyInfoMeta = $language != 'de' ? 'Company meta information' : 'Unternehmen Meta Informationen';
 ?>
 
-<header <?=$hideElementsAttribute?>>
+<header <?=$hideElementsAttribute?> aria-labelledby="introHeading">
     <?php
         $imageUrl = 'https://www.scope-recruiting.de/img/scope_default_job_header_image.png';
-    
+
         if (!empty($company['overview_header_picture'])) {
             $imageUrl = $company['overview_header_picture'];
         }
@@ -34,7 +37,7 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <h1><?=HeyUtility::h($company['overview_page']['overview_page_strings'][0]['title'])?></h1>
+                <h1 id="introHeading"><?=HeyUtility::h($company['overview_page']['overview_page_strings'][0]['title'])?></h1>
                 <h2><?=HeyUtility::h($company['overview_page']['overview_page_strings'][0]['subtitle'])?></h2>
             </div>
         </div>
@@ -44,15 +47,15 @@
 <?php
     $social_links = ["website", "instagram", "xing", "linkedin", "facebook", "twitter", "kununu"];
     $socialLinksContainer = false;
-    
+
     foreach ($social_links as $link) {
        if (!empty($company[$link])) {
           $socialLinksContainer = true;
        }
     }
-    
+
     $dataExists = false;
-    
+
     if (
         $socialLinksContainer === true ||
         $company['overview_page']['overview_page_strings'][0]['description'] ||
@@ -69,7 +72,7 @@
         )
     ) {
 ?>
-<section id="cp-section-company-info" class="no-pt" <?= $hideElementsAttribute ?>>
+<section id="cp-section-company-info" class="no-pt" <?= $hideElementsAttribute ?> aria-label="<?=$ariaLabelCompanyInfoMain?>">
    <div class="container">
       <div class="row company-info">
          <div class="col-12 col-lg-8 offset-lg-2">
@@ -89,10 +92,10 @@
                 </div>
             <?php
                  }
-                
+
                  if ($company['overview_page']['show_company_infos']) {
             ?>
-                    <div id="company-numbers" class="flexbox-badges">
+                    <div id="company-numbers" class="flexbox-badges" role="region" aria-label="<?=$ariaLabelCompanyInfoMeta?>">
                         <?php
                             $employeeText   = $language != 'de' ? 'employees' : 'Mitarbeiter';
                             $locationTextSg = $language != 'de' ? 'location' : 'Standort';
@@ -124,11 +127,11 @@
                                  </span>
                         <?php
                              }
-                             
+
                             $industry = $language != 'de'
                                 ? $company['industry']['name_en'] ?? ""
                                 : $company['industry']['name_de'] ?? "";
-                             
+
                             if ($industry) {
                         ?>
                                 <span><i class="fal fa-industry"></i><?=$industry?></span>
@@ -138,11 +141,11 @@
                     </div>
             <?php
                 }
-    
+
                 if ($company['overview_page']['show_social_links']) {
-                   
+
                     echo $socialLinksContainer ? "<div id='social-links'>" : "";
-    
+
                    $social_links_titles = [
                       "website" => "Website",
                       "instagram" => "Instagram",
@@ -152,17 +155,23 @@
                       "twitter" => "Twitter",
                       "kununu" => "Kununu"
                    ];
-    
+
                    foreach ($social_links as $link) {
                       if (!empty($company[$link])) {
             ?>
                          <button class="btn btn-primary">
                              <a href="<?= str_starts_with($company[$link], "http") ? $company[$link] : "https://" . $company[$link] ?>" target="_blank">
-                                 
+
                                  <?php
                                      if ($link === 'website') {
                                  ?>
                                         <i class="fas fa-globe-europe"></i>
+                                 <?php
+                                     } else if ($link === 'twitter') {
+                                 ?>
+                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
+                                         <path d="M453.2 112L523.8 112L369.6 288.2L551 528L409 528L297.7 382.6L170.5 528L99.8 528L264.7 339.5L90.8 112L236.4 112L336.9 244.9L453.2 112zM428.4 485.8L467.5 485.8L215.1 152L173.1 152L428.4 485.8z"/>
+                                     </svg>
                                  <?php
                                      } else if ($link === 'kununu') {
                                  ?>
@@ -197,7 +206,7 @@
    <?php
         if ($company['overview_page']['show_map']) {
    ?>
-            <div id="map-wrapper" data-map-container="true">
+            <div id="map-wrapper" data-map-container="true" role="region" aria-label="Google Maps Karte">
                 <div id="map" style="height: 650px;"></div>
                 <div id="map-overlay"></div>
             </div>
@@ -209,10 +218,10 @@
 		    $path = file_exists(CURRENT_ELEMENT_PATH . 'jobs_filter.php')
 			    ? CURRENT_ELEMENT_PATH . 'jobs_filter.php'
 			    : ELEMENT_PATH_ROOT . 'jobs_filter.php';
-       
+
 		    require($path)
 	    ?>
-        <div class="job-list cp-job-list" data-jobs-container="true">
+        <div class="job-list cp-job-list" data-jobs-container="true" role="list" aria-label="Liste aller Stellenanzeigen von <?=HeyUtility::h($company['name'])?>">
             <?php
                 require(CURRENT_ELEMENT_PATH . "jobs_table.php")
             ?>

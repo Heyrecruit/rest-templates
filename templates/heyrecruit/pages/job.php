@@ -27,24 +27,28 @@
     HeyUtility::includeSections($job['job_sections'], ['header'], $vars);
     
     $companyName = $job['multiposting_company_name'] ?? $company['name'];
+
+    $ariaLabelJobHeader = $language != 'de' ? 'Job Header' : 'Kopfzeile Stellenanzeige';
+    $ariaLabelJobKeyData = $language != 'de' ? 'Job key data' : 'Stellenanzeige Eckdaten';
+    $ariaLabelIntro = $language != 'de' ? 'Job Intro' : 'Stellenanzeige Intro';
 ?>
 
 <style>
     .jp-section-list h2 {
-        color: <?=$company['company_templates']['key_color']?>;
+        color: <?=HeyUtility::h($company['company_templates']['key_color'])?>;
     }
     body section .social-links a:hover i {
         color: #fff !important;
     }
     body section .social-links a:hover {
         color: #fff !important;
-        background: <?=$company['company_templates']['key_color']?>;
+        background: <?=HeyUtility::h($company['company_templates']['key_color'])?>;
     }
 </style>
 
-<div class="container pt-4 px-4 px-sm-5 px-lg-3<?php if ($tplFormBottom == true) {?> fullJobWidth<?php }?>">
+<div class="container pt-4 px-4 px-sm-5 px-lg-3<?php if ($tplFormBottom == true) {?> fullJobWidth<?php }?>" role="main">
     <div class="row">
-        <div id="jp-logo-top" class="col-12">
+        <div id="jp-logo-top" class="col-12" role="region" aria-label="<?=$ariaLabelJobHeader?>">
             <a href="/?page=jobs" id="logo" class="jp-logo">
                 <img src="<?=$logoUrl?>" alt="<?=HeyUtility::h($companyName)?> Logo">
             </a>
@@ -80,7 +84,7 @@
             }
         ?>
         
-        <section id="jp-section-job-info">
+        <section id="jp-section-job-info" aria-label="<?=$ariaLabelJobKeyData?>">
             <div class="row">
                 <div class="col-12">
                     <div>
@@ -107,7 +111,7 @@
             );
         ?>
 
-        <section id="jp-section-share-job">
+        <section id="jp-section-share-job" aria-label="Social Media Kanäle">
             <div class="row">
                 <div class="col-12">
                     <div class="grey-container">
@@ -116,27 +120,29 @@
                             <?php
                                 $pageUrl = "https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
                             ?>
-                            <a class="primary-color social-link-a" data-type="xing/share" href="https://www.xing.com/spi/shares/new?url=<?=urlencode($pageUrl)?>" target="_blank">
+                            <a class="primary-color social-link-a" data-type="xing/share" href="https://www.xing.com/spi/shares/new?url=<?=urlencode($pageUrl)?>" target="_blank" aria-label="Xing">
                                 <i class="fab fa-xing primary-color"></i>
                             </a>
 
-                            <a class="primary-color social-link-a" href="https://www.linkedin.com/sharing/share-offsite/?url=<?=urlencode($pageUrl)?>" target="_blank">
+                            <a class="primary-color social-link-a" href="https://www.linkedin.com/sharing/share-offsite/?url=<?=urlencode($pageUrl)?>" target="_blank" aria-label="LinkedIn">
                                 <i class="fab fa-linkedin primary-color"></i>
                             </a>
 
-                            <a class="primary-color social-link-a" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2F<?="$_SERVER[HTTP_HOST]"?>%2F%3Fpage%3Djob%26id%3D<?=$job['id']?>%26location%3D<?=$job['company_location_jobs'][0]['id']?>" target="_blank">
+                            <a class="primary-color social-link-a" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2F<?="$_SERVER[HTTP_HOST]"?>%2F%3Fpage%3Djob%26id%3D<?=$job['id']?>%26location%3D<?=$job['company_location_jobs'][0]['id']?>" target="_blank" aria-label="Facebook">
                                 <i class="fab fa-facebook primary-color" aria-hidden="true"></i>
                             </a>
 
-                            <a class="primary-color social-link-a" href="https://twitter.com/intent/tweet?url=<?="$_SERVER[HTTP_HOST]"?>%2F%3Fpage%3Djob%26id%3D<?=$job['id']?>%26location%3D<?=$job['company_location_jobs'][0]['id']?>" target="_blank">
-                                <i class="fab fa-twitter primary-color" aria-hidden="true"></i>
+                            <a class="primary-color social-link-a" href="https://twitter.com/intent/tweet?url=<?="$_SERVER[HTTP_HOST]"?>%2F%3Fpage%3Djob%26id%3D<?=$job['id']?>%26location%3D<?=$job['company_location_jobs'][0]['id']?>" target="_blank" aria-label="X">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
+                                    <path d="M453.2 112L523.8 112L369.6 288.2L551 528L409 528L297.7 382.6L170.5 528L99.8 528L264.7 339.5L90.8 112L236.4 112L336.9 244.9L453.2 112zM428.4 485.8L467.5 485.8L215.1 152L173.1 152L428.4 485.8z"/>
+                                </svg>
                             </a>
 
-                            <a class="primary-color social-link-a" href="mailto:?subject=<?= $companyName ?> sucht <?=$job["job_strings"][0]["title"]?>&body=Ich habe ein Jobangebot entdeckt, das Dich interessieren könnte.%0D%0A%0D%0ASchau Dir die Stellenanzeige gleich unter folgendem Link an:%0D%0A <?=urlencode($pageUrl)?>" target="_blank">
+                            <a class="primary-color social-link-a" href="mailto:?subject=<?= $companyName ?> sucht <?=$job["job_strings"][0]["title"]?>&body=Ich habe ein Jobangebot entdeckt, das Dich interessieren könnte.%0D%0A%0D%0ASchau Dir die Stellenanzeige gleich unter folgendem Link an:%0D%0A <?=urlencode($pageUrl)?>" target="_blank" aria-label="E-Mail">
                                 <i class="fas fa-envelope primary-color" aria-hidden="true"></i>
                             </a>
 
-                            <a class="primary-color social-link-a mobile" href="whatsapp://send?text=Ich habe ein Jobangebot entdeckt, das Dich interessieren könnte. <?=urlencode($pageUrl)?>" target="_blank">
+                            <a class="primary-color social-link-a mobile" href="whatsapp://send?text=Ich habe ein Jobangebot entdeckt, das Dich interessieren könnte. <?=urlencode($pageUrl)?>" target="_blank" aria-label="WhatsApp">
                                 <i class="fab fa-whatsapp primary-color"></i>
                             </a>
                         </div>
@@ -149,7 +155,7 @@
             <div class="row">
                 <div class="col-12">
 
-                    <div class="job-list" data-jobs-container="true">
+                    <div class="job-list" data-jobs-container="true" role="list" aria-label="Liste weiterer Stellenanzeigen">
                         <?php
                             require(CURRENT_SECTION_PATH . "more_jobs.php");
                         ?>

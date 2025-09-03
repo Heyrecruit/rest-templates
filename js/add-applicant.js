@@ -1,82 +1,70 @@
+var applyErrorCount = 0;
+
 $(document).ready(function (e) {
     let applyNow = templateHandler.findGetParameter("apply");
 
     if (applyNow == 1) {
-        $("html, body").animate(
-            {
-                scrollTop: formOffset,
-            },
-            2000
-        );
+        $("html, body").animate({scrollTop: formOffset,}, 2000);
     }
-
-    $(document)
-        .off("click", "#saveApplicant")
-        .on("click", "#saveApplicant", function (e) {
-            e.preventDefault();
-
-            let documentUpload = true;
-
-            let isUploadRequired = $(".formText").filter(function () {
-                return $(this).text() === "Welches Dokument möchten Sie hochladen?*";
-            }).length;
-
-            if ($("#scope_list_all_documents_wrapper").length && isUploadRequired) {
-                if ($("#scope_list_all_documents_wrapper").children().length == 0) {
-                    documentUpload = confirm(
-                        "Wollen Sie die Bewerbung ohne ein hochgeladenes Dokument abschicken?"
-                    );
-                }
-            }
-
-            if (documentUpload) {
-                const applicant = serialize($('#job-form-wrapper')[0])
-
-                // dataLayerPusher
-                const storedHeyData = localStorage.getItem("heyData");
-                const heyData = storedHeyData ? JSON.parse(storedHeyData) : {};
-
-                var sessionId = templateHandler.getGaSessionId();
-
-                const dataLayer = {
-                    hey_source: getUTMParameterByName('utm_source'),
-                    hey_medium: getUTMParameterByName('utm_medium'),
-                    hey_campaign: getUTMParameterByName('utm_campaign'),
-                    source: getUTMParameterByName('utm_source'),
-                    medium: getUTMParameterByName('utm_medium'),
-                    campaign: getUTMParameterByName('utm_campaign'),
-                    vq_source: getUTMParameterByName('vq_source'),
-                    vq_campaign: getUTMParameterByName('vq_campaign')
-                };
-
-                if(typeof sessionId !== 'undefined') {
-                    dataLayer['session_id'] = sessionId;
-                }
-
-                let dataLayerQueryString = new URLSearchParams(dataLayer).toString();
-                let heyDataQueryString = new URLSearchParams(heyData).toString();
-
-                if(dataLayer.vq_source && dataLayer.vq_campaign) {
-                    dataLayerQueryString += `hey_source=${dataLayer.vq_campaign + '/' + dataLayer.vq_source}`;
-                }
-
-                addApplicant(applicant + '&' + dataLayerQueryString + '&' + heyDataQueryString);
-
-                $('#preloaderApply').css('display','flex');
-
-            }
-        });
 });
 
-/*function getGAClientId() {
-    let gaCookie = document.cookie.split('; ').find(row => row.startsWith('_ga='));
-    if (gaCookie) {
-        let clientId = gaCookie.split('=')[1];
-        return clientId.substring(6);  // Ersten 6 Zeichen entfernen
-    } else {
-        return null;
-    }
-}*/
+$(document)
+    .off("click", "#saveApplicant")
+    .on("click", "#saveApplicant", function (e) {
+        e.preventDefault();
+
+        let documentUpload = true;
+
+        let isUploadRequired = $(".formText").filter(function () {
+            return $(this).text() === "Welches Dokument möchten Sie hochladen?*";
+        }).length;
+
+        if ($("#scope_list_all_documents_wrapper").length && isUploadRequired) {
+            if ($("#scope_list_all_documents_wrapper").children().length == 0) {
+                documentUpload = confirm(
+                    "Wollen Sie die Bewerbung ohne ein hochgeladenes Dokument abschicken?"
+                );
+            }
+        }
+
+        if (documentUpload) {
+            const applicant = serializeToObject($('#job-form-wrapper')[0])
+            // dataLayerPusher
+            const storedHeyData = localStorage.getItem("heyData");
+            const heyData = storedHeyData ? JSON.parse(storedHeyData) : {};
+
+            //const MID = document.body.getAttribute('data-ga4-measurement-id') || '';
+            const sess = templateHandler.getCurrentGaSessionFields();
+            const clientId = templateHandler.getClientIdFromGaCookie();
+            const timestamp_micros = templateHandler.computeTimestampMicrosWithinSession(sess);
+
+            const dataLayer = {
+                utm_source:         getUTMParameterByName('utm_source'),
+                utm_medium:         getUTMParameterByName('utm_medium'),
+                utm_campaign:       getUTMParameterByName('utm_campaign'),
+                vq_source:          getUTMParameterByName('vq_source'),
+                vq_campaign:        getUTMParameterByName('vq_campaign'),
+                client_id:          clientId,
+                session_id:         sess?.session_id,
+                session_number:     sess?.session_number,
+                timestamp_micros:   timestamp_micros,
+            };
+
+            if (dataLayer.vq_source && dataLayer.vq_campaign) {
+                dataLayer.hey_vonq_campaign = `${dataLayer.vq_campaign}/${dataLayer.vq_source}`;
+            }
+
+            const applicantData = {
+                applicant: applicant,
+                analytics: dataLayer,
+                hey_data: heyData,
+            };
+
+            addApplicant(applicantData);
+
+            $('#preloaderApply').css('display','flex');
+        }
+    });
 
 // Diese Funktion liest den jeweiligen UTM-Parameter aus der URL
 function getUTMParameterByName(name) {
@@ -86,37 +74,6 @@ function getUTMParameterByName(name) {
     return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
-// convert camelcase to underscore
-/*function keysToUnderscore(obj) {
-    const deepMapKeys = (obj, mapFn) => {
-        return Array.isArray(obj)
-            ? obj.map((val) => deepMapKeys(val, mapFn))
-            : typeof obj === "object"
-                ? Object.keys(obj).reduce((acc, current) => {
-                    const key = mapFn(current);
-                    const val = obj[current];
-                    acc[key] = val instanceof Object ? deepMapKeys(val, mapFn) : val;
-                    return acc;
-                }, {})
-                : obj;
-    };
-
-    const camelToUnderscoreKey = (key) =>
-        key
-            .replace(/([A-Z][a-z]+)/g, (_, p1, offset) => {
-                if (offset === 0) {
-                    return p1.charAt(0).toLowerCase() + p1.slice(1);
-                } else {
-                    return "_" + p1.toLowerCase();
-                }
-            })
-            .replace(/([a-z])([A-Z])/g, "$1_$2")
-            .toLowerCase();
-
-    return deepMapKeys(obj, camelToUnderscoreKey);
-}*/
-
-var applyErrorCount = 0;
 function addApplicant(data, userDomainOnly = false) {
     let url = new URL(window.location.href);
     let domain = `${url.protocol}//${url.hostname}`;
@@ -126,7 +83,7 @@ function addApplicant(data, userDomainOnly = false) {
 
         grecaptcha.execute('6Lc0GBgoAAAAAKFu__B4Hi73ScrRoUG2GqpvSTT1', {action: 'submit'}).then(function(token) {
 
-            data += '&re_captcha=' + token;
+            data.re_captcha = token;
 
             templateHandler.ajaxCall(desiredURL +  '/partials/apply.php', data, false, function (response) {
                 applyErrorCount = 0;
@@ -162,36 +119,82 @@ function addApplicant(data, userDomainOnly = false) {
             });
         });
     });
-
 }
 
-function serialize(element, fields = []) {
-    for (const child of element.children) {
-        let currentField = child;
+function serializeToObject(root, opts = {}) {
+    const {
+        parseNumbers = true,
+        parseBooleans = false,
+        trim = true,
+        includeDisabled = false,
+        include = null,           // z.B. ['job_id','company_location_id']
+        exclude = []              // z.B. ['company_id']
+    } = opts;
 
-        if (child.children.length && currentField.type !== 'select-multiple' && currentField.type !== 'select-one') {
-            serialize(child, fields);
-        } else {
-            const isNamedField = currentField.name && currentField.value !== '';
-            const isFieldEnabled = !currentField.disabled;
-            const isFieldTypeValid = currentField.type !== 'button' && currentField.type !== 'file' && currentField.type !== 'reset' && currentField.type !== 'submit';
+    const fields = root.querySelectorAll('input, select, textarea');
+    const data = Object.create(null);
 
-            if (isNamedField && isFieldEnabled && isFieldTypeValid) {
-                if (currentField.type === 'select-multiple' || currentField.type === 'select-one') {
-                    for (const option of child.options) {
-                        if (option.selected) {
-                            fields.push(encodeURIComponent(currentField.name) + "=" + encodeURIComponent(option.value));
-                        }
-                    }
-                } else if (currentField.type !== 'checkbox' && currentField.type !== 'radio' || currentField.checked) {
-                    fields.push(encodeURIComponent(currentField.name) + "=" + encodeURIComponent(currentField.value));
-                }
-            }
+    const shouldInclude = (name) =>
+        (!include || include.includes(name)) && !exclude.includes(name);
+
+    const coerce = (v) => {
+        if (v == null) return v;
+        let val = String(v);
+        if (trim) val = val.trim();
+        if (parseBooleans && /^(true|false)$/i.test(val)) return val.toLowerCase() === 'true';
+        if (parseNumbers && /^-?\d+(\.\d+)?$/.test(val)) return Number(val);
+        return val;
+    };
+
+    const add = (name, value, forceArray = false) => {
+        if (!shouldInclude(name)) return;
+        const v = coerce(value);
+        if (name.endsWith('[]') || forceArray) {
+            const base = name.endsWith('[]') ? name.slice(0, -2) : name;
+            if (!Array.isArray(data[base])) data[base] = [];
+            data[base].push(v);
+            return;
         }
+        if (name in data) {
+            if (!Array.isArray(data[name])) data[name] = [data[name]];
+            data[name].push(v);
+        } else {
+            data[name] = v;
+        }
+    };
+
+    for (const field of fields) {
+        const { name, type, disabled, tagName } = field;
+        if (!name) continue;
+        if (disabled && !includeDisabled) continue;
+
+        const t = (type || '').toLowerCase();
+        if (['button', 'file', 'reset', 'submit'].includes(t)) continue;
+
+        // SELECTs
+        if (tagName === 'SELECT') {
+            if (field.multiple) {
+                const selected = Array.from(field.selectedOptions).map(o => o.value);
+                // Für multi immer Array (auch bei 1 Wert)
+                add(name, selected, true); // forceArray=true
+            } else {
+                if (field.value !== '') add(name, field.value);
+            }
+            continue;
+        }
+
+        // Checkbox/Radio nur wenn checked
+        if ((t === 'checkbox' || t === 'radio')) {
+            if (field.checked) add(name, field.value);
+            continue;
+        }
+
+        // Standard input/textarea
+        if (field.value !== '') add(name, field.value);
     }
 
-    return fields.join('&').replace(/%20/g, '+');
-};
+    return data;
+}
 
 
 function handleErrors(response) {
@@ -212,7 +215,7 @@ function handleErrors(response) {
             );
 
             if(inputField.length) {
-                $lastErrorElement = inputField.parent().parent();
+                $lastErrorElement = inputField.parent();
                 $lastErrorElement.append(
                     $('<span class="error">' + data.errors[field] + '</span>').fadeIn('slow')
                 );
@@ -223,10 +226,10 @@ function handleErrors(response) {
     if ($lastErrorElement) {
         $([document.documentElement, document.body]).animate(
             {
-                    scrollTop: $lastErrorElement.offset().top - 100,
-        }, 1000
-    );
-        }
+                scrollTop: $lastErrorElement.offset().top - 100,
+            }, 1000
+        );
+    }
 
     templateHandler.sendIframeHeight();
 }

@@ -5,6 +5,7 @@
 /** @var string $fieldName */
 /** @var string $questionId */
 /** @var string $uniqueFieldId */
+/** @var string $requiredField */
 
 if(!empty($modalValue)){
 	
@@ -32,7 +33,7 @@ if(!empty($modalValue)){
 		<?php
 			$checked = $answer == 1 ? 'checked' : '';
 		?>
-		<input type="checkbox" id="<?=$uniqueFieldId?>" name="<?=$fieldName?>" data-question-id="<?=$questionId?>" <?=$checked?>>
+		<input type="checkbox" id="<?=$uniqueFieldId?>" name="<?=$fieldName?>" data-question-id="<?=$questionId?>" <?=$checked?> <?=$requiredField?>>
         <i class="far fa-check primary-color"></i>
 		<label class="scope_border_color label" for="<?=$uniqueFieldId?>"><?=strip_tags($tmpValue, ['a'])?>
             <?php

@@ -8,8 +8,11 @@
 	
 	try {
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-		
-			$response = $utility->apply($_POST, $_POST['re_captcha'], $_SESSION['files'] ?? []);
+			
+			$files = $_SESSION['files'] ?? [];
+			$captcha = $_POST['re_captcha'] ?? null;
+			
+			$response = $utility->apply($_POST, $files, $captcha);
 			
 			echo json_encode($response['response']);
 		}

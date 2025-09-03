@@ -3,6 +3,7 @@
 	/** @var string $fieldValue */
 	/** @var string $fieldName */
 	/** @var string $questionId */
+    /** @var string $requiredField */
 	
 	$fieldValues = strpos($fieldValue, ';')
 		? explode(";", $fieldValue)
@@ -16,7 +17,7 @@
 ?>
 		<div class="modernCustomCheckbox">
 			<input type="checkbox" class="form-control" id="<?=$checkboxId?>" name="<?=$fieldName?>[<?=$v?>]"
-			       data-question-id="<?=$questionId?>" <?=$checked?>>
+			       data-question-id="<?=$questionId?>" <?=$checked?> <?=$requiredField?>>
             <i class="far fa-check primary-color"></i>
 			<label class="scope_border_color" for="<?=$checkboxId?>"><?=HeyUtility::h($v)?></label>
 		</div>

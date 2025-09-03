@@ -26,9 +26,12 @@
 			$filterClass = 'no-filter';
 			break;
 	}
+
+    $ariaLabelCompanyJobsFilter = $language != 'de' ? 'Filter jobs' : 'Filter Stellenanzeigen';
+
 ?>
 
-<div class="row <?=$filterClass?><?=$noMap?>" id="job-filters">
+<div class="row <?=$filterClass?><?=$noMap?>" id="job-filters" role="region" aria-label="<?=$ariaLabelCompanyJobsFilter?>">
 	<?php
 		if(
 			str_contains($company['overview_page']['filter'], 'location') ||

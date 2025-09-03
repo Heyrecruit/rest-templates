@@ -4,6 +4,9 @@
 /* Font */
 @import '../../../font/nunito/nunito';
 
+.text-gray {
+    color: #9b9b9b;
+}
 
 @-webkit-keyframes bouncing-loader {
     to {
@@ -664,6 +667,9 @@ body {
 
                     a {
                         font-weight: 700;
+                        &:hover {
+                            text-decoration: none;
+                        }
                     }
                 }
 
@@ -737,6 +743,12 @@ body {
                 border-radius: 100%;
                 &:hover{
                     opacity: 1;
+                    svg {
+                        fill: #fff;
+                    }
+                }
+                svg {
+                    height: 24px;
                 }
             }
             .text-block {
@@ -813,6 +825,9 @@ body {
                         width: 100%;
                         @media (min-width: @screenSm) {
                             padding-right: 30px;
+                        }
+                        a:hover {
+                            text-decoration: none;
                         }
                         h2, span {
                             overflow-wrap: break-word;
@@ -1021,6 +1036,10 @@ body {
 
                         i {
                             margin-left: 1px;
+                        }
+                        svg {
+                            height: 24px;
+                            fill: #fff;
                         }
                     }
 
@@ -1622,6 +1641,9 @@ body {
             #all-vacancies-button {
                 display: block;
                 margin: 45px auto 0;
+                a:hover {
+                    text-decoration: none;
+                }
             }
         }
 
@@ -1688,6 +1710,17 @@ body {
                     line-height: 1.4;
                 }
 
+                select {
+                    padding-right: 2rem;
+                    background-position: right 0.5rem center !important;
+                    background-repeat: no-repeat !important;
+                    background-size: 20px !important;
+                    background-color: #fff !important;
+                    background-image: url('../img/misc/angle-down-solid-full.svg') !important;
+                    -webkit-appearance: none;
+                    -moz-appearance: none;
+                    appearance: none;
+                }
                 select, textarea, input[type=text], input[type=email], input[type=tel] {
                     width: 100%;
                     line-height: 1;
@@ -1743,10 +1776,16 @@ body {
                     position: relative;
                     display: flex;
                     align-items: start;
+                    flex-wrap: wrap;
                     -webkit-user-select: none;
                     -ms-user-select: none;
                     user-select: none;
-
+                    label {
+                        max-width: calc(~'100% - 30px');
+                    }
+                    .error {
+                        width: 100%;
+                    }
                     input {
                         -webkit-appearance: none;
                         -moz-appearance: none;

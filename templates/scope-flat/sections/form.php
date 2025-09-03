@@ -14,8 +14,14 @@
 
     $applyOnMultiLocationsEnabled = $vars['job']['form_settings']['apply_on_multi_locations'] ?? false;
 
+    $ariaLabelFormMain = $language != 'de' ? 'Application form' : 'Bewerbungsformular';
+    $ariaLabelFormData = $language != 'de' ? 'Application form input data' : 'Bewerbungsformular Eingabe Daten';
+
+    $applicationFormTitle   = $language !== 'de' ? 'Application form' : 'Bewerbungsformular';
+    $applicationFormHint    = $language !== 'de' ? 'All fields marked with * are required.' : 'Alle mit * markierten Felder sind Pflichtfelder.';
+
 ?>
-    <section id="section<?=$jobSection['id']?>" class="jp-section-form">
+    <section id="section<?=$jobSection['id']?>" class="jp-section-form" aria-label="<?=$ariaLabelFormMain?>">
     <div class="container">
     <div class="row">
         <?php
@@ -76,7 +82,10 @@
 
                 ?>
 
-                    <div class="form-main">
+                    <div class="form-main" role="form" aria-label="<?=$applicationFormTitle?>" aria-describedby="form-hint">
+                        <small id="form-hint" class="mt-4 mb-n3 d-block text-gray">
+                            <?=$applicationFormHint?>
+                        </small>
                         <input type="hidden" name="job_id" value="<?= $jobId ?>" id="JobId">
                         <input type="hidden" name="company_location_id" value="<?= $locationId ?>" id="scope_company_location_id">
                         <input type="hidden" name="company_id" value="<?=$vars['company']['id']?>" id="scope_company_id">
@@ -134,6 +143,7 @@
                                             );
                                             $uniqueFieldId = uniqid();
                                             $required = $b['required'] ? '*' : '';
+                                            $requiredField = $b['required'] ? 'required' : '';
                                             $questionId = $b['id'];
                                             $modalValue = HeyUtility::getQuestionStringBasedOnLanguage(
 	                                            $b['question_strings'],
@@ -151,7 +161,9 @@
                                                     );
                                                 ?>
                                                     <div class="col-12 col-sm-6 col-md-5">
-                                                        <span class="formText"><?= HeyUtility::h($title) . $required ?></span>
+                                                        <label class="formText mb-1" for="<?=$uniqueFieldId?>">
+                                                            <?= HeyUtility::h($title) . $required ?>
+                                                        </label>
                                                     </div>
 
                                                     <div class="col-12 col-sm-6 col-md-7">

@@ -1,12 +1,18 @@
 <?php
 	/** @var array $jobSection */
 	/** @var array $vars */
+
+
+$ariaLabelCompanyInfoMain = $vars['language'] != 'de' ? 'Company information' : 'Unternehmensinformationen';
+$ariaLabelCompanyInfoMeta = $vars['language'] != 'de' ? 'Company meta information' : 'Unternehmen Meta Informationen';
+
 ?>
-<section id="jp-section-company-info" class="col-12">
+<section id="jp-section-company-info" class="col-12" role="region" aria-label="<?=$ariaLabelCompanyInfoMain?>">
     <div id="company-image" class="row">
        <div class="col-12">
+
           <?php
-           
+
 	          foreach ($jobSection['job_section_elements'] as $key => $value) {
                  if (
                      $value['element_type'] === 'image' &&
@@ -39,7 +45,7 @@
                      }
                   }
               ?>
-              <div id="company-numbers" class="flexbox-badges">
+              <div id="company-numbers" class="flexbox-badges" role="region" aria-label="<?=$ariaLabelCompanyInfoMeta?>">
                  <?php
                      $employeeText = $vars['language'] != 'de' ? 'employees' : 'Mitarbeiter';
                      $locationText = $vars['language'] != 'de' ? 'locations' : 'Standorte';
@@ -58,19 +64,17 @@
                 <?php
                     }
                 ?>
-
                   <span>
                       <i class="fal fa-map-marker-alt"></i>
                       <?=$locationText?>: <?=$vars['company']['company_location_count']?>
                   </span>
                 <?php
-                    
                      if (!empty($vars['company']['industry'])) {
                          $industry =  $vars['company']['language_id'] === 1
                              ? $vars['company']['industry']['name_de']
                              :$vars['company']['industry']['name_en'];
                 ?>
-                        <span><i class="fal fa-industry"></i><?=HeyUtility::h($industry)?></span>
+                    <span><i class="fal fa-industry"></i><?=HeyUtility::h($industry)?></span>
                 <?php
                      }
                 ?>
@@ -78,7 +82,6 @@
               <div class="social-links" id="social-links">
                  <?php
 	                 foreach ($jobSection['job_section_elements'] as $key => $value) {
-
 	                    if (
 		                    (
                                 $value['element_type'] === 'social_links' &&
@@ -93,7 +96,6 @@
 	                       ob_start();
 	                       include CURRENT_ELEMENT_PATH . $value['element_type'] . '.php';
 	                       $element = ob_get_clean();
-
 	                       echo $element;
 	                    }
 	                 }

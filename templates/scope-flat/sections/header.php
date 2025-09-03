@@ -1,5 +1,12 @@
-<section id="scope-jobs-intro-section" class="row no-gutters">
-    <div class="col-12">
+<?php
+
+$language = $vars['language'];
+
+$ariaLabelIntro = $language != 'de' ? 'Job Intro' : 'Stellenanzeige Intro';
+?>
+
+<section id="scope-jobs-intro-section" class="row no-gutters" aria-label="<?=$ariaLabelIntro?>">
+    <div class="col-12" role="region"  aria-labelledby="jobIntroTitle">
         <div id="scope-jobs-intro-section-hl-wrap">
             <?php
             foreach($jobSection['job_section_elements'] as $key => $value) {
@@ -17,7 +24,6 @@
             }
 
             $job = $vars['job'];
-            $language = $vars['language'];
             $companyLocationJobs = $job['active_company_location_jobs'];
             ?>
 
@@ -63,6 +69,57 @@
                 ?>
 
                 <span><i class="far fa-clock"></i> <?=HeyUtility::h($result)?></span>
+
+
+                <?php
+
+                switch ($vars['job']['salary_type']) {
+                    case "year":
+                        $salaryType = $vars['language'] != 'de' ? "per year" :"pro Jahr";
+                        break;
+                    case "month":
+                        $salaryType = $vars['language'] != 'de' ? "per month" :"pro Monat";
+                        break;
+                    case "hour":
+                        $salaryType = $vars['language'] != 'de' ? "per hour" :"pro Stunde";
+                        break;
+                    default:
+                        $salaryType = '';
+                }
+
+                if($vars['job']['salary_is_public']) {
+                    $salaryMin = $vars['job']['salary_min'] ?? null;
+                    $salaryMax = $vars['job']['salary_max'] ?? null;
+                    $salary    = $vars['job']['salary'] ?? null;
+
+                    $salaryOutput = null;
+
+                    if ($salaryMin && $salaryMax && $salaryMin != $salaryMax) {
+                        // Spanne anzeigen
+                        $minFormatted = number_format($salaryMin, 0, ',', '.');
+                        $maxFormatted = number_format($salaryMax, 0, ',', '.');
+                        $salaryOutput = "{$minFormatted}–{$maxFormatted} €";
+                    } elseif ($salary) {
+                        // Festgehalt
+                        $salaryOutput = number_format($salary, 0, ',', '.') . ' €';
+                    } elseif ($salaryMin) {
+                        $salaryOutput = 'ab ' . number_format($salaryMin, 0, ',', '.') . ' €';
+                    } elseif ($salaryMax) {
+                        $salaryOutput = 'bis ' . number_format($salaryMax, 0, ',', '.') . ' €';
+                    }
+
+                    if ($salaryOutput){
+                ?>
+                <span>
+                    <i class="fal fa-money-bill-wave"></i>
+                    <?= $salaryType ?> <?= $salaryOutput ?>
+                </span>
+                <?php
+                    }
+                }
+                ?>
+
+
             </div>
             <div id="scope-jobs-intro-section-btn">
                 <?php

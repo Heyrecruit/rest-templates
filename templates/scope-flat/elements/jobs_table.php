@@ -15,9 +15,10 @@ if (!isset($jobs)) {
         die('Error while loading jobs.');
     }
 }
+$ariaLabelCompanyJobsList = $language != 'de' ? 'List jobs' : 'Liste Stellenanzeigen';
 
 ?>
-<div id="scope-jobs-table-desktop-wrap">
+<div id="scope-jobs-table-desktop-wrap" role="region" aria-label="<?=$ariaLabelCompanyJobsList?>">
     <div class="row">
         <div class="col-12">
             <table id="scope-jobs-table-desktop">
@@ -192,7 +193,7 @@ if (!isset($jobs)) {
 
 <div class="pb-3">
 
-    <div id="scope-jobs-table-mobile-wrap">
+    <div id="scope-jobs-table-mobile-wrap" role="list" aria-label="<?=$ariaLabelCompanyJobsList?>">
         <div class="row">
 
             <?php
@@ -206,7 +207,7 @@ if (!isset($jobs)) {
                             $url = "?page=job&id=" . $value['id'] . "&location=" . $v['company_location_id'];
            ?>
 
-                            <div class="col-12 col-md-6">
+                            <div class="col-12 col-md-6" role="listitem" aria-label="<?= HeyUtility::h($value['job_strings'][0]['title']) ?>">
 
                                 <table class="scope-jobs-table-mobile">
                                     <tbody>

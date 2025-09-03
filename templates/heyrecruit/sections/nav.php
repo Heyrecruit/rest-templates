@@ -11,9 +11,11 @@
 	}
 	
 	$languageId = array_search($language, $languageShortCodes);
+
+    $ariaLabelLangNav = $language != 'de' ? 'Language selection' : 'Sprachauswahl';
  
 ?>
-<nav>
+<nav aria-label="<?=$ariaLabelLangNav?>">
 <?php
     if (count($languageTitles) > 1) {
 ?>

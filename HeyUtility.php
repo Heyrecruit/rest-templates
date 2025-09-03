@@ -111,7 +111,7 @@
 			define("CURRENT_PAGE_PATH", CURRENT_TEMPLATE_PATH . 'pages' . DS);
 			define("ELEMENT_PATH_ROOT", ROOT . 'elements' . DS);
 			define("FONT_PATH_ROOT", ROOT . 'font' . DS);
-			define("VERSION", '3.0');
+			define("VERSION", '3.2');
 		}
 		
 		/**
@@ -182,28 +182,17 @@
 			}
 		}
 		
-		public function apply(array $applicant, $reCaptchaToken = null, array $files = []): array {
+		public function apply(array $applicant, array $files = [], ?string $reCaptchaToken = null): array {
 			
-			$applicant['files'] = $files;
+			$applicant['applicant']['files'] = $files ?? [];
 			
-			$data = [
-				'applicant' => $applicant,
-				'analytics' => [
-					'referrer' => $_SESSION['referrer'] ?? $this->getCurrentPageUrl(),
-					'session_id' => $applicant['session_id'] ?? null,
-					'vq_campaign' => $applicant['vq_campaign'] ?? null,
-					'vq_source' => $applicant['vq_source'] ?? null,
-					'utm_source' => $applicant['hey_source'] ?? null,
-					'utm_medium' => $applicant['hey_medium'] ?? null,
-					'utm_campaign' => $applicant['hey_campaign'] ?? null,
-				]
-			];
+			$applicant['analytics']['referrer'] = $_SESSION['referrer'] ?? $this->getCurrentPageUrl();
 			
 			if(!empty($reCaptchaToken)){
-				$data['re_captcha'] = $reCaptchaToken;
+				$applicant['re_captcha'] = $reCaptchaToken;
 			}
 			
-			return $this->scope->apply($data);
+			return $this->scope->apply($applicant);
 		}
 		
 		/**
@@ -695,6 +684,7 @@
 	            .flexbox-badges span,
 	            body section .social-links a:hover {
 	                background: " . self::hex2rgba($keyColor, 0.1) . ";
+	                color: " . self::hex2rgba($keyColor, 1) . ";
 	            }
 	
 	            .primary-bg,

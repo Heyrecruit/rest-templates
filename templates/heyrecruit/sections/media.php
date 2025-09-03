@@ -1,4 +1,4 @@
-<section class="scope-media-section col-12" id="scope-media-section">
+<section class="scope-media-section col-12" id="scope-media-section" aria-labelledby="section-headline-<?=HeyUtility::h($jobSection['id'])?>">
    <div class="row">
       <div class="col-12">
          <?php

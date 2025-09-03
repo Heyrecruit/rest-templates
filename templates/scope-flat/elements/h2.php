@@ -1,1 +1,1 @@
-<h2 class="mb-3 primary-color"><?=$jobSectionElement['job_section_element_strings'][0]['text']?></h2>
+<h2 class="mb-3 primary-color" id="section-headline-<?=$jobSection['id']?>"><?=$jobSectionElement['job_section_element_strings'][0]['text']?></h2>

@@ -1,4 +1,4 @@
-<section id="section<?=$jobSection['id']?>" class="scope-jobs-list-section">
+<section id="section<?=$jobSection['id']?>" class="scope-jobs-list-section" aria-labelledby="section-headline-<?=$jobSection['id']?>">
 	<div class="container">
 		<div class="row">
 			<div class="col-12 col-md-9">

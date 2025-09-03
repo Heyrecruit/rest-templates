@@ -74,7 +74,7 @@ $bodyData = HeyUtility::getBodyDataAttributes(
 	echo '<body ' . $bodyData . '>';
 ?>
 
-<div id="page" class="<?= $page == 'jobs' ? "careerpage" : "" ?>" data-scope-outer-container="true">
+<div id="page" class="<?= $page == 'jobs' ? "careerpage" : "" ?>" data-scope-outer-container="true" role="main">
 	<?php
 		include __DIR__ . DS . 'pages' . DS . "$page.php";
 		

@@ -61,23 +61,55 @@
             <?php
                 }
             ?>
-            
+	        
+	        <?php
+
+            switch ($vars['job']['salary_type']) {
+                case "year":
+                    $salaryType = $vars['language'] != 'de' ? "per year" :"pro Jahr";
+                    break;
+                case "month":
+                    $salaryType = $vars['language'] != 'de' ? "per month" :"pro Monat";
+                    break;
+                case "hour":
+                    $salaryType = $vars['language'] != 'de' ? "per hour" :"pro Stunde";
+                    break;
+                default:
+                    $salaryType = '';
+            }
+
+            if($vars['job']['salary_is_public']) {
+	                $salaryMin = $vars['job']['salary_min'] ?? null;
+	                $salaryMax = $vars['job']['salary_max'] ?? null;
+	                $salary    = $vars['job']['salary'] ?? null;
+	                
+	                $salaryOutput = null;
+	                
+	                if ($salaryMin && $salaryMax && $salaryMin != $salaryMax) {
+		                // Spanne anzeigen
+		                $minFormatted = number_format($salaryMin, 0, ',', '.');
+		                $maxFormatted = number_format($salaryMax, 0, ',', '.');
+		                $salaryOutput = "{$minFormatted}–{$maxFormatted} €";
+	                } elseif ($salary) {
+		                // Festgehalt
+		                $salaryOutput = number_format($salary, 0, ',', '.') . ' €';
+	                } elseif ($salaryMin) {
+		                $salaryOutput = 'ab ' . number_format($salaryMin, 0, ',', '.') . ' €';
+	                } elseif ($salaryMax) {
+		                $salaryOutput = 'bis ' . number_format($salaryMax, 0, ',', '.') . ' €';
+	                }
+	                
+	                if ($salaryOutput){
+		    ?>
+                    <span>
+                        <i class="fal fa-money-bill-wave"></i>
+                        <?= $salaryType ?> <?= $salaryOutput ?>
+                    </span>
             <?php
-                if ($vars['job']['salary_min'] && $vars['job']['salary_max']) {
-                    $salaryMin = number_format(
-                        $vars['job']['salary_min'], 0, ',', '.'
-                    );
-                    
-                    $salaryMax = number_format(
-                        $vars['job']['salary_max'], 0, ',', '.'
-                    );
-            ?>
-                    <span><i class="fal fa-money-bill-wave"></i><?= $salaryMin ?>–<?= $salaryMax ?> €</span>
-            <?php
+
+                    }
                 }
-            ?>
-            
-            <?php
+		       
                 if ($vars['job']['remote']) {
                     $remoteString = "";
                     

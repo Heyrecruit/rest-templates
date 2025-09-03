@@ -29,7 +29,7 @@ if(!empty($jobs)) {
 ?>
               <div class="row">
                   <div class="col-12">
-                      <div class="job-tile">
+                      <div class="job-tile" role="listitem">
                           <div class="job-info-wrap">
                               <a target="_blank" href="<?=$url?>"
                                  onclick="relatedJobClickEventListener(<?php echo htmlspecialchars(json_encode($value)); ?>)">

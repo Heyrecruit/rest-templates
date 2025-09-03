@@ -593,33 +593,78 @@ function TemplateHandler(addEventHandler) {
         return result;
     };
 
-    this.secondIndexOf = function (Val, Str) {
-        var Fst = Str.indexOf(Val);
-        var Snd = Str.indexOf(Val, Fst + 1);
-        return Snd;
-    };
+    function parseGaStreamCookie(str) {
+        const map = { s:'sessionId', o:'sessionNumber', g:'sessionEngaged', t:'lastHitTimestamp', j:'joinTimer', l:'loggedInState', h:'enhancedUserId', d:'joinId' };
+        const parts = String(str).split('.');
+        const version = parts[0];
 
-    this.getGaSessionId = function () {
-        var sessionId = false;
-        var cookieName = $('body').attr('data-ga4-measurement-id');
-
-        if (cookieName && cookieName.length > 0) {
-            // Entferne die ersten beiden Zeichen
-            cookieName = cookieName.slice(2);
-
-            var cookie = "_ga_" + cookieName;
-            var pattern = new RegExp(cookie + "=GS1\\.1\\.(\\d+)\\.\\d+\\.\\d+\\.\\d+\\.\\d+\\.\\d+\\.\\d+");
-            var match = document.cookie.match(pattern);
-            sessionId = match && match[1];
-
+        if (version === 'GS1') {
+            const vals = parts.slice(2);
+            const keys = ['s','o','g','t','j','l','h','d'];
+            const out  = {};
+            keys.forEach((k,i)=>{ if (vals[i] != null && vals[i] !== '') out[map[k]] = vals[i]; });
+            return out;
         }
 
-        if (!sessionId) {
-            console.log("Session ID not found");
-            return;
+        if (version === 'GS2') {
+            const data = (parts[2] || '').replace(/%24/g, '$');
+            const out = {};
+            data.split('$').forEach(seg => {
+                if (!seg) return;
+                const k = seg[0], v = decodeURIComponent(seg.slice(1));
+                if (map[k]) out[map[k]] = v;
+            });
+            return out;
         }
 
-        return sessionId;
+        return {};
+    }
+
+// --- 2) _ga => client_id ---
+    function getClientIdFromGaCookie() {
+        const row = document.cookie.split('; ').find(s => s.startsWith('_ga='));
+        if (!row) return null;
+        const val = row.split('=')[1];         // GA1.1.<p1>.<p2>
+        const p = val.split('.');
+        if (p.length < 4) return null;
+        return `${p[p.length - 2]}.${p[p.length - 1]}`;
+    }
+
+// --- 3) _ga_<MID> => Session-Felder (NICHT an this binden) ---
+    function getGaSessionFieldsFromCookie(measurementIdRaw) {
+        const mid = (measurementIdRaw || '').replace(/^G-/, '');  // "KEVD2PZJXQ"
+        if (!mid) return null;
+        const name = `_ga_${mid}`;
+        const row  = document.cookie.split('; ').find(s => s.startsWith(name + '='));
+        if (!row) return null;
+
+        const parsed = parseGaStreamCookie(row.slice(name.length + 1));
+        const session_id     = parsed.sessionId ? Number(String(parsed.sessionId).replace(/^s/, '')) : null; // Sek.
+        const session_number = parsed.sessionNumber ? Number(String(parsed.sessionNumber).replace(/^o/, '')) : null;
+        const last_hit_ts    = parsed.lastHitTimestamp ? Number(String(parsed.lastHitTimestamp).replace(/^t/, '')) : null; // Sek.
+        return { session_id, session_number, last_hit_ts };
+    }
+
+// --- 4) timestamp_micros innerhalb der Session ---
+    function computeTimestampMicrosWithinSession(sess) {
+        const nowUs = Date.now() * 1000;
+        if (!sess?.session_id) return Math.round(nowUs);
+        const startUs   = sess.session_id * 1e6;
+        const softEndUs = sess.last_hit_ts ? sess.last_hit_ts * 1e6 : null;
+        const hardEndUs = (sess.session_id + 30 * 60) * 1e6;
+        let endUs = Math.min(nowUs, hardEndUs);
+        if (softEndUs) endUs = Math.min(endUs, softEndUs);
+        const candidate = Math.max(startUs + 1000, Math.min(nowUs, endUs)); // +1ms Puffer
+        return Math.round(candidate);
+    }
+
+    this.getClientIdFromGaCookie = getClientIdFromGaCookie;
+    this.computeTimestampMicrosWithinSession = computeTimestampMicrosWithinSession;
+
+// Wrapper: aktuelles MID vom <body> lesen und Felder holen (KEINE Rekursion)
+    this.getCurrentGaSessionFields = function () {
+        const midRaw = document.body.getAttribute('data-ga4-measurement-id') || '';
+        return getGaSessionFieldsFromCookie(midRaw); // {session_id, session_number, last_hit_ts} | null
     };
 
     this.init(addEventHandler);

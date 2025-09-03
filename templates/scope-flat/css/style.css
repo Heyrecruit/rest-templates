@@ -161,6 +161,9 @@ a {
   src: local(''), url('/font/open-sans/open-sans-v34-latin-ext_latin-600italic.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */ url('/font/open-sans/open-sans-v34-latin-ext_latin-600italic.woff2') format('woff2'), /* Super Modern Browsers */ url('/font/open-sans/open-sans-v34-latin-ext_latin-600italic.woff') format('woff'), /* Modern Browsers */ url('/font/open-sans/open-sans-v34-latin-ext_latin-600italic.ttf') format('truetype'), /* Safari, Android, iOS */ url('/font/open-sans/open-sans-v34-latin-ext_latin-600italic.svg#OpenSans') format('svg');
   /* Legacy iOS */
 }
+.text-gray {
+  color: #9b9b9b;
+}
 .white-color {
   color: white !important;
 }
@@ -508,6 +511,7 @@ body header nav #nav > li > i {
 body header nav #nav > li > a:hover,
 body header nav #nav > li > i:hover {
   color: #20A8D8;
+  text-decoration: none;
 }
 body header nav #nav > li > a.btn,
 body header nav #nav > li > i.btn {
@@ -796,6 +800,9 @@ body section#scope-jobs-list-section #scope-jobs-table-desktop-wrap #scope-jobs-
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+}
+body section#scope-jobs-list-section #scope-jobs-table-desktop-wrap #scope-jobs-table-desktop tbody tr td:first-of-type a:hover {
+  text-decoration: none;
 }
 body section#scope-jobs-list-section #scope-jobs-table-desktop-wrap #scope-jobs-table-desktop tbody tr td:nth-of-type(2) > div,
 body section#scope-jobs-list-section #scope-jobs-table-desktop-wrap #scope-jobs-table-desktop tbody tr td:nth-of-type(3) > div {
@@ -1170,6 +1177,8 @@ body section.jp-section-form .error {
   font-size: 14px;
   line-height: 22px;
   color: #fa5c7c;
+  display: block;
+  margin-top: 5px;
 }
 body section.jp-section-form .applyOnXing {
   background: #20A8D8;
@@ -1260,19 +1269,24 @@ body section.jp-section-form input[type="submit"] {
   color: white;
   float: right;
 }
+body section.jp-section-form .customCheckbox {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+body section.jp-section-form .customCheckbox label {
+  max-width: calc(100% - 30px);
+}
+body section.jp-section-form .customCheckbox .error {
+  width: 100%;
+  margin-top: 0;
+  margin-bottom: 12px;
+}
 body section.jp-section-form .customCheckbox input[type="checkbox"] {
   width: 20px;
   padding: 0;
   float: left;
-  margin: 5px 5px 0 0;
-}
-@media (min-width: 768px) {
-  body section.jp-section-form .customCheckbox input[type="checkbox"] {
-    margin: 9px 5px 0 0;
-  }
-}
-body section.jp-section-form .customCheckbox.checkbox-with-modal input[type="checkbox"] {
-  margin: 10px 5px 0 0;
+  margin: -4px 4px 0 0;
 }
 body section.jp-section-form .customCheckbox .label {
   width: calc(100% - 25px);
@@ -1583,6 +1597,12 @@ footer .row .col-12:last-of-type a {
   }
 }
 .modal {
+  pointer-events: none;
+}
+.modal .modal-dialog {
+  pointer-events: auto;
+}
+.modal {
   z-index: 9999;
   position: fixed;
   top: 0;
@@ -1644,6 +1664,10 @@ footer .row .col-12:last-of-type a {
 #social-bar div:not(:last-of-type) a {
   margin-bottom: 5px;
 }
+#social-bar svg {
+  height: 30px;
+  fill: #fff;
+}
 #social-bar a {
   float: right;
   width: 71px;
@@ -1664,6 +1688,7 @@ footer .row .col-12:last-of-type a {
 }
 #social-bar a:hover {
   width: 86px;
+  text-decoration: none;
 }
 #mobile-social-bar {
   position: fixed;
@@ -1991,7 +2016,7 @@ section#form:nth-of-type(odd) {
   height: 100% !important;
 }
 .hey-form-row {
-  margin-bottom: 10px;
+  margin-bottom: 24px;
 }
 .hey-form-row .row {
   margin-bottom: 10px;

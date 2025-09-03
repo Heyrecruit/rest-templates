@@ -11,9 +11,12 @@
 	$imageClass2 = $hasCompanyImage ? 'col-12' : 'col-md-9';
 	$containerClass = $hasCompanyImage ? 'half-container' : 'container';
 	$paddingClass = $hasCompanyImage ? 'pl-lg-5 ' : '';
+
+    $ariaLabel = $language != 'de' ? 'Company information' : 'Unternehmensinformationen';
+
 ?>
 
-<section id="section<?=$jobSection['id']?>" class="scope-job-about-section">
+<section id="section<?=$jobSection['id']?>" class="scope-job-about-section" aria-label="<?=$ariaLabel?>">
 	<div class="row no-gutters">
 		<div class="col-12 <?=$imageClass?> order-first order-lg-last">
 			<div class="<?=$containerClass?>">

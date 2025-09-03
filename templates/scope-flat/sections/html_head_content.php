@@ -28,21 +28,21 @@ include ELEMENT_PATH_ROOT . "meta.php";
     /* Set class to override the default CookieBanner */
 
     .cookie h1, .cookie h2, .cookie h3, span.info, .cookie .cookieModal .descrption .infoTrigger, .fa-times.remove-search:hover {
-        color: <?=$company['company_templates']['key_color']?> !important;
+        color: <?=HeyUtility::h($company['company_templates']['key_color'])?> !important;
     }
 
     .cookie .cookieModal .switch input:checked + .slider {
-        background-color: <?=$company['company_templates']['key_color']?> !important;
+        background-color: <?=HeyUtility::h($company['company_templates']['key_color'])?> !important;
     }
 
     .cookie .button.color {
-        background: <?=$company['company_templates']['key_color']?> !important;
-        border-color: <?=$company['company_templates']['key_color']?> !important;
+        background: <?=HeyUtility::h($company['company_templates']['key_color'])?> !important;
+        border-color: <?=HeyUtility::h($company['company_templates']['key_color'])?> !important;
     }
 
     .cookie .button.color:hover {
         background: white !important;
-        color: <?=$company['company_templates']['key_color']?> !important;
+        color: <?=HeyUtility::h($company['company_templates']['key_color'])?> !important;
     }
 
     .cookie p, .cookie td, .cookie a, .cookie span {
@@ -50,18 +50,21 @@ include ELEMENT_PATH_ROOT . "meta.php";
         line-height: 24px !important;
     }
 
+    #pagination button:not(.active),
+    body section#cp-section-jobs #pagination button:not(.active),
+    body #jp-logo-top > div span:first-of-type a:hover,
     #scope_datenschutz a {
-        color: <?=$company['company_templates']['key_color']?> !important;
+        color: <?=HeyUtility::h($company['company_templates']['key_color'])?> !important;
     }
     body section#jp-section-form #job-form-wrapper .hey-form-row .multiselect-native-select .btn-group.open button,
     body section#jp-section-form #job-form-wrapper .hey-form-row .multiselect-native-select .btn-group button:hover,
     body section#jp-section-form #job-form-wrapper .hey-form-row .multiselect-native-select .btn-group button:focus {
-        border-color:<?=$company['company_templates']['key_color']?> !important;
+        border-color:<?=HeyUtility::h($company['company_templates']['key_color'])?> !important;
     }
 
     .multi-locations h3,
     .custom-tooltip > i {
-        color: <?=$company['company_templates']['key_color']?> !important;
+        color: <?=HeyUtility::h($company['company_templates']['key_color'])?> !important;
     }
 </style>
 <!-- end cookieBanner -->
